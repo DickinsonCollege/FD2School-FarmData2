@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>Harvest Report</h1>
+        <p>This page is a <i>mockup</i> of a simplified harvest report.</p>
+        <div id="harvest-report" v-cloak>
+            <label for="title">Title: </label>
+            <input id="title" type="text" placeholder="Enter title" v-model ="header" size="25"/>
+            <br />
+            <p>
+                <label for="start">Start:</label>
+                <input type="date" id="start" name="start" :disabled="startDate >= endDate" v-model="startDate"
+                min="2014-01-01" max="2022-01-01" />
+                <label for="end">End:</label>
+                <input type="date" id="end" name="end" v-model="endDate"
+                min="2020-05-05" max="2022-01-01" />
+            </p>
+            <br />
+            <p>
+                <label for="crop">Crop:</label>
+                <select id="crop" name="crop" v-model="newCrop">
+                    <option v-for="crop in cropNamesArr"> {{ crop }}</option>
+                </select>
+                <label for="area">Area:</label>
+                <select id="area" name="area" v-model="newArea">
+                    <option v-for="area in areas">{{ area }}</option>
+                </select>
+            </p>
+            <br />
+            <input type="button" value="Generate Report" @click="generateReport('show')">
+            <hr />
+            <div v-if="state === 'show'">
+                <h1>{{ header == '' ? 'Mock Harvest Report':header }}</h1>
+                <p>Details:</p>
+                <ul>
+                    <li><strong>Farm</strong>:{{ farm }}</li>
+                    <li><strong>User</strong>:{{ user }}</li>
+                    <li><strong>Language</strong>:{{ language }}</li>
+                </ul>
+                <br />
+                <ul>
+                    <li><strong>Start</strong>:{{ startDate }}</li>
+                    <li><strong>End</strong>:{{ endDate }}</li>
+                    <li><strong>Crop</strong>:{{ newCrop }}</li>
+                </ul>
+                <div v-if="reports.length > 0">
+                    <table border="1">
+                
+                        <tr>
+                            <th>Date</th>
+                            <th>Area</th>
+                            <th>Crop</th>
+                            <th>Yield</th>
+                            <th>Units</th>
+                            <th>Delete</th>
+                        </tr>
+                
+                        <tr v-for="(r, index) in reports" :key="r.date">
+                            <td>{{ r.date }}</td>
+                            <td>{{ r.area }}</td>
+                            <td>{{ r.crop }}</td>
+                            <td>{{ r.yield }}</td>
+                            <td>{{ r.units }}</td>
+                            <td><button type='button' @click='deleteReport(index)'>Delete</button></td>
+                        </tr>
+                    </table>
+                    <p>Total Yield: {{ totalYield }}</p>
+                </div>
+                <p v-if="reports.length === 0">No matching records.</p>
+            </div>
+        </div>
+            
+        <script>
+            Vue.config.devtools = true;
+            /*The var allows to change the Vue object
+            from the console to see the change in real time*/
+            var harvestReport = new Vue({
+                el: '#harvest-report',
+                created() {
+	                getIDToCropMap()
+                        .then((theMap) => {
+                            console.log('Map retrieved successfully!');
+                            console.log(theMap);
+                            this.idToCropMap = theMap;
+                        })
+                        .catch((err) => {
+                            console.log('Error Occurred');
+                            console.log(err);
+                        })
+                },
+                data: {
+                    header: 'My Sample Harvest Report',
+                    state: 'default',
+                    startDate: '2020-05-05',
+                    endDate: '2020-05-15',
+                    newCrop: 'Kale',
+                    areas:[
+                        'All',
+                        'Chuau-1',
+                        'SQ7',
+                    ],
+                    newArea: '',
+                    reports:[
+                        {date:'2018-05-02', area:'Chuau-1', crop:'Kale', yield:10, units:'Bunches'},
+                    ],
+                    farm:'',
+                    user:'',
+                    language:'',
+                    idToCropMap: new Map()
+
+                },
+                computed:{
+                    totalYield(){
+                        totYield = 0;
+                        for(let i = 0; i < this.reports.length; i++){
+                            totYield = totYield + this.reports[i].yield
+                        }
+                        return totYield;
+                    },
+                    cropNamesArr(){
+                        cropNames = Array.from(this.idToCropMap.values());
+                        return cropNames;
+                    }
+                },
+                methods: {
+                    generateReport: function(newState){
+                        axios.get('/farm.json')  // this line sends the request.
+                        .then((response) => {
+                            this.farm = response.data.name;
+                            this.user = response.data.user.name;
+                            this.language = response.data.languages.en.name;
+                        })
+                        .catch((error) => {
+                            console.log('Error Occurred');
+                            console.log(error);
+                        })
+                        const newReport = {date:'', area:'', crop:'', yield:10, units:'bunches'};
+                        const newDate = this.startDate;
+                        newReport.area = this.newArea;
+                        newReport.crop = this.newCrop;
+                        newReport.date = newDate;
+                        let newR = JSON.stringify(newReport);
+                        let same = 0;
+                        console.log(newR);
+                        for(const report in this.reports){
+                            let r = JSON.stringify(this.reports[report]);
+                            console.log(r);
+                            if(r == newR){
+                                same = 1;
+                            }
+                        }
+                        if(same == 0){
+                            this.reports.push(newReport);
+                        }
+                        this.state = newState;
+                    },
+                    deleteReport: function(reportIndex){
+                        this.reports.splice(reportIndex, 1)
+                    }
+                }
+            });
+        </script>
+    </body> 
+</html>
