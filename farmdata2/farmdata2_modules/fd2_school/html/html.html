@@ -1,6 +1,28 @@
 <body>
     <h1>Harvest Report</h1>
     <p>This page is a <i>mockup</i> of a simplified harvest report</p>
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title"><br>
+    <br>
+    <label for="startDate">Start:</label>
+    <input type="date" id="startDate" name="startDate">
+    <label for="endDate">End:</label>
+    <input type="date" id="endDate" name="endDate"><br>
+    <br>
+    <label for="crop">Crop:</label>
+    <select id="crop" name="crop">
+        <option>Broccoli</option>
+        <option selected>Kale</option>
+        <option>Peas</option>
+      </select>
+    <label for="area">Area:</label>
+    <select id="area" name="area">
+        <option>Chuau-1</option>
+        <option selected>All</option>
+        <option>SQ7</option>
+      </select>
+    <br><br>
+    <button type="button">Generate Report</button>
     <hr>
     <h1>My Sample Harvest Report</h1>
     <p>Details</p>
@@ -13,7 +35,4 @@
         <li><strong>End:</strong>05/18/2018</li>
         <li><strong>Crop:</strong>Kale</li>
     </ul>
-    <label for="title">Title:</label>
-    <input type="text" id="title" name="title">
-    <button type="button">Generate Report</button>
 </body>
