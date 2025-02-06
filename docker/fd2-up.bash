@@ -19,7 +19,7 @@ then
   echo "Please run without using sudo."
   exit -1
 fi
-
+//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
 # Ensure that this script is not being run in the development container.
 HOST=$(docker inspect -f '{{.Name}}' $HOSTNAME 2> /dev/null)
 if [ "$HOST" == "/fd2_dev" ];
