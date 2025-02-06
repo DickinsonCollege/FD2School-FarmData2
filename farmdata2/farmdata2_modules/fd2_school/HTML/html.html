@@ -20,7 +20,39 @@
             <input type="text" id="title" name="title">
         </div>
         <br>
-        
+
+        <div>
+            <label for="crop">Crop:</label>
+            <select id="crop" name="crop">
+                <option value="broccoli">Broccoli</option>
+                <option value="kale" selected>Kale</option>
+                <option value="peas">Peas</option>
+            </select>
+        </div>
+        <br>
+
+        <div>
+            <label for="field">Area:</label>
+            <select id="field" name="field">
+                <option value="all" selected>All</option>
+                <option value="chuau-1">Chuau-1</option>
+                <option value="sq7">SQ7</option>
+            </select>
+        </div>
+        <br>
+
+        <div>
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date" name="start-date" min="2014-01-01" max="2022-01-01" value="2020-05-05">
+        </div>
+        <br>
+
+        <div>
+            <label for="end-date">End Date:</label>
+            <input type="date" id="end-date" name="end-date" min="2020-05-05" max="2022-01-01" value="2020-05-15">
+        </div>
+        <br>
+
         <button type="button">Generate Report</button>
     </form>
     
