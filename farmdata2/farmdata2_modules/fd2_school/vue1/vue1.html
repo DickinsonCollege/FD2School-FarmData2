@@ -39,7 +39,6 @@
         <li><strong>End:</strong>{{endDate}}</li>
         <li><strong>Crop:</strong>{{selectedCrop}}</li>
     </ul>
-    </div>
     <table border="1">
         <tr>
           <td><strong>Date</strong></td>
@@ -50,24 +49,17 @@
 
         </tr>
 
-        <tr>
-          <td>05/02/2018</td>
-          <td>Chuau-1</td>
-          <td>Kale</td>
-          <td>10</td>
-          <td>Bunches</td>
+        <tr v-for="t in table">
+          <td>{{ t.date }}</td>
+          <td>{{ t.area }}</td>
+          <td> {{ t.crop }}</td>
+          <td>{{ t.yield }}</td>
+          <td>{{ t.units }}</td>
         </tr>
 
-        <tr>
-            <td>05/05/2018</td>
-            <td>SQ7</td>
-            <td>Kale</td>
-            <td>7</td>
-            <td>Bunches</td>
-          </tr>
         
       </table>
-
+    </div>
       <script>
         var reportTitle = new Vue({
           el: '#report',
@@ -85,7 +77,11 @@
               'All',
               'Chuau-1',
               'SQ7',
-            ]
+            ],
+            table: [
+              {date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches"},
+              {date: "2018-05-05", area: "SQ7", crop: "Kale", yield: 7, units: "Bunches"},
+            ],
           }
         })
       </script>
