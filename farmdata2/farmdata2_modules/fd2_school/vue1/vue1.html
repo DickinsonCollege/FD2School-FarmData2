@@ -12,12 +12,12 @@
         <input type="text" id="title" name="title" placeholder="My Sample Harvest Report" v-model="header">
       <br></br>
       <label for="start"><strong>Start:</strong></label>
-      <input type="date" id="start" name="start" value="05/05/2020" min="01/01/2014" max="01/01/2022" />
+      <input type="date" id="start" name="start" v-model="startDate" min="01/01/2014" max="01/01/2022" />
       <label for="start"><strong>End:</strong></label>
-      <input type="date" id="end" name="end" value="05/15/2020" min="05/05/2020" max="01/01/2022" />
+      <input type="date" id="end" name="end" v-model="endDate" min="05/05/2020" max="01/01/2022" />
       <br></br>
       <label for="crop"><strong>Crop:</strong></label>
-      <select id="crop" name="crop">
+      <select id="crop" name="crop" v-model="selectedCrop">
           <option>Broccoli</option>
           <option selected>Kale</option>
           <option>Peas</option>
@@ -32,18 +32,18 @@
       <button type="button">Generate Report</button>
       <hr></hr>
       <h1>{{ header }}</h1>
-    </div>
+  
     <p>Details</p>
     <ul>
         <li><strong>Farm:</strong>Sample Farm</li>
         <li><strong>User:</strong>manager1</li>
         <li><strong>Language:</strong>English</li>
         <br/>
-        <li><strong>Start:</strong>05/01/2018</li>
-        <li><strong>End:</strong>05/15/2018</li>
-        <li><strong>Crop:</strong>Kale</li>
+        <li><strong>Start:</strong>{{startDate}}</li>
+        <li><strong>End:</strong>{{endDate}}</li>
+        <li><strong>Crop:</strong>{{selectedCrop}}</li>
     </ul>
-
+    </div>
     <table border="1">
         <tr>
           <td><strong>Date</strong></td>
@@ -73,10 +73,13 @@
       </table>
 
       <script>
-        var harvestReport = new Vue({
+        var reportTitle = new Vue({
           el: '#report',
           data: {
             header: 'My Sample Harvest Report',
+            startDate: '2020-05-05', 
+            endDate: '2020-05-15', 
+            selectedCrop: 'Kale'
           }
         })
       </script>
