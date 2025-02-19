@@ -6,15 +6,15 @@
     <br>
     <br>
     <label for="Start">Start:</label>
-    <input type="date" id="Start" name="startDate" value="2020-05-05" min="2014-01-01" max="2022-01-01" />
+    <input type="date" id="Start" name="startDate" min="2014-01-01" max="2022-01-01" v-model="startDate"/>
     <label for="End">End:</label>
-    <input type="date" id="End" name="endDate" value="2020-05-15" min="2020-05-05" max="2022-01-01" />
+    <input type="date" id="End" name="endDate" min="2020-05-05" max="2022-01-01" v-model="endDate"/>
     <br>
     <br>
     <label for="Crop">Crop:</label>
-    <select id="Crop" name="Crop">
+    <select id="Crop" name="Crop" v-model="crop">
         <option>Broccoli</option>
-        <option selected>Kale</option>
+        <option>Kale</option>
         <option>Peas</option>
     </select>
     <label for="Field">Area:</label>
@@ -34,9 +34,9 @@
         <li><strong>User:</strong>manager1</li>
         <li><strong>Language:</strong>English</li>
         <br>
-        <li><strong>Start:</strong>05/01/2018</li>
-        <li><strong>End:</strong>05/15/2018</li>
-        <li><strong>Crop:</strong>Kale</li>
+        <li><strong>Start:</strong>{{startDate}}</li>
+        <li><strong>End:</strong>{{endDate}}</li>
+        <li><strong>Crop:</strong>{{crop}}</li>
     </ul>
     <br>
     <table border=1>
@@ -67,7 +67,10 @@
     var contentList = new Vue({
         el: '#pageContent',
         data: {
-            title:'My Sample Harvest Report'
+            title:'My Sample Harvest Report',
+            startDate:'2018-05-01',
+            endDate:'2020-05-15',
+            crop:'Kale',
         }
     })
 </script>
