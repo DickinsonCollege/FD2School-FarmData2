@@ -12,32 +12,28 @@
 
         <hr> 
 
-        <h1>{{ reportTitle ? reportTitle : "Mock Harvest Report" }}</h1> <!-- Ternary operator applied -->
+        <h1>{{ reportTitle ? reportTitle : "Mock Harvest Report" }}</h1> 
         <p>Details:</p>
         
         <form>
             <div>
                 <label for="title">Title:</label>
-                <input type="text" id="title" v-model="reportTitle"> <!-- Two-way binding -->
+                <input type="text" id="title" v-model="reportTitle"> 
             </div>
             <br>
 
             <div>
                 <label for="crop">Crop:</label>
-                <select id="crop" name="crop">
-                    <option value="broccoli">Broccoli</option>
-                    <option value="kale" selected>Kale</option>
-                    <option value="peas">Peas</option>
+                <select id="crop" name="crop" v-model="selectedCrop">
+                    <option v-for="crop in crops" :key="crop" :value="crop">{{ crop }}</option>
                 </select>
             </div>
             <br>
 
             <div>
                 <label for="field">Area:</label>
-                <select id="field" name="field">
-                    <option value="all" selected>All</option>
-                    <option value="chuau-1">Chuau-1</option>
-                    <option value="sq7">SQ7</option>
+                <select id="field" name="field" v-model="selectedArea">
+                    <option v-for="area in areas" :key="area" :value="area">{{ area }}</option>
                 </select>
             </div>
             <br>
@@ -68,7 +64,8 @@
             
             <li><strong>Start:</strong> 05/01/2018</li>
             <li><strong>End:</strong> 05/15/2018</li>
-            <li><strong>Crop:</strong> Kale</li>
+            <li><strong>Crop:</strong> {{ selectedCrop }}</li>
+            <li><strong>Area:</strong> {{ selectedArea }}</li>
         </ul>
         
         <table border="1">
@@ -100,11 +97,16 @@
         </table>
     </div>
 
+    <script src="https://unpkg.com/vue@2"></script>
     <script>
         var app = new Vue({
             el: '#app',
             data: {
                 reportTitle: "My Sample Harvest Report",
+                crops: ["Broccoli", "Kale", "Peas"], 
+                areas: ["All", "Chuau-1", "SQ7"],   
+                selectedCrop: "Kale", 
+                selectedArea: "All"   
             }
         });
     </script>
