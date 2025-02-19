@@ -12,16 +12,12 @@
     <br>
     <br>
     <label for="Crop">Crop:</label>
-    <select id="Crop" name="Crop" v-model="crop">
-        <option>Broccoli</option>
-        <option>Kale</option>
-        <option>Peas</option>
+    <select id="Crop" name="Crop" v-model="selCrop">
+        <option v-for="crop in crops">{{ crop }}</option>
     </select>
     <label for="Field">Area:</label>
-    <select id="Field" name="Field">
-        <option selected>All</option>
-        <option>Chuau-1</option>
-        <option>SQ7</option>
+    <select id="Field" name="Field" v-model="selArea">
+        <option v-for="area in areas">{{ area }}</option>
     </select>
     <br>
     <br>
@@ -36,7 +32,7 @@
         <br>
         <li><strong>Start:</strong>{{startDate}}</li>
         <li><strong>End:</strong>{{endDate}}</li>
-        <li><strong>Crop:</strong>{{crop}}</li>
+        <li><strong>Crop:</strong>{{selCrop}}</li>
     </ul>
     <br>
     <table border=1>
@@ -70,7 +66,18 @@
             title:'My Sample Harvest Report',
             startDate:'2018-05-01',
             endDate:'2020-05-15',
-            crop:'Kale',
+            selCrop:'Kale',
+            selArea:'All',
+            crops: [
+                "Kale",
+                "Broccoli",
+                "Peas"
+            ],
+            areas: [
+                "All",
+                "Chuau-1",
+                "SQ7"
+            ]
         }
     })
 </script>
