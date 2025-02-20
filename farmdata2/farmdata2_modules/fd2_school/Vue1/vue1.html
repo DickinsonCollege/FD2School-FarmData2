@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Vue1</title>
+        <style>
+            [v-cloak] {
+              display:none;
+            }
+          </style>
+        
+    </head>
+    <body>
+        <div id="header" v-cloak>
+            <h1>{{ reportTitle }}</h1>
+
+            <label for="title">Report Title</label>
+            <input type="text" v-model="header">
+        </div>
+        <script>
+            var fejHeader = new Vue({
+                el: '#header',
+                data: {
+                    reportTitle: 'My Sample Harvest Report'
+                }
+            })
+        </script>
+
+    </body>
+</html>
