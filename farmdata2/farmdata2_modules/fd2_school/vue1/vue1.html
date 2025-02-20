@@ -6,7 +6,7 @@
         <input type="text" id="title" name="title" v-model="reportTitle"/><br />
 
         <label for="crop">Crop:</label>
-        <select id="crop" name="crop">
+        <select id="crop" name="crop" v-model="reportCrop">
                 <option>Broccoli</option>
                 <option selected>Kale</option>
                 <option>Peas</option>
@@ -20,10 +20,10 @@
         </select><br />
 
         <label for="start">Start date:</label>
-        <input type="date" id="start" name="start-date" value="2020-05-05" min="2014-01-01" max="2022-01-01" />
+        <input type="date" id="start" name="start-date" value="2020-05-05" min="2014-01-01" max="2022-01-01" v-model="reportStartDate"/>
 
         <label for="end">End date:</label>
-        <input type="date" id="end" name="end-date" value="2020-05-15" min="2020-05-05" max="2022-01-01" /><br />
+        <input type="date" id="end" name="end-date" value="2020-05-15" min="2020-05-05" max="2022-01-01" v-model="reportEndDate"/><br />
 
         <button type="button">Generate Report</button>
 
@@ -35,9 +35,9 @@
                 <li><strong>Farm:</strong>Sample Farm</li>
                 <li><strong>User:</strong>manager1</li>
                 <li><strong>Language:</strong>English</li><br />
-                <li><strong>Start:</strong>05/01/2018</li>
-                <li><strong>End:</strong>05/15/2018</li>
-                <li><strong>Crop:</strong>Kale</li><br />
+                <li><strong>Start:</strong>{{ reportStartDate }}</li>
+                <li><strong>End:</strong>{{ reportEndDate }}</li>
+                <li><strong>Crop:</strong>{{ reportCrop }}</li><br />
         </ul>
 
         <table border="1">
@@ -69,6 +69,9 @@
                 el: "#harvest-report",
                 data: {
                         reportTitle: "My Sample Harvest Report",
+                        reportStartDate: "2020-05-05",
+			reportEndDate: "2020-05-15",
+			reportCrop: "Kale",
                 }
         });
 </script>
