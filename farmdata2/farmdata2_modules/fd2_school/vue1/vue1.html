@@ -2,20 +2,48 @@
 <html>
 <body>
     <div id="harvest-report" v-cloak>
-        
-        <input v-model="reportTitle">
-
-        
         <h1>{{ reportTitle }}</h1>
+        <label for="report-title">Report Title:</label>
+        <input v-model="reportTitle" placeholder="Enter report title here">
+        
+
+        <!-- Start Date Input -->
+        <h2>Report Start Date: {{ reportStartDate }}</h2>
+        <label for="start-date">Start Date:</label>
+        <input type="date" id="start-date" v-model="reportStartDate">
+        
+
+        <!-- End Date Input -->
+        <h2>Report End Date: {{ reportEndDate }}</h2>
+        <label for="end-date">End Date:</label>
+        <input type="date" id="end-date" v-model="reportEndDate">
+    
+
+        <!-- Crop Dropdown -->
+        <h2>Selected Crop: {{ reportCrop }}</h2>
+        <label for="crop">Select Crop:</label>
+        <select id="crop" v-model="reportCrop">
+            <option value="">Select a crop</option>
+            <option value="Carrots">Carrots</option>
+            <option value="Tomatoes">Tomatoes</option>
+            <option value="Lettuce">Lettuce</option>
+            <option value="Spinach">Spinach</option>
+        </select>
+        
     </div>
 
+    <!-- Vue.js Library -->
     <script src="https://unpkg.com/vue@3"></script>
+
     <script>
-        
+        // Vue instance with multiple bound properties
         const HarvestReport = Vue.createApp({
             data() {
                 return {
-                    reportTitle: "My Sample Harvest Report"
+                    reportTitle: "My Sample Harvest Report",  // Title binding
+                    reportStartDate: "",                     // Start date binding
+                    reportEndDate: "",                       // End date binding
+                    reportCrop: ""                          // Crop selection binding
                 };
             }
         }).mount('#harvest-report');
