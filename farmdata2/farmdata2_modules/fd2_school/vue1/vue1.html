@@ -1,1 +1,24 @@
-<p>A New Vue Sub-Tab</p>
+<!DOCTYPE html>
+<html>
+<body>
+    <div id="harvest-report" v-cloak>
+        
+        <input v-model="reportTitle">
+
+        
+        <h1>{{ reportTitle }}</h1>
+    </div>
+
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+        
+        const HarvestReport = Vue.createApp({
+            data() {
+                return {
+                    reportTitle: "My Sample Harvest Report"
+                };
+            }
+        }).mount('#harvest-report');
+    </script>
+</body>
+</html>
