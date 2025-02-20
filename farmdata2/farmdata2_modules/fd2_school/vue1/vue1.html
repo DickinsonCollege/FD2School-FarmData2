@@ -33,11 +33,28 @@
             <option v-for="area in areas" :key="area" :value="area">{{ area }}</option>
         </select>
 
-        <!-- Names List -->
-        <h2>List of Names:</h2>
-        <ul>
-            <li v-for="name in names" :key="name">{{ name }}</li>
-        </ul>
+        <!-- Harvest Report Table -->
+        <h2>Harvest Report Table:</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Area</th>
+                    <th>Crop</th>
+                    <th>Yield</th>
+                    <th>Units</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="log in harvestLogs" :key="log.date + log.area + log.crop">
+                    <td>{{ log.date }}</td>
+                    <td>{{ log.area }}</td>
+                    <td>{{ log.crop }}</td>
+                    <td>{{ log.yield }}</td>
+                    <td>{{ log.units }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <!-- Vue.js Library -->
@@ -56,26 +73,12 @@
                     crops: ["Carrots", "Tomatoes", "Lettuce", "Spinach"],  // Crops array
                     areas: ["North Field", "South Field", "East Greenhouse", "West Plot"],  // Areas array
                     names: ["Joe", "Arun", "Ouwen", "Anh", "Sue"],  // Names array
-                    newName: ""               // Input for new names
+                    newName: "",              // Input for new names
+                    harvestLogs: [            // Harvest logs array
+                        { date: "2024-06-04", area: "North Field", crop: "Kale", yield: 15, units: "Bunches" },
+                        { date: "2024-06-05", area: "East Greenhouse", crop: "Tomatoes", yield: 50, units: "Pounds" }
+                    ]
                 };
-            },
-            methods: {
-                // Add a new name to the list
-                addName() {
-                    if (this.newName.trim() !== "") {
-                        this.names.push(this.newName.trim());
-                        this.newName = "";  // Clear input after adding
-                    }
-                },
-                // Clear the entire form
-                clearForm() {
-                    this.reportTitle = "";
-                    this.reportStartDate = "";
-                    this.reportEndDate = "";
-                    this.reportCrop = "";
-                    this.reportArea = "";
-                    this.newName = "";
-                }
             }
         }).mount('#harvest-report');
     </script>
