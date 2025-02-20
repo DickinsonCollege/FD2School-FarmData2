@@ -2,37 +2,45 @@
 <html>
 <body>
     <div id="harvest-report" v-cloak>
+        <!-- Report Title with Ternary Expression -->
         <h1>{{ reportTitle ? reportTitle : 'Mock Harvest Report' }}</h1>
         <label for="report-title">Report Title:</label>
         <input v-model="reportTitle" placeholder="Enter report title here">
         
-
         <!-- Start Date Input -->
         <h2>Report Start Date: {{ reportStartDate }}</h2>
         <label for="start-date">Start Date:</label>
         <input type="date" id="start-date" v-model="reportStartDate">
         
-
         <!-- End Date Input -->
         <h2>Report End Date: {{ reportEndDate }}</h2>
         <label for="end-date">End Date:</label>
         <input type="date" id="end-date" v-model="reportEndDate">
     
-
-        <!-- Crop Dropdown -->
+        <!-- Crop Dropdown (Generated from Array) -->
         <h2>Selected Crop: {{ reportCrop }}</h2>
         <label for="crop">Select Crop:</label>
         <select id="crop" v-model="reportCrop">
             <option value="">Select a crop</option>
-            <option value="Carrots">Carrots</option>
-            <option value="Tomatoes">Tomatoes</option>
-            <option value="Lettuce">Lettuce</option>
-            <option value="Spinach">Spinach</option>
+            <option v-for="crop in crops" :key="crop" :value="crop">{{ crop }}</option>
         </select>
-        
+
+        <!-- Area Dropdown (Generated from Array) -->
+        <h2>Selected Area: {{ reportArea }}</h2>
+        <label for="area">Select Area:</label>
+        <select id="area" v-model="reportArea">
+            <option value="">Select an area</option>
+            <option v-for="area in areas" :key="area" :value="area">{{ area }}</option>
+        </select>
+
+        <!-- Names List -->
+        <h2>List of Names:</h2>
+        <ul>
+            <li v-for="name in names" :key="name">{{ name }}</li>
+        </ul>
     </div>
 
-  
+    <!-- Vue.js Library -->
     <script src="https://unpkg.com/vue@3"></script>
 
     <script>
@@ -40,11 +48,34 @@
         const HarvestReport = Vue.createApp({
             data() {
                 return {
-                    reportTitle: "",  // Title binding
-                    reportStartDate: "",                     // Start date binding
-                    reportEndDate: "",                       // End date binding
-                    reportCrop: ""                          // Crop selection binding
+                    reportTitle: "",          // Title binding
+                    reportStartDate: "",      // Start date binding
+                    reportEndDate: "",        // End date binding
+                    reportCrop: "",           // Crop selection binding
+                    reportArea: "",           // Area selection binding
+                    crops: ["Carrots", "Tomatoes", "Lettuce", "Spinach"],  // Crops array
+                    areas: ["North Field", "South Field", "East Greenhouse", "West Plot"],  // Areas array
+                    names: ["Joe", "Arun", "Ouwen", "Anh", "Sue"],  // Names array
+                    newName: ""               // Input for new names
                 };
+            },
+            methods: {
+                // Add a new name to the list
+                addName() {
+                    if (this.newName.trim() !== "") {
+                        this.names.push(this.newName.trim());
+                        this.newName = "";  // Clear input after adding
+                    }
+                },
+                // Clear the entire form
+                clearForm() {
+                    this.reportTitle = "";
+                    this.reportStartDate = "";
+                    this.reportEndDate = "";
+                    this.reportCrop = "";
+                    this.reportArea = "";
+                    this.newName = "";
+                }
             }
         }).mount('#harvest-report');
     </script>
