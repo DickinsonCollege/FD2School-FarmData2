@@ -12,6 +12,9 @@
     <body>
         <div id="header" v-cloak>
             <h1>{{ reportTitle ? header = "Mock Harvest Report" }}</h1>
+            <ul>
+                <li v-for = "person in people " {{person}}></li> 
+            </ul>
 
             <label for="title">Report Title</label>
             <input type="text" v-model="header">
@@ -21,7 +24,9 @@
                 el: '#header',
                 data: {
                     reportTitle: 'My Sample Harvest Report'
-                }
+                },
+                people: ["Joe", "Arun", "Ouwen", "Anh","Sue"],
+                crops: ["Wheat", "Rice", "Oats"]
             })
         </script>
 
