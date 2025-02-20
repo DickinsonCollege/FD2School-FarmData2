@@ -11,7 +11,7 @@
     </head>
     <body>
         <div id="header" v-cloak>
-            <h1>{{ reportTitle }}</h1>
+            <h1>{{ reportTitle ? header = "Mock Harvest Report" }}</h1>
 
             <label for="title">Report Title</label>
             <input type="text" v-model="header">
