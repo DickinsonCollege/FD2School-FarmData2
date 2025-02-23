@@ -41,6 +41,7 @@
     </ul>
     <table border="1">
         <tr>
+          <td><strong>Row</strong></td>
           <td><strong>Date</strong></td>
           <td><strong>Area</strong></td>
           <td><strong>Crop</strong></td>
@@ -49,7 +50,8 @@
 
         </tr>
 
-        <tr v-for="t in harvestList">
+        <tr v-for="(t,index) in harvestList">
+          <td>{{ index + 1}}</td>
           <td>{{ t.date }}</td>
           <td>{{ t.area }}</td>
           <td> {{ t.crop }}</td>
