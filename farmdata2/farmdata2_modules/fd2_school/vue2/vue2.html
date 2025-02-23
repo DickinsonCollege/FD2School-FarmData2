@@ -25,7 +25,7 @@
                   <option v-for="area in areas">{{ area }}</option>
               </select>
       <br></br>
-      <button type="button">Generate Report</button>
+      <button type="button" @click='harvestList.push({date: "2018-05-01", area: "Orion-3", crop: "Kale", yield: 12, units: "Bunches"})'>Generate Report</button>
       <hr></hr>
       <h1>{{ header ? header : 'Mock Harvest Report'}}</h1>
   
@@ -49,7 +49,7 @@
 
         </tr>
 
-        <tr v-for="t in table">
+        <tr v-for="t in harvestList">
           <td>{{ t.date }}</td>
           <td>{{ t.area }}</td>
           <td> {{ t.crop }}</td>
@@ -82,6 +82,7 @@
               {date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches"},
               {date: "2018-05-05", area: "SQ7", crop: "Kale", yield: 7, units: "Bunches"},
             ],
+            harvestList: []
           }
         })
         Vue.config.devtools = true;
