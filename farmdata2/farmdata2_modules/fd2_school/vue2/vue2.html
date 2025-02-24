@@ -39,6 +39,7 @@
         <li><strong>End:</strong>{{endDate}}</li>
         <li><strong>Crop:</strong>{{selectedCrop}}</li>
     </ul>
+    <div v-if="harvestList.length > 0">
     <table border="1">
         <tr>
           <td><strong>Row</strong></td>
@@ -58,9 +59,8 @@
           <td>{{ t.yield }}</td>
           <td>{{ t.units }}</td>
         </tr>
-
-        
       </table>
+    </div>
     </div>
       <script>
         var reportTitle = new Vue({
