@@ -12,9 +12,9 @@
         <input type="text" id="title" name="title" placeholder="My Sample Harvest Report" v-model="header">
       <br></br>
       <label for="start"><strong>Start:</strong></label>
-      <input type="date" id="start" name="start" v-model="startDate" min="01/01/2014" max="01/01/2022" />
+      <input type="date" id="start" name="start" v-model="startDate" min="01/01/2014" :max="endDate" />
       <label for="start"><strong>End:</strong></label>
-      <input type="date" id="end" name="end" v-model="endDate" min="05/05/2020" max="01/01/2022" />
+      <input type="date" id="end" name="end" v-model="endDate" :min="startDate" max="01/01/2022" />
       <br></br>
       <label for="crop"><strong>Crop:</strong></label>
       <select id="crop" name="crop" v-model="selectedCrop">
