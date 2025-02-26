@@ -71,6 +71,7 @@
         <table border="1">
             <thead>
                 <tr>
+                    <th>Row</th> <!-- New column for numbering -->
                     <th>Date</th>
                     <th>Area</th>
                     <th>Crop</th>
@@ -79,7 +80,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="log in harvestLogs" :key="log.date">
+                <tr v-for="(log, index) in harvestLogs" :key="log.date">
+                    <td>{{ index + 1 }}</td> 
                     <td>{{ log.date }}</td>
                     <td>{{ log.area }}</td>
                     <td>{{ log.crop }}</td>
