@@ -33,6 +33,26 @@
             <option v-for="area in areas" :key="area" :value="area">{{ area }}</option>
         </select>
 
+        <br>
+        <h3>List of Names:</h3>
+        <ul>
+            <li v-for="name in names" :key="name">{{ name }}</li>
+        </ul>
+        <div class="add-name-form">
+        
+            <label for="Name:">Name:</label>
+            <input 
+            v-on:keyup.enter="names.push(newName)"
+            type="text" id="name" v-model="newName">
+            <button 
+                v-on:click="names.push(newName)"
+                class="btn btn-primary">
+                Add Name
+            </button>
+        </div>
+
+
+
         <!-- Harvest Report Table -->
         <h2>Harvest Report Table:</h2>
         <table border="1">
