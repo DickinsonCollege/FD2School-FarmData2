@@ -33,7 +33,9 @@
         <br>
         <h3>List of Names:</h3>
         <ul>
-            <li v-for="name in names" :key="name">{{ name }}</li>
+            <li v-for="(name, index) in names" :key="index">
+                {{ name + " (" + index + ")" }}
+            </li>
         </ul>
         <div class="add-name-form">
             <label for="name">Name:</label>
@@ -49,6 +51,7 @@
         <table border="1">
             <thead>
                 <tr>
+                    <th>Row</th>
                     <th>Date</th>
                     <th>Area</th>
                     <th>Crop</th>
@@ -57,7 +60,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="log in harvestLogs" :key="log.date + log.area + log.crop">
+                <tr v-for="(log, index) in harvestLogs" :key="log.date + log.area + log.crop">
+                    <td>{{ index + 1 }}</td>
                     <td>{{ log.date }}</td>
                     <td>{{ log.area }}</td>
                     <td>{{ log.crop }}</td>
