@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+
+
+    <button v-if="!showCards" @click="toggleCards">Show Cards</button>
+    <button v-if="showCards" @click="toggleCards">Hide Cards</button>
+
+    <div v-if="showCards">
+
+        <p>This is where the cards will be displayed.</p>
+    </div>
+
+    <div class="add-name-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" v-model="newName" v-on:keyup.enter="addName">
+        <button v-on:click="addName" class="btn btn-primary">Add Name</button>
+    
+    </div>
+
+</body>
+</html>
