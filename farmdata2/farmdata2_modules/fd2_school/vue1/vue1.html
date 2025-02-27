@@ -7,15 +7,15 @@
         <input type="text" id="title" name="title" v-model="header" value="My Sample Harvest Report" /></br></br>
 
         <label for="start">Start date:</label>
-        <input type="date" id="start" name="start" value="2020-05-05" min="2014-01-01" max="2022-01-01" />
+        <input type="date" id="start" name="start" min="2014-01-01" max="2022-01-01" v-model="startDate" />
 
         <label for="end">End date:</label>
-        <input type="date" id="end" name="end" value="2020-05-15" min="2020-05-05" max="2022-01-01" /></br></br>
+        <input type="date" id="end" name="end" min="2020-05-05" max="2022-01-01" v-model="endDate"/></br></br>
 
         <label for="crop">Crop: </label>
-        <select id="crop" name="crop">
+        <select id="crop" name="crop" v-model="cropSelection">
             <option>Broccoli</option>
-            <option selected>Kale</option>
+            <option>Kale</option>
             <option>Peas</option>
         </select>
 
@@ -31,19 +31,27 @@
         <div v-cloak id="vue-header">
             <h1>{{ header }}</h1>
         </div>
-    </div>
+    
 
-    <p>Details:</p>
-    <ul>
-        <li><strong>Farm: </strong>Sample Farm</li>
-        <li><strong>User:  </strong>manager1</li>
-        <li><strong>Language: </strong>English</li>
-    </ul> <br/>
-    <ul>
-        <li><strong>Start: </strong>05/01/2018</li>
-        <li><strong>End: </strong>05/15/2018</li>
-        <li><strong>Crop: </strong>Kale</li>
-    </ul>
+        <p>Details:</p>
+        <ul>
+            <li><strong>Farm: </strong>Sample Farm</li>
+            <li><strong>User:  </strong>manager1</li>
+            <li><strong>Language: </strong>English</li>
+        </ul> <br/>
+        <ul>
+            <div v-cloak id="vue-startDate">
+                <li><strong>Start: </strong>{{ startDate }}</li>
+            </div>
+            <div v-cloak id="vue-endDate">
+                <li><strong>End: </strong>{{ endDate }}</li>
+            </div>
+            <div v-cloak id="vue-cropSelection">
+                <li><strong>Crop: </strong>{{ cropSelection }}</li>
+            </div>
+            
+        </ul>
+    </div>
 
     <table border=1>
         <tr>
@@ -72,7 +80,10 @@
         var sampleHeader = new Vue({
           el: '#vue-app',
           data: {
-            header: 'My Sample Harvest Report'
+            header: 'My Sample Harvest Report',
+            startDate: '2020-05-05',
+            endDate: '2020-05-15',
+            cropSelection: 'Kale'
           }
         })
     </script>
