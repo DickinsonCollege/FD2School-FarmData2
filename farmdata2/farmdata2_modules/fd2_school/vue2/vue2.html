@@ -94,6 +94,7 @@
                         this.names.push(this.newName);
                         this.newName = "";
                     }
+                    
                 },
                 generateReport() {
                     this.harvestLogs.push({
@@ -103,7 +104,7 @@
                         yield: 12,
                         units: "Bunches"
                     });
-                }
+                },
             }
         }).mount('#harvest-report');
     </script>
