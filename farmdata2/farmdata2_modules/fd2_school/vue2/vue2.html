@@ -6,14 +6,16 @@
         <label for="report-title">Report Title:</label>
         <input v-model="reportTitle" placeholder="Enter report title here">
         <br>
+        <br>
 
         <!-- Start Date Input -->
         <label for="start-date">Start Date:</label>
-        <input type="date" id="start-date" v-model="reportStartDate">
-        
+        <input type="date" id="start-date" v-model="reportStartDate" :max="reportEndDate">
+
+
         <!-- End Date Input -->
         <label for="end-date">End Date:</label>
-        <input type="date" id="end-date" v-model="reportEndDate">
+        <input type="date" id="end-date" v-model="reportEndDate" :min="reportStartDate">
         <br>
 
         <!-- Crop Dropdown -->
@@ -30,32 +32,9 @@
             <option v-for="area in areas" :key="area" :value="area">{{ area }}</option>
         </select>
 
-        <br>
-        <h3>List of Names:</h3>
-        <ul>
-            <li v-if="names.length === 0">No names yet!</li>
-            <li v-for="(name, index) in names" :key="index">
-                {{ name + " (" + index + ")" }}
-            </li>
-        </ul>
-
-        <button v-if="!showCards" @click="toggleCards">Show Cards</button>
-        <button v-if="showCards" @click="toggleCards">Hide Cards</button>
-
-        <div v-if="showCards">
+        
+        
     
-            <p>This is where the cards will be displayed.</p>
-        </div>
-
-        <div class="add-name-form">
-            <label for="name">Name:</label>
-            <input type="text" id="name" v-model="newName" v-on:keyup.enter="addName">
-            <button v-on:click="addName" class="btn btn-primary">Add Name</button>
-            
-        </div>
-
-
-
         <!-- "Generate Report" Button -->
         <button @click='generateReport'>Generate Report</button>
         
@@ -114,13 +93,7 @@
                 };
             },
             methods: {
-                addName() {
-                    if (this.newName.trim() !== "") {
-                        this.names.push(this.newName);
-                        this.newName = "";
-                    }
-                    
-                },
+            
                 generateReport() {
                     this.harvestLogs.push({
                         date: "2018-05-01",
@@ -130,11 +103,10 @@
                         units: "Bunches"
                     });
                 },
-                toggleCards() {
-                    this.showCards = !this.showCards;  // Toggles visibility of cards
+            
     }
             }
-        }).mount('#harvest-report');
+        ).mount('#harvest-report');
     </script>
 </body>
 </html>
