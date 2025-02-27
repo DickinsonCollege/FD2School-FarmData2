@@ -1,58 +1,66 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title> Vue1</title>
-        <style>
-            [v-cloak] {
-              display:none;
-            }
-          </style>
-        
-    </head>
-    <body>
-        <div id="header" v-cloak>
-            <h1>{{ reportTitle ? header = "Mock Harvest Report" }}</h1>
-        
-            <label for="title">Report Title</label>
+<div id="myDev" v-cloak>
+    <h1>{{ reportTitle == "" ? "Mock Harvest Report" : reportTitle }}</h1>
 
-            <input type="text" v-model="header">
-            <h2>Harvest Report</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <tj>Date</tj>
-                        <th>Area</th>
-                        <th>Crop</th>
-                        <th>Yield</th>
-                        <th>Units</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="log in harvestLogs" :key="log.date">
-                        <td> {{ log.date }}</td>
-                        <td> {{ log.area }}</td>
-                        <td> {{ log.crop }}</td>
-                        <td> {{ log.yield }}</td>
-                        <td> {{ log.units }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <script>
-            var newReport = new Vue({
-                el: '#header',
-                data: {
-                    reportTitle: 'My Sample Harvest Report',
-                    harvestLogs: [
-                        {date: "2018-05-02", area: "Field-3", crop: "Kale", yield: 10, units: "Kg"},
-                        {date: "2018-06-07", area: "Field-2", crop: "Corn", yield: 19, units: "Kg"},
+    <label for="title">Report Title</label>
+    <input type="text" v-model="titleInput" placeholder="Report Name" @keyup.enter="changeTitle">
+    <hr>
 
-                    ]
+    <div class="add-name">
+        <label for="name">Name:</label>
+        <input type="text" v-model="someInput" placeholder="Add Name" @keyup.enter="saveItem">
+        <button @click="saveItem"> Add Name</button>
+    </div>
 
+
+    <h2>Harvest Report</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Area</th>
+                <th>Crop</th>
+                <th>Yield</th>
+                <th>Units</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="log in harvestLogs" :key="log.date">
+                <td> {{ log.date }}</td>
+                <td> {{ log.area }}</td>
+                <td> {{ log.crop }}</td>
+                <td> {{ log.yield }}</td>
+                <td> {{ log.units }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    let newReport = new Vue({
+        el: '#myDev',
+        data: {
+            reportTitle: 'My Sample Harvest Report',
+            someInput:"",
+            titleInput:"",
+            harvestLogs: [
+                {date: "2018-05-02", area: "Field-3", crop: "Kale", yield: 10, units: "Kg"},
+                {date: "2018-06-07", area: "Field-2", crop: "Corn", yield: 19, units: "Kg"},
+            ],
+            nameList: [
+
+            ],
+            
+        },
+
+        methods: {
+                saveItem: function() {
+                    this.nameList.push(this.someInput)
                 },
-                
-            })
-        </script>
 
-    </body>
-</html>
+                changeTitle: function() {
+                    this.reportTitle = this.titleInput
+                }
+            }
+    
+    });
+    Vue.config.devtools = true;
+</script>
