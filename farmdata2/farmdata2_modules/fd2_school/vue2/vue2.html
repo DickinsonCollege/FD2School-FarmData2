@@ -36,7 +36,7 @@
                 <li><strong>Crop:</strong>{{ reportCrop }}</li><br />
         </ul>
 
-        <table border="1">
+        <table v-if="harvestLogs.length!=0" border="1">
                 <tr>
 			<th>Row</th>
                         <th>Date</th>
@@ -55,6 +55,7 @@
 
   		</tr>
         </table>
+	<p v-else>No matching logs found.</p>
 </div>
 <script>
         var harvestReport = new Vue({
