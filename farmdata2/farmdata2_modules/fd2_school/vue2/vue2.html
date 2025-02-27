@@ -65,7 +65,18 @@
 			crops: ["Broccoli", "Kale", "Peas", "Carrots",],
 			areas: ["All", "Chuau-1", "SQ7",],
                 	harvestLogs: [],
-		}
+		},
+		methods: {
+			generateReport: function() {
+				this.harvestLogs.push({
+					date: "2018-05-01", 
+					area: "Orion-3", 
+					crop: "kale", 
+					yield: 12, 
+					units: "bunches",
+				});
+			},
+		},
         });
 	Vue.config.devtools = true;
 </script>
