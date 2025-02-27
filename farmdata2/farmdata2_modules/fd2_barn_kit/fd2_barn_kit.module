@@ -56,6 +56,8 @@ function fd2_barn_kit_menu() {
     'weight' => -10,
   );
 
+  
+
   $items['farm/fd2-barn-kit/seedingReport'] = array(
     'title' => 'Seeding Report',
     'type' => MENU_LOCAL_TASK,
@@ -74,8 +76,18 @@ function fd2_barn_kit_menu() {
     'weight' => -10,
   );
 
+  $items['farm/fd2-school/HTML'] = array(
+    'title' => 'HTML',
+    'type' => MENU_LOCAL_TASK,
+    'page callback' => 'fd2_school_view',
+    'page arguments' => array('html'),
+    'access arguments' => array('view fd2 school'),
+    'weight' => 110,
+  );
+
   return $items;
 };
+
 
 // Loads the content for the tab from the html
 // file specified in the arguemnt.
