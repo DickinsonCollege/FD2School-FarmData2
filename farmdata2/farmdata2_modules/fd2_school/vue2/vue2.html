@@ -40,17 +40,21 @@
 
             <div>
                 <label for="start-date">Start Date:</label>
-                <input type="date" id="start-date" name="start-date" min="2014-01-01" max="2022-01-01" value="2020-05-05">
+                <input type="date" id="start-date" name="start-date" 
+                    v-model="startDate" 
+                    :max="endDate">
             </div>
             <br>
 
             <div>
                 <label for="end-date">End Date:</label>
-                <input type="date" id="end-date" name="end-date" min="2020-05-05" max="2022-01-01" value="2020-05-15">
+                <input type="date" id="end-date" name="end-date" 
+                    v-model="endDate" 
+                    :min="startDate">
             </div>
             <br>
 
-            <button type="button" @click='generateReport'>Generate Reports</button>
+            <button type="button" @click='generateReport'>Generate Report</button>
         </form>
         
         <br>
@@ -62,8 +66,8 @@
             
             <br>
             
-            <li><strong>Start:</strong> 05/01/2018</li>
-            <li><strong>End:</strong> 05/15/2018</li>
+            <li><strong>Start:</strong> {{ startDate }}</li>
+            <li><strong>End:</strong> {{ endDate }}</li>
             <li><strong>Crop:</strong> {{ selectedCrop }}</li>
             <li><strong>Area:</strong> {{ selectedArea }}</li>
         </ul>
@@ -73,7 +77,7 @@
             <table border="1">
                 <thead>
                     <tr>
-                        <th>Row</th> <!-- New column for numbering -->
+                        <th>Row</th>
                         <th>Date</th>
                         <th>Area</th>
                         <th>Crop</th>
@@ -108,14 +112,16 @@
                 areas: ["All", "Chuau-1", "SQ7"],   
                 selectedCrop: "Kale", 
                 selectedArea: "All", 
+                startDate: "2020-05-05",
+                endDate: "2020-05-15",
                 harvestLogs: []
             }, 
             methods: {
                 generateReport() {
                     this.harvestLogs.push({
-                        date: "2018-05-01", 
-                        area: "Orion-3", 
-                        crop: "Kale", 
+                        date: this.startDate, 
+                        area: this.selectedArea, 
+                        crop: this.selectedCrop, 
                         yield: 10, 
                         units: "Bunches"
                     });
