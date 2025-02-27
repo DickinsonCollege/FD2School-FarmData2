@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <div id="harvest-report" v-cloak>
+        <!-- Report Title with Ternary Expression -->
+        <h1>{{ reportTitle ? reportTitle : 'Mock Harvest Report' }}</h1> 
+        <label for="report-title">Report Title:</label>
+        <input v-model="reportTitle" placeholder="Enter report title here">
+        <br>
+        <!-- Start Date Input -->
+        <!-- <h2>Report Start Date: {{ reportStartDate }}</h2> -->
+        <label for="start-date">Start Date:</label>
+        <input type="date" id="start-date" v-model="reportStartDate">
+        
+        <!-- End Date Input -->
+        <!-- <h2>Report End Date: {{ reportEndDate }}</h2> -->
+        <label for="end-date">End Date:</label>
+        <input type="date" id="end-date" v-model="reportEndDate">
+    <br>
+        <!-- Crop Dropdown (Generated from Array) -->
+        <!-- <h2>Selected Crop: {{ reportCrop }}</h2> -->
+        <label for="crop">Select Crop:</label>
+        <select id="crop" v-model="reportCrop">
+            <option value="">Select a crop</option>
+            <option v-for="crop in crops" :key="crop" :value="crop">{{ crop }}</option>
+        </select>
+
+        <!-- Area Dropdown (Generated from Array) -->
+        <!-- <h2>Selected Area: {{ reportArea }}</h2> -->
+        <label for="area">Select Area:</label>
+        <select id="area" v-model="reportArea">
+            <option value="">Select an area</option>
+            <option v-for="area in areas" :key="area" :value="area">{{ area }}</option>
+        </select>
+
+        <br>
+        <h3>List of Names:</h3>
+        <ul>
+            <li v-for="name in names" :key="name">{{ name }}</li>
+        </ul>
+        <div class="add-name-form">
+        
+            <label for="Name:">Name:</label>
+            <input 
+            v-on:keyup.enter="names.push(newName)"
+            type="text" id="name" v-model="newName">
+            <button 
+                v-on:click="names.push(newName)"
+                class="btn btn-primary">
+                Add Name
+            </button>
+        </div>
+
+
+
+        <!-- Harvest Report Table -->
+        <h2>Harvest Report Table:</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Area</th>
+                    <th>Crop</th>
+                    <th>Yield</th>
+                    <th>Units</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="log in harvestLogs" :key="log.date + log.area + log.crop">
+                    <td>{{ log.date }}</td>
+                    <td>{{ log.area }}</td>
+                    <td>{{ log.crop }}</td>
+                    <td>{{ log.yield }}</td>
+                    <td>{{ log.units }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Vue.js Library -->
+    <script src="https://unpkg.com/vue@3"></script>
+
+    <script>
+        // Vue instance with multiple bound properties
+        const HarvestReport = Vue.createApp({
+            data() {
+                return {
+                    reportTitle: "",          // Title binding
+                    reportStartDate: "",      // Start date binding
+                    reportEndDate: "",        // End date binding
+                    reportCrop: "",           // Crop selection binding
+                    reportArea: "",           // Area selection binding
+                    crops: ["Carrots", "Tomatoes", "Lettuce", "Spinach"],  // Crops array
+                    areas: ["North Field", "South Field", "East Greenhouse", "West Plot"],  // Areas array
+                    names: ["Joe", "Arun", "Ouwen", "Anh", "Sue"],  // Names array
+                    newName: "",              // Input for new names
+                    harvestLogs: [            // Harvest logs array
+                        { date: "2024-06-04", area: "North Field", crop: "Kale", yield: 15, units: "Bunches" },
+                        { date: "2024-06-05", area: "East Greenhouse", crop: "Tomatoes", yield: 50, units: "Pounds" }
+                    ]
+                };
+            }
+        }).mount('#harvest-report');
+        Vue.config.devtools = true;
+
+    </script>
+</body>
+</html>
