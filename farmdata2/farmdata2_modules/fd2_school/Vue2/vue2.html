@@ -44,9 +44,10 @@
     </ul>
 
     <h2>Harvest Report</h2>
-    <table border="2">
+    <table v-if="harvestLogs.length!=0" border="2">
         <thead>
             <tr>
+                <th>Row</th>
                 <th>Date</th>
                 <th>Area</th>
                 <th>Crop</th>
@@ -55,7 +56,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="log in harvestLogs" :key="log.date">
+            <tr v-for="(harvestLog, index) in harvestLogs">
+                <td>{{ index+1 }}</td>
                 <td> {{ log.date }}</td>
                 <td> {{ log.area }}</td>
                 <td> {{ log.crop }}</td>
@@ -64,6 +66,7 @@
             </tr>
         </tbody>
     </table>
+    <p v-else> No matches found</p>
 </div>
 <script>
     let newReport = new Vue({
