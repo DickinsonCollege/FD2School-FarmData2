@@ -4,14 +4,55 @@
 <h1>My Sample Harvest Report</h1> 
 <br>
 <p>Details</p>
+
+
+<label for="crop">Crop:</label>
+<select id="crop" name="crop">
+  <option value="broccoli">Broccoli</option>
+  <option value="kale" selected>Kale</option>
+  <option value="peas">Peas</option>
+</select>
+<label for="field">Area:</label>
+<select id="field" name="field">
+  <option value="all" selected>All</option>
+  <option value="chuau-1">Chuau-1</option>
+  <option value="sq7">SQ7</option>
+</select>
+
+<label for="start-date">Start Date:</label>
+<input type="date" id="start-date" name="start-date" min="2014-01-01" max="2022-01-01" value="2020-05-05">
+
+<label for="end-date">End Date:</label>
+<input type="date" id="end-date" name="end-date" min="2020-05-05" max="2022-01-01" value="2020-05-15">
+<ul>     
+    <li><strong>Corn</strong> was seeded</li>     
+    <li><strong>Broccoli</strong> was seeded</li>     
+    <li><strong>Other plants</strong> was seeded</li> 
+</ul> 
 <ul>     
     <li><strong>Corn</strong> was seeded</li>     
     <li><strong>Broccoli</strong> was seeded</li>     
     <li><strong>Other plants</strong> was seeded</li> 
 </ul> 
 
-<ul>     
-    <li><strong>Corn</strong> was seeded</li>     
-    <li><strong>Broccoli</strong> was seeded</li>     
-    <li><strong>Other plants</strong> was seeded</li> 
-</ul> 
+<table border="1">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Crop</th>
+        <th>Field</th>
+        <th>Quantity</th>
+        <th>Worker</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>2020-05-05</td>
+        <td>Kale</td>
+        <td>Chuau-1</td>
+        <td>50 kg</td>
+        <td>John Doe</td>
+      </tr>
+    </tbody>
+  </table>
+  
