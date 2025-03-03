@@ -47,25 +47,26 @@
         </ul> 
 
         <table border="1">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Crop</th>
-                    <th>Field</th>
-                    <th>Quantity</th>
-                    <th>Worker</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>2020-05-05</td>
-                    <td>Kale</td>
-                    <td>Chuau-1</td>
-                    <td>50 kg</td>
-                    <td>John Doe</td>
-                </tr>
-            </tbody>
-        </table>
+          <thead>
+              <tr>
+                  <th>Date</th>
+                  <th>Crop</th>
+                  <th>Field</th>
+                  <th>Quantity</th>
+                  <th>Units</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr v-for="log in harvestLogs">
+                  <td>{{ log.date }}</td>
+                  <td>{{ log.crop }}</td>
+                  <td>{{ log.area }}</td>
+                  <td>{{ log.yield }}</td>
+                  <td>{{ log.units }}</td>
+              </tr>
+          </tbody>
+      </table>
+
     </div>
 
     <script>
@@ -78,7 +79,11 @@
                 selectedCrop: 'kale',
                 selectedField: 'all',
                 crops: ['Broccoli', 'Kale', 'Peas'],
-                areas: ['All', 'Chuau-1', 'SQ7'] 
+                areas: ['All', 'Chuau-1', 'SQ7'],
+                harvestLogs: [
+                { date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches" },
+                { date: "2019-06-15", area: "SQ7", crop: "Peas", yield: 25, units: "Kg" }
+            ]
             }
         });
     </script>
