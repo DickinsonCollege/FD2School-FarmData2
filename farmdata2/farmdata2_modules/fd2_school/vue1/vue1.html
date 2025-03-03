@@ -29,10 +29,29 @@
         </ul>
 
         <br>
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" v-model="startDate">
+
+       
+        
+        
+        
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" v-model="endDate">
+
+       
+        <label for="crop">Select Crop:</label>
+        <select id="crop" v-model="crop">
+        <option value="Kale">Kale</option>
+        <option value="Beet">Beet</option>
+        <option value="Carrot">Carrot</option>
+        ></select>
+
+
         <ul>
-            <li><strong>Start</strong>: 05/01/2018</li>
-            <li><strong>End</strong>: 05/15/2018</li>
-            <li><strong>Crop</strong>: Kale</li>
+            <li><strong>Start</strong>: {{ startDate }}</li>
+            <li><strong>End</strong>: {{ endDate }}</li>
+            <li><strong>Crop</strong>: {{ crop }}</li>
         </ul>
 
         <input type="button" value="Generate Report" />
@@ -48,14 +67,14 @@
             <tr>
                 <td>05/02/2018</td>
                 <td>Chuau-1</td>
-                <td>Kale</td>
+                <td>{{ crop }}</td>
                 <td>10</td>
                 <td>Bunches</td>
             </tr>
             <tr>
                 <td>05/05/2018</td>
                 <td>SQ7</td>
-                <td>Kale</td>
+                <td>{{ crop }}</td>
                 <td>7</td>
                 <td>Bunches</td>
             </tr>
@@ -66,7 +85,10 @@
         var app = new Vue({
             el: '#VueObject',
             data: {
-                title: "My Sample Harvest Report"
+                title: "My Sample Harvest Report",
+                startDate: "",
+                endDate: "", 
+                crop: "Kale" 
             }
         });
     </script>
