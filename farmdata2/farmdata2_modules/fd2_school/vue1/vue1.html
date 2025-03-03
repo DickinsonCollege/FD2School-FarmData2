@@ -1,8 +1,7 @@
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vue Harvest Report</title>
+    
 </head>
 <body>
     <div id="app" v-cloak>
@@ -13,13 +12,16 @@
         <p>This is a <em>mockup</em> of the report.</p>
         <hr>
         <h1>{{ reportTitle }}</h1>
+        <p>Start Date: {{ startDate }}</p>
+        <p>End Date: {{ endDate }}</p>
+        <p>Selected Crop: {{ selectedCrop }}</p>
         <br>
         <p>Details</p>
 
         <label for="crop">Crop:</label>
-        <select id="crop" name="crop">
+        <select id="crop" name="crop" v-model="selectedCrop">
             <option value="broccoli">Broccoli</option>
-            <option value="kale" selected>Kale</option>
+            <option value="kale">Kale</option>
             <option value="peas">Peas</option>
         </select>
         <label for="field">Area:</label>
@@ -30,10 +32,10 @@
         </select>
 
         <label for="start-date">Start Date:</label>
-        <input type="date" id="start-date" name="start-date" min="2014-01-01" max="2022-01-01" value="2020-05-05">
+        <input type="date" id="start-date" name="start-date" v-model="startDate" min="2014-01-01" max="2022-01-01">
 
         <label for="end-date">End Date:</label>
-        <input type="date" id="end-date" name="end-date" min="2020-05-05" max="2022-01-01" value="2020-05-15">
+        <input type="date" id="end-date" name="end-date" v-model="endDate" min="2020-05-05" max="2022-01-01">
 
         <ul>     
             <li><strong>Corn</strong> was seeded</li>     
@@ -72,7 +74,10 @@
         var app = new Vue({
             el: '#app',
             data: {
-                reportTitle: 'My Sample Harvest Report'
+                reportTitle: 'My Sample Harvest Report',
+                startDate: '2020-05-05',
+                endDate: '2020-05-15',
+                selectedCrop: 'kale'
             }
         });
     </script>
