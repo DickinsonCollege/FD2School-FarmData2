@@ -1,26 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Vue Harvest Report</title>
     <script src="https://unpkg.com/vue@2"></script>
     <style>
-        [v-cloak] { display: none; }
+        [v-cloak] {
+            display: none;
+        }
     </style>
 </head>
+
 <body>
 
     <h1>Harvest Report</h1>
     <p>This page is a <i>mockup</i> of a simplified harvest report.</p>
     <hr>
 
-    
+
     <div id="VueObject" v-cloak>
         <label for="ReportTitle">Enter Report Title:</label>
         <input type="text" v-model="title" id="ReportTitle">
 
-        <h1>{{ title }}</h1>  
-        
+        <h1>{{ title }}</h1>
+
         <p>Details:</p>
         <ul>
             <li><strong>Farm</strong>: Sample Farm</li>
@@ -32,20 +36,23 @@
         <label for="startDate">Start Date:</label>
         <input type="date" id="startDate" v-model="startDate">
 
-       
-        
-        
-        
+
         <label for="endDate">End Date:</label>
         <input type="date" id="endDate" v-model="endDate">
 
-       
+
         <label for="crop">Select Crop:</label>
         <select id="crop" v-model="crop">
-        <option value="Kale">Kale</option>
-        <option value="Beet">Beet</option>
-        <option value="Carrot">Carrot</option>
-        ></select>
+            <option v-for="crop in crops" :value="crop">{{ crop }}</option>
+            >
+        </select>
+
+        <label for="area">Select Area:</label>
+        <select id="area" v-model="area">
+            <option v-for="area in areas" :value="area">{{ area }}</option>
+            >
+        </select>
+
 
 
         <ul>
@@ -87,11 +94,13 @@
             data: {
                 title: "My Sample Harvest Report",
                 startDate: "",
-                endDate: "", 
-                crop: "Kale" 
+                endDate: "",
+                crops: ["Kale", "Carrot", "Beet", "Turnip"],
+                areas: ["A", "B", "C", "D", "E"]
             }
         });
     </script>
 
 </body>
+
 </html>
