@@ -100,9 +100,7 @@ function fd2_school_menu() {
     );
 
 
-
-
-  return $items;
+return $items;
 };
 
 // This function Loads the content for the sub-tab from the html file specified in the arguemnt.
