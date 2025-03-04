@@ -28,9 +28,9 @@
         <h1>{{ reportTitle ? reportTitle : "Mock Harvest Report" }}</h1>
         <p>Details:</p>
         <ul>
-                <li><strong>Farm:</strong>Sample Farm</li>
-                <li><strong>User:</strong>manager1</li>
-                <li><strong>Language:</strong>English</li><br />
+                <li><strong>Farm:</strong>{{ reportFarm }}</li>
+                <li><strong>User:</strong>{{ reportUser }}</li>
+                <li><strong>Language:</strong>{{ reportLanguage }}</li><br />
                 <li><strong>Start:</strong>{{ reportStartDate }}</li>
                 <li><strong>End:</strong>{{ reportEndDate }}</li>
                 <li><strong>Crop:</strong>{{ reportCrop }}</li><br />
@@ -62,6 +62,9 @@
                 el: "#harvest-report",
                 data: {
                         reportTitle: "My Sample Harvest Report",
+			reportFarm: "",
+			reportUser: "",
+			reportLanguage: "",
                         reportStartDate: "2020-05-05",
 			reportEndDate: "2020-05-15",
 			reportCrop: "Kale",
