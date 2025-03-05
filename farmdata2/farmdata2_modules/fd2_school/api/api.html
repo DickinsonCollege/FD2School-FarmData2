@@ -12,7 +12,7 @@
 
         <label for="field">Field:</label>
         <select id="field" name="field">
-                <option v-for="area in areas">{{ area }}</option>
+                <option v-for="area in areaNames">{{area }}</option>
         </select><br />
 
         <label for="start">Start date:</label>
@@ -71,11 +71,17 @@
 			areas: ["All", "Chuau-1", "SQ7",],
                 	harvestLogs: [],
 			idToCropMap: new Map(),
+                        idToAreaMap: new Map(),
+
 		},
 		computed: {
 			cropNames() {
 				return Array.from(this.idToCropMap.values());
-			}
+			},
+			areaNames() {
+                                return Array.from(this.idToAreaMap.values());
+                        },
+
 		},
 		methods: {
 			generateReport: function() {
@@ -104,12 +110,23 @@
 
 		created() {
 			getIDToCropMap()
-			.then((theMap) => {
-    			this.idToCropMap = theMap;
+			.then((theCropMap) => {
+    			this.idToCropMap = theCropMap;
 			})
 			.catch((err) => {
 			console.long("Error: failed to fetch ID to Crop Map");
 			})
+
+			getIDToAreaMap()
+                        .then((theAreaMap) => {
+                        this.idToAreaMap = theAreaMap;
+                        })
+                        .catch((err) => {
+                        console.long("Error: failed to fetch ID to Area Map");
+                        })
+
+
+
 		},
 
         });
