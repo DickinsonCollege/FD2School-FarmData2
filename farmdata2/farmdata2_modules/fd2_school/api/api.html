@@ -114,13 +114,19 @@
                 selectedArea: "All", 
                 startDate: "2020-05-05",
                 endDate: "2020-05-15",
-                farmName: "",     
-                userName: "",     
-                language: "",     
+                farmName: "",     // New property
+                userName: "",     // New property
+                language: "",     // New property
                 harvestLogs: []
             }, 
             methods: {
                 generateReport() {
+                    // Set farm, user, and language values when the button is clicked
+                    this.farmName = "Sample Farm";
+                    this.userName = "manager1";
+                    this.language = "English";
+
+                    // Add a sample log entry
                     this.harvestLogs.push({
                         date: this.startDate, 
                         area: this.selectedArea, 
