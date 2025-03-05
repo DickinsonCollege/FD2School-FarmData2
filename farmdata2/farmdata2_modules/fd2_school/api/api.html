@@ -60,9 +60,9 @@
         <br>
         
         <ul>
-            <li><strong>Farm:</strong> Sample Farm</li>
-            <li><strong>User:</strong> manager1</li>
-            <li><strong>Language:</strong> English</li>
+            <li><strong>Farm:</strong> {{ farmName }}</li>
+            <li><strong>User:</strong> {{ userName }}</li>
+            <li><strong>Language:</strong> {{ language }}</li>
             
             <br>
             
@@ -114,6 +114,9 @@
                 selectedArea: "All", 
                 startDate: "2020-05-05",
                 endDate: "2020-05-15",
+                farmName: "",     
+                userName: "",     
+                language: "",     
                 harvestLogs: []
             }, 
             methods: {
