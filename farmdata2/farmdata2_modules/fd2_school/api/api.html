@@ -80,9 +80,20 @@
 					crop: "kale", 
 					yield: 12, 
 					units: "bunches",});
-				this.reportFarm = "Sample Farm";
-				this.reportUser = "manager1";
-				this.reportLanguage = "English";
+
+
+				axios.get('/farm.json')
+				.then((response) => {
+        			this.reportFarm = response.data.name;
+                                this.reportUser = response.data.user.name;
+                                this.reportLanguage = response.data.languages.en.name;
+				})
+				.catch((error) => {
+				console.log("Error Occured");
+                                console.log(error);
+				})
+				
+				
 			},
 		},
         });
