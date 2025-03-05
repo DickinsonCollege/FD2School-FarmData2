@@ -13,7 +13,7 @@
     <br>
     <label for="Crop">Crop:</label>
     <select id="Crop" name="Crop" v-model="selCrop">
-        <option v-for="crop in crops">{{ crop }}</option>
+        <option v-for="crop in cropNames">{{ crop }}</option>
     </select>
     <label for="Field">Area:</label>
     <select id="Field" name="Field" v-model="selArea">
@@ -66,15 +66,11 @@
             startDate:'2018-05-01',
             endDate:'2020-05-15',
             selCrop:'Kale',
+            idToCropMap: new Map(),
             selArea:'All',
             farm:"",
             user:"",
             language:"",
-            crops: [
-                "Kale",
-                "Broccoli",
-                "Peas"
-            ],
             areas: [
                 "All",
                 "Chuau-1",
@@ -82,6 +78,11 @@
             ],
             harvestLogs: [
             ]
+        },
+        computed: {
+            cropNames() {
+                return Array.from(this.idToCropMap.values())
+            }
         },
         methods: {
             genReport: function() {
@@ -98,7 +99,17 @@
                 this.harvestLogs.push({date:"2018-05-01", area:"Orion-3", crop:"Kale", yield:"12", units:"Bunches"});
                 this.state = 'show';
             }
-        } 
+        },
+        created() {
+            console.log("HarvestReport Vue instance created!");
+            getIDToCropMap()
+            .then((theMap) => {
+                this.idToCropMap = theMap;
+            })
+            .catch((err) => {
+                console.log(error);
+            })
+        },
     })
     Vue.config.devtools = true;
 </script>
