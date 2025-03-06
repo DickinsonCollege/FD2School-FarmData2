@@ -73,7 +73,6 @@
             <li><strong>Area:</strong> {{ selectedArea }}</li>
         </ul>
 
-        <!-- Conditionally render the table or a message -->
         <div v-if="harvestLogs.length > 0">
             <table border="1">
                 <thead>
@@ -115,9 +114,9 @@
                 selectedArea: "All", 
                 startDate: "2020-05-05",
                 endDate: "2020-05-15",
-                farmName: "",     // New property
-                userName: "",     // New property
-                language: "",     // New property
+                farmName: "",    
+                userName: "",    
+                language: "",   
                 harvestLogs: []
             }, 
             methods: {
@@ -125,8 +124,9 @@
                     // API request to get farm data
                     axios.get('/farm.json')
                         .then(response => {
-                            console.log("Got Response");
-                            console.log(response);
+                            this.farmName = response.data.name;
+                            this.userName = response.data.user.name; // Adjust based on actual response structure
+                            this.language = response.data.languages.en.name;
                         })
                         .catch(error => {
                             console.log("Error Occurred");
