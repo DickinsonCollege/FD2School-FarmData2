@@ -18,10 +18,11 @@
         <br>
 
         <!-- Crop Dropdown -->
+        
         <label for="crop">Select Crop: </label>
         <select id="crop" v-model="reportCrop">
             <option value="">Select a crop</option>
-            <option v-for="crop in crops" :key="crop" :value="crop">{{ crop }}</option>
+            <option v-for="crop in cropNames" :key="crop" :value="crop">{{ crop }}</option>
         </select>
 
         <!-- Area Dropdown -->
@@ -99,23 +100,26 @@
     <script>
         // Vue instance
         const HarvestReport = Vue.createApp({
-            created() {
-
-            console.log("HarvestReport Vue instance created!");
             
+            created() {
+                console.log("HarvestReport Vue instance created!");
 
-            getIDToCropMap() 
+            getIDToCropMap()
                 .then((Map) => {
             this.idToCropMap = Map; // Store the map in Vue data
-            this.crops = Array.from(Map.values()); // Populate the crop dropdown
-
             console.log("Fetched Crop Map:", this.idToCropMap);
-            })
-            .catch((error) => {
+                })
+                .catch((error) => {
             console.error("Error fetching crop map:", error);
-            })
+            });
             },
-        
+
+            computed: {
+            cropNames() {
+            return Array.from(this.idToCropMap.values()); // Extracts crop names from the Map
+            }
+            },
+
             data() {
                 return {
                     reportTitle: "",
@@ -126,7 +130,7 @@
                     reportFarm: "", // New property for Farm
                     reportUser: "", // New property for User
                     reportLanguage: "", // New property for Language
-                    crops: ["Carrots", "Tomatoes", "Lettuce", "Spinach"],
+                    //crops: ["Carrots", "Tomatoes", "Lettuce", "Spinach"],
                     areas: ["North Field", "South Field", "East Greenhouse", "West Plot"],
                     harvestLogs: [], // Initially empty
                     idToCropMap : new Map(),
@@ -137,18 +141,13 @@
 
                     axios.get('/farm.json')  // Send the API request
                     .then((response) => {
-                        console.log (response)
+                        //console.log (response)
                     // Block A: Handle the successful response
-                    if (!this.reportFarm) this.reportFarm = response.data.name;
-                    if (!this.reportUser) this.reportUser = response.data.user.name;
-                    if (!this.reportLanguage) this.reportLanguage = response.data.user.language;
+                    this.reportFarm = response.data.name;
+                    this.reportUser = response.data.user.name;
+                    this.reportLanguage = response.data.user.language;
 
-                // Ensure Vue updates the DOM correctly
-                this.$nextTick(() => {
-                console.log("Updated Farm:", this.reportFarm);
-                console.log("Updated User:", this.reportUser);
-                console.log("Updated Language:", this.reportLanguage);
-            });
+                
 
                     this.harvestLogs.push({
                         date: "2018-05-01",
