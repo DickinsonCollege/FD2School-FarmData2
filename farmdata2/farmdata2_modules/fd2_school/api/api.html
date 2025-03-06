@@ -3,6 +3,25 @@
 <body>
     <div id="harvest-report" v-cloak>
         <h1>{{ reportTitle ? reportTitle : 'Mock Harvest Report' }}</h1> 
+        
+        <!-- New Farm, User, and Language Fields -->
+        <p><strong>Farm:</strong> {{ reportFarm }}</p>
+        <p><strong>User:</strong> {{ reportUser }}</p>
+        <p><strong>Language:</strong> {{ reportLanguage }}</p>
+
+        <!-- Input Fields for New Properties -->
+        <label for="farm">Farm: </label>
+        <input v-model="reportFarm" placeholder="Enter farm name">
+        <br>
+
+        <label for="user">User: </label>
+        <input v-model="reportUser" placeholder="Enter user name">
+        <br>
+
+        <label for="language">Language: </label>
+        <input v-model="reportLanguage" placeholder="Enter language">
+        <br><br>
+
         <label for="report-title">Report Title: </label>
         <input v-model="reportTitle" placeholder="Enter report title here">
         <br>
@@ -11,7 +30,6 @@
         <!-- Start Date Input -->
         <label for="start-date">Start Date: </label>
         <input type="date" id="start-date" v-model="reportStartDate" :max="reportEndDate">
-
 
         <!-- End Date Input -->
         <label for="end-date">End Date: </label>
@@ -32,18 +50,17 @@
             <option v-for="area in areas" :key="area" :value="area">{{ area }}</option>
         </select>
 
-        
         <br>
-    
+
         <!-- "Generate Report" Button -->
         <button @click='generateReport'>Generate Report</button>
-        
+
         <!-- "Harvest Log Table"-->
         <h2>Harvest Report Table:</h2>
 
         <!-- Show this message if there are no logs -->
         <p v-if="harvestLogs.length === 0">No matching records.</p>
-        
+
         <!-- Only show table if there are logs -->
         <table v-if="harvestLogs.length > 0" border="1">
             <thead>
@@ -79,22 +96,20 @@
         const HarvestReport = Vue.createApp({
             data() {
                 return {
-                    
                     reportTitle: "",
                     reportStartDate: "",
                     reportEndDate: "",
                     reportCrop: "",
                     reportArea: "",
+                    reportFarm: "", // New property for Farm
+                    reportUser: "", // New property for User
+                    reportLanguage: "", // New property for Language
                     crops: ["Carrots", "Tomatoes", "Lettuce", "Spinach"],
                     areas: ["North Field", "South Field", "East Greenhouse", "West Plot"],
-                    names: [],
-                    newName: "",
                     harvestLogs: [], // Initially empty
-                    showCards: false
                 };
             },
             methods: {
-            
                 generateReport() {
                     this.harvestLogs.push({
                         date: "2018-05-01",
@@ -104,10 +119,11 @@
                         units: "Bunches"
                     });
                 },
-            
-    }
+                deleteRow(index) {
+                    this.harvestLogs.splice(index, 1);
+                }
             }
-        ).mount('#harvest-report');
+        }).mount('#harvest-report');
     </script>
 </body>
 </html>
