@@ -99,6 +99,23 @@
     <script>
         // Vue instance
         const HarvestReport = Vue.createApp({
+            created() {
+
+            console.log("HarvestReport Vue instance created!");
+            
+
+            getIDToCropMap() 
+                .then((Map) => {
+            this.idToCropMap = Map; // Store the map in Vue data
+            this.crops = Array.from(Map.values()); // Populate the crop dropdown
+
+            console.log("Fetched Crop Map:", this.idToCropMap);
+            })
+            .catch((error) => {
+            console.error("Error fetching crop map:", error);
+            })
+            },
+        
             data() {
                 return {
                     reportTitle: "",
@@ -112,6 +129,7 @@
                     crops: ["Carrots", "Tomatoes", "Lettuce", "Spinach"],
                     areas: ["North Field", "South Field", "East Greenhouse", "West Plot"],
                     harvestLogs: [], // Initially empty
+                    idToCropMap : new Map(),
                 };
             },
             methods: {
@@ -119,6 +137,7 @@
 
                     axios.get('/farm.json')  // Send the API request
                     .then((response) => {
+                        console.log (response)
                     // Block A: Handle the successful response
                     if (!this.reportFarm) this.reportFarm = response.data.name;
                     if (!this.reportUser) this.reportUser = response.data.user.name;

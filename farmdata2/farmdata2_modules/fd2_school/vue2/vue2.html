@@ -3,37 +3,37 @@
 <body>
     <div id="harvest-report" v-cloak>
         <h1>{{ reportTitle ? reportTitle : 'Mock Harvest Report' }}</h1> 
-        <label for="report-title">Report Title:</label>
+        <label for="report-title">Report Title: </label>
         <input v-model="reportTitle" placeholder="Enter report title here">
         <br>
         <br>
 
         <!-- Start Date Input -->
-        <label for="start-date">Start Date:</label>
+        <label for="start-date">Start Date: </label>
         <input type="date" id="start-date" v-model="reportStartDate" :max="reportEndDate">
 
 
         <!-- End Date Input -->
-        <label for="end-date">End Date:</label>
+        <label for="end-date">End Date: </label>
         <input type="date" id="end-date" v-model="reportEndDate" :min="reportStartDate">
         <br>
 
         <!-- Crop Dropdown -->
-        <label for="crop">Select Crop:</label>
+        <label for="crop">Select Crop: </label>
         <select id="crop" v-model="reportCrop">
             <option value="">Select a crop</option>
             <option v-for="crop in crops" :key="crop" :value="crop">{{ crop }}</option>
         </select>
 
         <!-- Area Dropdown -->
-        <label for="area">Select Area:</label>
+        <label for="area">Select Area: </label>
         <select id="area" v-model="reportArea">
             <option value="">Select an area</option>
             <option v-for="area in areas" :key="area" :value="area">{{ area }}</option>
         </select>
 
         
-        
+        <br>
     
         <!-- "Generate Report" Button -->
         <button @click='generateReport'>Generate Report</button>
