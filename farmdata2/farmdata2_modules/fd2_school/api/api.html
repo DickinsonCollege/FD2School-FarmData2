@@ -117,9 +117,19 @@
             methods: {
                 generateReport() {
 
-                    this.reportFarm = "Sample Farm";
-                    this.reportUser = "manager1";
-                    this.reportLanguage = "English";
+                    axios.get('/farm.json')  // Send the API request
+                    .then((response) => {
+                    // Block A: Handle the successful response
+                    if (!this.reportFarm) this.reportFarm = response.data.name;
+                    if (!this.reportUser) this.reportUser = response.data.user.name;
+                    if (!this.reportLanguage) this.reportLanguage = response.data.user.language;
+
+                // Ensure Vue updates the DOM correctly
+                this.$nextTick(() => {
+                console.log("Updated Farm:", this.reportFarm);
+                console.log("Updated User:", this.reportUser);
+                console.log("Updated Language:", this.reportLanguage);
+            });
 
                     this.harvestLogs.push({
                         date: "2018-05-01",
@@ -128,6 +138,14 @@
                         yield: 12,
                         units: "Bunches"
                     });
+                })
+                    .catch((error) => {
+                    // Block B: Handle any errors
+                    console.log("Error Occurred");
+                    console.log(error);
+                });
+
+            
                 },
                 deleteRow(index) {
                     this.harvestLogs.splice(index, 1);
