@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <div id="harvest-report" v-cloak>
+        <h1>{{ reportTitle ? reportTitle : 'Mock Harvest Report' }}</h1> 
+        <label for="report-title">Report Title: </label>
+        <input v-model="reportTitle" placeholder="Enter report title here">
+        <br>
+        <br>
+
+        <!-- Start Date Input -->
+        <label for="start-date">Start Date: </label>
+        <input type="date" id="start-date" v-model="reportStartDate" :max="reportEndDate">
+
+
+        <!-- End Date Input -->
+        <label for="end-date">End Date: </label>
+        <input type="date" id="end-date" v-model="reportEndDate" :min="reportStartDate">
+        <br>
+
+        <!-- Crop Dropdown -->
+        <label for="crop">Select Crop: </label>
+        <select id="crop" v-model="reportCrop">
+            <option value="">Select a crop</option>
+            <option v-for="crop in crops" :key="crop" :value="crop">{{ crop }}</option>
+        </select>
+
+        <!-- Area Dropdown -->
+        <label for="area">Select Area: </label>
+        <select id="area" v-model="reportArea">
+            <option value="">Select an area</option>
+            <option v-for="area in areas" :key="area" :value="area">{{ area }}</option>
+        </select>
+
+        
+        <br>
+    
+        <!-- "Generate Report" Button -->
+        <button @click='generateReport'>Generate Report</button>
+        
+        <!-- "Harvest Log Table"-->
+        <h2>Harvest Report Table:</h2>
+
+        <!-- Show this message if there are no logs -->
+        <p v-if="harvestLogs.length === 0">No matching records.</p>
+        
+        <!-- Only show table if there are logs -->
+        <table v-if="harvestLogs.length > 0" border="1">
+            <thead>
+                <tr>
+                    <th>Row</th>
+                    <th>Date</th>
+                    <th>Area</th>
+                    <th>Crop</th>
+                    <th>Yield</th>
+                    <th>Units</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(log, index) in harvestLogs" :key="log.date + log.area + log.crop">
+                    <td>{{ index + 1 }}</td>
+                    <td>{{ log.date }}</td>
+                    <td>{{ log.area }}</td>
+                    <td>{{ log.crop }}</td>
+                    <td>{{ log.yield }}</td>
+                    <td>{{ log.units }}</td>
+                    <td><button @click="deleteRow(index)">Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Vue.js Library -->
+    <script src="https://unpkg.com/vue@3"></script>
+
+    <script>
+        // Vue instance
+        const HarvestReport = Vue.createApp({
+            data() {
+                return {
+                    
+                    reportTitle: "",
+                    reportStartDate: "",
+                    reportEndDate: "",
+                    reportCrop: "",
+                    reportArea: "",
+                    crops: ["Carrots", "Tomatoes", "Lettuce", "Spinach"],
+                    areas: ["North Field", "South Field", "East Greenhouse", "West Plot"],
+                    names: [],
+                    newName: "",
+                    harvestLogs: [], // Initially empty
+                    showCards: false
+                };
+            },
+            methods: {
+            
+                generateReport() {
+                    this.harvestLogs.push({
+                        date: "2018-05-01",
+                        area: "Orion-3",
+                        crop: "Kale",
+                        yield: 12,
+                        units: "Bunches"
+                    });
+                },
+            
+    }
+            }
+        ).mount('#harvest-report');
+    </script>
+</body>
+</html>
