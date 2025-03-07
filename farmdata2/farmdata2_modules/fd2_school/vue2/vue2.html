@@ -30,10 +30,11 @@
         </select>
 
         <label for="start-date">Start Date:</label>
-        <input type="date" id="start-date" name="start-date" v-model="startDate" min="2014-01-01" max="2022-01-01">
+        <input type="date" id="start-date" v-model="startDate" :max="endDate">
 
         <label for="end-date">End Date:</label>
-        <input type="date" id="end-date" name="end-date" v-model="endDate" min="2020-05-05" max="2022-01-01">
+        <input type="date" id="end-date" v-model="endDate" :min="startDate">
+
 
         <ul>     
             <li><strong>Corn</strong> was seeded</li>     
