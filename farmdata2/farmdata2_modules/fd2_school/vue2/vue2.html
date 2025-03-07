@@ -50,6 +50,7 @@
         <table border="1">
           <thead>
               <tr>
+                  <th>Row</th>
                   <th>Date</th>
                   <th>Crop</th>
                   <th>Field</th>
@@ -58,7 +59,8 @@
               </tr>
           </thead>
           <tbody>
-              <tr v-for="log in harvestLogs">
+              <tr v-for="(log, index) in harvestLogs">
+                  <td>{{ index + 1 }}</td> 
                   <td>{{ log.date }}</td>
                   <td>{{ log.crop }}</td>
                   <td>{{ log.area }}</td>
