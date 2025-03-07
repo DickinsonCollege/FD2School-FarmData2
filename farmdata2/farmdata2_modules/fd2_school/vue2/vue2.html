@@ -45,9 +45,7 @@
             <li><strong>Broccoli</strong> was seeded</li>     
             <li><strong>Other plants</strong> was seeded</li> 
         </ul> 
-        <button @click='harvestLogs.push({date:"2018-05-01", area:"Orion-3", crop:"Carrots", yield:50, units:"Kg"})'>
-            Generate Report
-        </button>
+        <button @click="generateReport">Generate Report</button>
         
         <table border="1">
           <thead>
@@ -85,6 +83,17 @@
                 crops: ['Broccoli', 'Kale', 'Peas'],
                 areas: ['All', 'Chuau-1', 'SQ7'],
                 harvestLogs: []
+            },
+            methods: {
+                generateReport() {
+                    this.harvestLogs.push({
+                        date: "2018-05-01",
+                        area: "Orion-3",
+                        crop: "Carrots",
+                        yield: 50,
+                        units: "Kg"
+                    });
+                }
             }
         });
         Vue.config.devtools = true;
