@@ -78,6 +78,24 @@ function fd2_school_menu() {
     'access arguments' => array('view fd2 school'),
     'weight' => 115,
   );
+
+  $items['farm/fd2-school/Vue2'] = array(
+    'title' => 'Vue 2',
+    'type' => MENU_LOCAL_TASK,
+    'page callback' => 'fd2_school_view',
+    'page arguments' => array('vue2'),
+    'access arguments' => array('view fd2 school'),
+    'weight' => 115,
+  );
+
+  $items['farm/fd2-school/api'] = array(
+    'title' => 'API',
+    'type' => MENU_LOCAL_TASK,
+    'page callback' => 'fd2_school_view',
+    'page arguments' => array('api'),
+    'access arguments' => array('view fd2 school'),
+    'weight' => 115,
+  );
   
   return $items;
 };
