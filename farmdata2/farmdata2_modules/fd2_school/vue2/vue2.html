@@ -47,28 +47,32 @@
         </ul> 
         <button @click="generateReport">Generate Report</button>
         
-        <table border="1">
-          <thead>
-              <tr>
-                  <th>Row</th>
-                  <th>Date</th>
-                  <th>Crop</th>
-                  <th>Field</th>
-                  <th>Quantity</th>
-                  <th>Units</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr v-for="(log, index) in harvestLogs">
-                  <td>{{ index + 1 }}</td> 
-                  <td>{{ log.date }}</td>
-                  <td>{{ log.crop }}</td>
-                  <td>{{ log.area }}</td>
-                  <td>{{ log.yield }}</td>
-                  <td>{{ log.units }}</td>
-              </tr>
-          </tbody>
-      </table>
+        <div v-if="harvestLogs.length > 0">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Row</th>
+                        <th>Date</th>
+                        <th>Crop</th>
+                        <th>Field</th>
+                        <th>Quantity</th>
+                        <th>Units</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(log, index) in harvestLogs">
+                        <td>{{ index + 1 }}</td> 
+                        <td>{{ log.date }}</td>
+                        <td>{{ log.crop }}</td>
+                        <td>{{ log.area }}</td>
+                        <td>{{ log.yield }}</td>
+                        <td>{{ log.units }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p v-else>No matching records found.</p>
+        
 
     </div>
 
