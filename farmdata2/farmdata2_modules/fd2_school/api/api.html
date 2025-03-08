@@ -35,9 +35,9 @@
     <p>Details:</p>
 
     <ul>
-        <li><strong>Farm:</strong> Sample Farm</li>
-        <li><strong>User:</strong> manager1</li>
-        <li><strong>Language:</strong> English</li>
+        <li><strong>Farm:</strong> {{ reportFarm }}</li>
+        <li><strong>User:</strong> {{ reportUser }}</li>
+        <li><strong>Language:</strong> {{ reportLanguage }}</li>
         <li><strong>Start:</strong> {{ startDate }}</li>
         <li><strong>End:</strong> {{ endDate }}</li>
         <li><strong>Crop:</strong> {{ reportCrop }}</li>
@@ -58,11 +58,11 @@
         <tbody>
             <tr v-for="(harvestLog, index) in harvestLogs">
                 <td>{{ index+1 }}</td>
-                <td> {{ log.date }}</td>
-                <td> {{ log.area }}</td>
-                <td> {{ log.crop }}</td>
-                <td> {{ log.yield }}</td>
-                <td> {{ log.units }}</td>
+                <td> {{ harvestLog.date }}</td>
+                <td> {{ harvestLog.area }}</td>
+                <td> {{ harvestLog.crop }}</td>
+                <td> {{ harvestLog.yield }}</td>
+                <td> {{ harvestLog.units }}</td>
             </tr>
         </tbody>
     </table>
@@ -73,6 +73,9 @@
         el: '#harvestContent',
         data: {
             reportTitle: 'My Sample Harvest Report',
+            reportFarm: "",
+            reportUser: "",
+            reportLanguage: "",
             startDate: "2022-12-18",
             endDate: "2024-07-14",
             reportCrop: "Kale",
@@ -90,17 +93,49 @@
                 "Chuau-1",
                 "SQ7"
             ],
-            nameList: [
+            idToCropMap: new Map(),
 
-            ],
+            
             
         },
+
+        computed: {
+                cropNames() {
+                    return Array.from(this.idToCropMap.values());
+                }
+            },
 
         methods: {
             generateReport: function() {
                 this.harvestLogs.push({date: "05-01-2018", area: "Orion-3", crop: "Kale", yield: 12, units: "Bunches"})
+               
 
-            }
+                axios.get('/farm.json')
+                .then((response) => {
+                    this.reportFarm = response.data.name;
+                    this.reportUser = response.data.user.name;
+                    this.reportLanguage = response.data.languages[response.data.user.language].name;
+                })
+                .catch((error) => {
+                    console.log("Error Occured");
+                    console.log(error)
+
+                })
+
+
+            },
+
+
+        },
+        
+        created() {
+            getIDtoCropMap()
+            .then((theMap) => {
+                this.idToCropMap = theMap;   
+            })
+            .catch((error) => {
+                console.log("Failed to fetch ID from crop map");
+            }) 
         }
 
     
