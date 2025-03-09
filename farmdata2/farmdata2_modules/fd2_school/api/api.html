@@ -85,6 +85,11 @@
             },
             methods: {
                 addHarvestEntry() {
+                    // Set the values of the report properties
+                    this.reportFarm = "Sample Farm";
+                    this.reportUser = "manager1";
+                    this.reportLanguage = "English";
+
                     this.harvestEntries.push({
                         date: "2018-05-01",
                         area: "Orion-3",
