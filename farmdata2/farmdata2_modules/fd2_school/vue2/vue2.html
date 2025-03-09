@@ -35,29 +35,33 @@
             <li><strong>Area:</strong>{{ reportArea }}</li>
         </ul>
 
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Row</th>  <!-- Added Row header -->
-                    <th>Date</th>
-                    <th>Area</th>
-                    <th>Crop</th>
-                    <th>Yield</th>
-                    <th>Units</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Added index + 1 for row number -->
-                <tr v-for="(entry, index) in harvestEntries">
-                    <td>{{ index + 1 }}</td>
-                    <td>{{ entry.date }}</td>
-                    <td>{{ entry.area }}</td>
-                    <td>{{ entry.crop }}</td>
-                    <td>{{ entry.yield }}</td>
-                    <td>{{ entry.units }}</td>
-                </tr>
-            </tbody>
-        </table>
+        <!-- Conditional Table Display -->
+        <div v-if="harvestEntries.length > 0">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Row</th>
+                        <th>Date</th>
+                        <th>Area</th>
+                        <th>Crop</th>
+                        <th>Yield</th>
+                        <th>Units</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(entry, index) in harvestEntries">
+                        <td>{{ index + 1 }}</td>
+                        <td>{{ entry.date }}</td>
+                        <td>{{ entry.area }}</td>
+                        <td>{{ entry.crop }}</td>
+                        <td>{{ entry.yield }}</td>
+                        <td>{{ entry.units }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p v-else>No matching records.</p> <!-- Message when no entries -->
+
     </div>
 
     <script>
