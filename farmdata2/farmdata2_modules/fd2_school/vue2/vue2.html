@@ -38,6 +38,7 @@
         <table border="1">
             <thead>
                 <tr>
+                    <th>Row</th>  <!-- Added Row header -->
                     <th>Date</th>
                     <th>Area</th>
                     <th>Crop</th>
@@ -46,7 +47,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="entry in harvestEntries">
+                <!-- Added index + 1 for row number -->
+                <tr v-for="(entry, index) in harvestEntries">
+                    <td>{{ index + 1 }}</td>
                     <td>{{ entry.date }}</td>
                     <td>{{ entry.area }}</td>
                     <td>{{ entry.crop }}</td>
