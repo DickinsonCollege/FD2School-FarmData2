@@ -96,9 +96,19 @@
             },
             methods: {
                 generateReport() {
-                    this.farm = "Sample Farm";
-                    this.user = "manager1";
-                    this.language = "English";
+                    axios.get('/farm.json')
+                    .then((response) => {
+                        console.log("Got Response");
+                        console.log(response);
+                        
+                        this.farm = response.data.name;
+                        this.user = response.data.user.name;
+                        this.language = response.data.languages.en.name;
+                    })
+                    .catch((error) => {
+                        console.log("Error Occurred");
+                        console.log(error);
+                    });
 
                     this.harvestLogs.push({
                         date: "2018-05-01",
