@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue Harvest Report</title>
+    <script src="https://unpkg.com/vue@2"></script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Harvest Report</h1>
+    <p>This page is a <i>mockup</i> of a simplified harvest report.</p>
+    <hr>
+
+
+    <div id="VueObject" v-cloak>
+        <label for="ReportTitle">Enter Report Title:</label>
+        <input type="text" v-model="title" id="ReportTitle">
+
+        <h1>{{ title }}</h1>
+
+        <p>Details:</p>
+        <ul>
+            <li><strong>Farm</strong>: Sample Farm</li>
+            <li><strong>User</strong>: manager1</li>
+            <li><strong>Language</strong>: English</li>
+        </ul>
+
+        <br>
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" v-model="startDate">
+
+
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" v-model="endDate">
+
+
+        <label for="crop">Select Crop:</label>
+        <select id="crop" v-model="crop">
+            <option v-for="crop in crops" :value="crop">{{ crop }}</option>
+            >
+        </select>
+
+        <label for="area">Select Area:</label>
+        <select id="area" v-model="area">
+            <option v-for="area in areas" :value="area">{{ area }}</option>
+            >
+        </select>
+
+
+
+        <ul>
+            <li><strong>Start</strong>: {{ startDate }}</li>
+            <li><strong>End</strong>: {{ endDate }}</li>
+            <li><strong>Crop</strong>: {{ crop }}</li>
+        </ul>
+
+        <input type="button" value="Generate Report" />
+
+        <table border="1">
+            <tr>
+                <td><strong>Date</strong></td>
+                <td><strong>Area</strong></td>
+                <td><strong>Crop</strong></td>
+                <td><strong>Yield</strong></td>
+                <td><strong>Units</strong></td>
+            </tr>
+            <tr v-for="log in logs">
+                <td>{{ log.date }}</td>
+                <td>{{ log.area }}</td>
+                <td>{{ log.crop }}</td>
+                <td>{{ log.yield }}</td>
+                <td>{{ log.units }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#VueObject',
+            data: {
+                title: "My Sample Harvest Report",
+                startDate: "",
+                endDate: "",
+                crops: ["Kale", "Carrot", "Beet", "Turnip"],
+                areas: ["A", "B", "C", "D", "E"],
+                logs: [
+                { date: "2018-05-02", area: "A", crop: "Kale", yield: 5, units: "Bunches" },
+                { date: "2018-05-05", area: "B", crop: "Carrot", yield: 15, units: "Bunches" }
+            ]
+            }
+        });
+        Vue.config.devtools = true;
+    </script>
+
+</body>
+
+</html>
