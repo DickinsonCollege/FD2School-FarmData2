@@ -26,7 +26,7 @@
             <div>
                 <label for="crop">Crop:</label>
                 <select id="crop" name="crop" v-model="selectedCrop">
-                    <option v-for="crop in crops" :key="crop" :value="crop">{{ crop }}</option>
+                    <option v-for="crop in cropNames" :key="crop" :value="crop">{{ crop }}</option>
                 </select>
             </div>
             <br>
@@ -108,42 +108,65 @@
             el: '#app',
             data: {
                 reportTitle: "My Sample Harvest Report",
-                crops: ["Broccoli", "Kale", "Peas"], 
                 areas: ["All", "Chuau-1", "SQ7"],   
-                selectedCrop: "Kale", 
+                selectedCrop: "", 
                 selectedArea: "All", 
                 startDate: "2020-05-05",
                 endDate: "2020-05-15",
                 farmName: "",    
                 userName: "",    
                 language: "",   
-                harvestLogs: []
+                harvestLogs: [],
+                idToCropMap: new Map()  // Holds Crop ID -> Crop Name mapping
             }, 
+            computed: {
+                cropNames() {
+                    return this.extractCropNames();
+                }
+            },
+            created() {
+                console.log("HarvestReport Vue instance created!");
+                this.fetchCropIDMap();  
+            },
             methods: {
+                fetchCropIDMap() {
+                    getIDToCropMap()
+                        .then(theMap => {
+                            this.idToCropMap = theMap;
+                            if (this.cropNames.length > 0) {
+                                this.selectedCrop = this.cropNames[0]; // Default to first crop
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error fetching Crop ID Map:", error);
+                        });
+                },
+                extractCropNames() {
+                    return Array.from(this.idToCropMap.values()); // Converts the Map to an array of crop names
+                },
                 generateReport() {
-                    // API request to get farm data
                     axios.get('/farm.json')
                         .then(response => {
                             this.farmName = response.data.name;
-                            this.userName = response.data.user.name; // Adjust based on actual response structure
+                            this.userName = response.data.user.name;
                             this.language = response.data.languages.en.name;
                         })
                         .catch(error => {
-                            console.log("Error Occurred");
-                            console.log(error);
-                        })
-                        this.harvestLogs.push({
-                                date: this.startDate, 
-                                area: this.selectedArea, 
-                                crop: this.selectedCrop, 
-                                yield: 10, 
-                                units: "Bunches"
+                            console.log("Error Occurred:", error);
                         });
-;
+
+                    this.harvestLogs.push({
+                        date: this.startDate, 
+                        area: this.selectedArea, 
+                        crop: this.selectedCrop, 
+                        yield: 10, 
+                        units: "Bunches"
+                    });
                 }
             }
         });
         Vue.config.devtools = true;
+
     </script>
 </body>
 </html>
