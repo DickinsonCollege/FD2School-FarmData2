@@ -56,7 +56,9 @@
 
         <input type="button" value="Generate Report" @click="generateReport" />
 
-        <table border="1" v-if="logs.length">
+        <p v-if="logs.length === 0">No matching records found.</p>
+
+        <table border="1" v-if="logs.length > 0">
             <tr>
                 <td><strong>Date</strong></td>
                 <td><strong>Area</strong></td>
