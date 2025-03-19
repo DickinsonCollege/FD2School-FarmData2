@@ -33,10 +33,10 @@
 
         <br>
         <label for="startDate">Start Date:</label>
-        <input type="date" id="startDate" v-model="startDate">
+        <input type="date" id="startDate" v-model="startDate" :max="endDate">
 
         <label for="endDate">End Date:</label>
-        <input type="date" id="endDate" v-model="endDate">
+        <input type="date" id="endDate" v-model="endDate" :min="startDate">
 
         <label for="crop">Select Crop:</label>
         <select id="crop" v-model="crop">
