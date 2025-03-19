@@ -1,0 +1,91 @@
+<body>
+    <div v-cloak id="vue-app">
+        <h1>Harvest Report</h1>
+        <p>This page is a <i>mockup</i> of a simplified harvest report.</p>
+
+        <label for="field">Title: </label>
+        <input type="text" id="title" name="title" v-model="header" value="My Sample Harvest Report" /></br></br>
+
+        <label for="start">Start date:</label>
+        <input type="date" id="start" name="start" min="2014-01-01" max="2022-01-01" v-model="startDate" />
+
+        <label for="end">End date:</label>
+        <input type="date" id="end" name="end" min="2020-05-05" max="2022-01-01" v-model="endDate"/></br></br>
+
+        <label for="crop">Crop: </label>
+        <select id="crop" name="crop" v-model="cropSelection">
+            <option v-for="crop in crops">{{ crop }}</option>
+        </select>
+        
+
+        <label for="field">Area: </label>
+        <select id="area" name="area" v-model="areaSelection">
+            <option v-for="area in areas">{{ area }}</option>
+        </select></br></br>
+
+        <button type="button">Generate Report</button><hr />
+
+        <div v-cloak id="vue-header">
+            <h1>{{ header ? header : "Mock Harvest Report" }}</h1>
+        </div>
+    
+
+        <p>Details:</p>
+        <ul>
+            <li><strong>Farm: </strong>Sample Farm</li>
+            <li><strong>User:  </strong>manager1</li>
+            <li><strong>Language: </strong>English</li>
+        </ul> <br/>
+        <ul>
+            <div v-cloak id="vue-startDate">
+                <li><strong>Start: </strong>{{ startDate }}</li>
+            </div>
+            <div v-cloak id="vue-endDate">
+                <li><strong>End: </strong>{{ endDate }}</li>
+            </div>
+            <div v-cloak id="vue-cropSelection">
+                <li><strong>Crop: </strong>{{ cropSelection }}</li>
+            </div>
+            
+        </ul>
+
+
+    <table border=1>
+        <tr>
+            <th>Date</th>
+            <th>Area</th>
+            <th>Crop</th>
+            <th>Yield</th>
+            <th>Units</th>
+        </tr>
+        <tr v-for="log in exlogs">
+            <td>{{log.date}}</td>
+            <td>{{log.area}}</td>
+            <td>{{log.crop}}</td>
+            <td>{{log.yield}}</td>
+            <td>{{log.units}}</td>
+        </tr>
+    </table>
+    <script>
+        var sampleHeader = new Vue({
+          el: '#vue-app',
+          data: {
+            header: 'My Sample Harvest Report',
+            startDate: '2020-05-05',
+            endDate: '2020-05-15',
+            cropSelection: 'Kale',
+            areaSelection: 'All',
+            crops: ["Broccoli", "Kale", "Peas"],
+            areas: ["All", "Chuau-1", "SQ7"],
+            exlogs: [
+                {date: '05/02/2018', area: 'Chuau-1', crop: 'Kale', yield: 10, units: 'bunches'},
+                {date: '05/05/2018', area: 'SQ7', crop: 'Kale', yield: 7, units: 'bunches'},
+            ]
+          }
+        })
+        Vue.config.devtools = true;
+    </script>
+    </div>
+</body>
+  
+
