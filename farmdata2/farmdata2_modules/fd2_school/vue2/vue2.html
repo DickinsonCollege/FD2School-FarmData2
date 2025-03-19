@@ -18,7 +18,6 @@
     <p>This page is a <i>mockup</i> of a simplified harvest report.</p>
     <hr>
 
-
     <div id="VueObject" v-cloak>
         <label for="ReportTitle">Enter Report Title:</label>
         <input type="text" v-model="title" id="ReportTitle">
@@ -36,24 +35,18 @@
         <label for="startDate">Start Date:</label>
         <input type="date" id="startDate" v-model="startDate">
 
-
         <label for="endDate">End Date:</label>
         <input type="date" id="endDate" v-model="endDate">
-
 
         <label for="crop">Select Crop:</label>
         <select id="crop" v-model="crop">
             <option v-for="crop in crops" :value="crop">{{ crop }}</option>
-            >
         </select>
 
         <label for="area">Select Area:</label>
         <select id="area" v-model="area">
             <option v-for="area in areas" :value="area">{{ area }}</option>
-            >
         </select>
-
-
 
         <ul>
             <li><strong>Start</strong>: {{ startDate }}</li>
@@ -61,10 +54,9 @@
             <li><strong>Crop</strong>: {{ crop }}</li>
         </ul>
 
-        <input type="button" value="Generate Report" 
-               @click='logs.push({date:"2018-05-01", area:"Orion-3", crop:"Kale", yield:12, units:"Bunches"})' />
+        <input type="button" value="Generate Report" @click="generateReport" />
 
-        <table border="1">
+        <table border="1" v-if="logs.length">
             <tr>
                 <td><strong>Date</strong></td>
                 <td><strong>Area</strong></td>
@@ -89,12 +81,25 @@
                 title: "My Sample Harvest Report",
                 startDate: "",
                 endDate: "",
+                crop: "",
+                area: "",
                 crops: ["Kale", "Carrot", "Beet", "Turnip"],
                 areas: ["A", "B", "C", "D", "E"],
                 logs: []
-               
+            },
+            methods: {
+                generateReport: function () {
+                    this.logs.push({
+                        date: "2018-05-01",
+                        area: "Orion-3",
+                        crop: "Kale",
+                        yield: 12,
+                        units: "Bunches"
+                    });
+                }
             }
         });
+
         Vue.config.devtools = true;
     </script>
 
