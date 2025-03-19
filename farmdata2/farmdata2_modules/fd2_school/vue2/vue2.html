@@ -61,7 +61,8 @@
             <li><strong>Crop</strong>: {{ crop }}</li>
         </ul>
 
-        <input type="button" value="Generate Report" />
+        <input type="button" value="Generate Report" 
+               @click='logs.push({date:"2018-05-01", area:"Orion-3", crop:"Kale", yield:12, units:"Bunches"})' />
 
         <table border="1">
             <tr>
@@ -90,10 +91,8 @@
                 endDate: "",
                 crops: ["Kale", "Carrot", "Beet", "Turnip"],
                 areas: ["A", "B", "C", "D", "E"],
-                logs: [
-                { date: "2018-05-02", area: "A", crop: "Kale", yield: 5, units: "Bunches" },
-                { date: "2018-05-05", area: "B", crop: "Carrot", yield: 15, units: "Bunches" }
-            ]
+                logs: []
+               
             }
         });
         Vue.config.devtools = true;
