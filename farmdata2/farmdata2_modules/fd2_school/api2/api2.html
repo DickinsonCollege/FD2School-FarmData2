@@ -40,7 +40,7 @@
         <li><strong>End:</strong>{{endDate}}</li>
         <li><strong>Crop:</strong>{{selectedCrop}}</li>
     </ul>
-    <div v-if="harvestList.length > 0">
+    <div v-if="harvestReportRows.length > 0">
     <table border="1">
         <tr>
           <td><strong>Row</strong></td>
@@ -52,7 +52,7 @@
 
         </tr>
 
-        <tr v-for="(t,index) in harvestList">
+        <tr v-for="(t,index) in harvestReportRows">
           <td>{{ index + 1}}</td>
           <td>{{ t.date }}</td>
           <td>{{ t.area }}</td>
@@ -78,7 +78,7 @@
             })
           },
           data: {
-            logs: [],
+            harvestLogs: [],
             idToCropMap: new Map(),
             farm: "",
             user: "",
@@ -92,30 +92,36 @@
               'Chuau-1',
               'SQ7',
             ],
-            table: [
-              {date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches"},
-              {date: "2018-05-05", area: "SQ7", crop: "Kale", yield: 7, units: "Bunches"},
-            ],
             harvestList: []
           },
           computed: {
             cropNames() {
               return Array.from(this.idToCropMap.values())
+            },
+            harvestReportRows() {
+                let tableRows = []
+                for(let log of this.harvestLogs) {
+                    let tableRow = {
+                        date: dayjs.unix(log.timestamp).format('YYYY-MM-DD'),
+                        area: log.area[0].name,
+                        yield: log.quantity[0].value,
+						units: log.quantity[0].unit.name,
+						crop: this.idToCropMap.get(log.data.crop_tid),
+                    }
+                    tableRows.push(tableRow)
+                }
+                return tableRows
             }
           },
           methods: {
             addHarvest: function() {
-              const startTimestamp = dayjs(this.startDate).unix();
-              const endTimestamp = dayjs(this.endDate).unix();
+              let startTimestamp = dayjs(this.startDate).unix();
+              let endTimestamp = dayjs(this.endDate).unix();
 
-              console.log("Start Timestamp:", startTimestamp);
-              console.log("End Timestamp:", endTimestamp);
-
-              const requestString = `/log.json?type=farm_harvest&timestamp[ge]=${startTimestamp}&timestamp[le]=${endTimestamp}`;
-              console.log(requestString);
-              getAllPages(requestString, logs)
+              let requestString = `/log.json?type=farm_harvest&timestamp[ge]=${startTimestamp}&timestamp[le]=${endTimestamp}`;
+              getAllPages(requestString, this.harvestLogs)
                 .then(() => {
-                    console.log("Harvest logs: ", logs);
+                    console.log("Harvest logs: ", this.harvestLogs);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -125,17 +131,10 @@
                 this.farm = response.data.name;
                 this.user = response.data.user.name;
                 this.language = response.data.languages.en.name;
-                console.log("Got response");
-                console.log(response);
               })
               .catch((error) => {
-                console.log("Error occurred")
                 console.log(error)
               })
-              this.farm = "Sample Farm";
-              this.user = "manager1";
-              this.language = "English";
-              this.harvestList.push({date: "2018-05-01", area: "Orion-3", crop: "Kale", yield: 12, units: "Bunches"});
             }
           }
         })
