@@ -119,7 +119,7 @@
 				let startTimestamp = dayjs(this.reportStartDate).unix();	
                                 let endTimestamp = dayjs(this.reportEndDate).unix();
 				let logRequest = "/log.json?type=farm_harvest&timestamp[ge]=" + startTimestamp + "&timestamp[le]=" + endTimestamp
-				
+				this.requestedHarvestLogs = [],				
 				getAllPages(logRequest, this.requestedHarvestLogs)
 				.then(() => {
 				})
