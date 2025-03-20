@@ -4,7 +4,6 @@
  * FarmData2 School module.
  * See the README.md file in the fd2_example directory for more information.
  */
-
  function fd2_school_permission() {
    return array(
      'view fd2 school' => array(
@@ -34,11 +33,6 @@
 
    return $perms;
  }
-
- /**
- * Implements hook_menu() which places the School tab in the Farm
- * menu at the top of the FarmData2 page with the Dashboard.
- */
 function fd2_school_menu() {
   $items = array();
 
@@ -76,13 +70,21 @@ function fd2_school_menu() {
     'page arguments' => array('vue1'),               // The html file with the default content for the tab
     'access arguments' => array('view fd2 school'),  // permissions required to view the tab
     'type' => MENU_LOCAL_TASK,                        // Put it on the menu
-    'weight' => 110,                                  // larger weights appear further right.
+    'weight' => 110, 
+                                  // larger weights appear further right.
   );
-
+   $items['farm/fd2-school/vue2'] = array(                 // Put the school in the farm menu
+    'title' => 'Vue2',                         // Put FD2 School on the tab
+    'page callback' => 'fd2_school_view',            // The function that will provide the content
+    'page arguments' => array('vue2'),               // The html file with the default content for the tab
+    'access arguments' => array('view fd2 school'),  // permissions required to view the tab
+    'type' => MENU_LOCAL_TASK,                        // Put it on the menu
+    'weight' => 110, 
+   );
   return $items;
 };
 
-// This function Loads the content for the sub-tab from the html file specified in the arguemnt.
+// This function Loads the content for the sub-tab from the html file specified in the argument.
 // It must be renamed in each module.
 function fd2_school_view($subtab_content) {
   $dir=dirname(__FILE__);
