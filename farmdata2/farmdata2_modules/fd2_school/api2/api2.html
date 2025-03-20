@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
+    <script src="https://unpkg.com/dayjs@1.11.10/dayjs.min.js"></script>
   </head>
   <body>
     <div id="report" v-cloak>
@@ -75,10 +76,9 @@
             .catch((err) => {
                 console.log(err);
             })
-            // Execution continues here immediately after the request is made.
-            // Note that the Map will not be available until the then() executes.
           },
           data: {
+            logs: [],
             idToCropMap: new Map(),
             farm: "",
             user: "",
@@ -105,7 +105,22 @@
           },
           methods: {
             addHarvest: function() {
-              axios.get('/farm.json')  // this line sends the request.
+              const startTimestamp = dayjs(this.startDate).unix();
+              const endTimestamp = dayjs(this.endDate).unix();
+
+              console.log("Start Timestamp:", startTimestamp);
+              console.log("End Timestamp:", endTimestamp);
+
+              const requestString = `/log.json?type=farm_harvest&timestamp[ge]=${startTimestamp}&timestamp[le]=${endTimestamp}`;
+              console.log(requestString);
+              getAllPages(requestString, logs)
+                .then(() => {
+                    console.log("Harvest logs: ", logs);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+              axios.get('/farm.json')  
               .then((response) => {
                 this.farm = response.data.name;
                 this.user = response.data.user.name;
