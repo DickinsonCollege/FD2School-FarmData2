@@ -76,6 +76,9 @@
                 "Chuau-1",
                 "SQ7"
             ],
+            logResults: [
+
+            ],
             harvestLogs: [
             ]
         },
@@ -95,6 +98,17 @@
                 .catch((error) => {
                     console.log("Error Occurred")
                     console.log(error)
+                })
+                startDateTime = dayjs(this.startDate).unix();
+                endDateTime = dayjs(this.endDate).unix();
+                response = "/log.json?type=farm_harvest&timestamp[ge]=" + startDateTime + "&timestamp[le]=" + endDateTime;
+                getAllPages(response, this.logResults)
+                .then(() => {
+
+                })
+                .catch((err) => {
+                    console.log("Error Occurred")
+                    console.log(err)
                 })
                 this.harvestLogs.push({date:"2018-05-01", area:"Orion-3", crop:"Kale", yield:"12", units:"Bunches"});
                 this.state = 'show';
