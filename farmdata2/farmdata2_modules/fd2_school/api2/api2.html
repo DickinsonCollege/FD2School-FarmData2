@@ -45,7 +45,7 @@
                 <th>Yield</th>
                 <th>Units</th>
             </tr>
-            <tr v-for="(log, index) in harvestLogs">
+            <tr v-for="log, index in harvestReportRows">
                     <th>{{index + 1}}</th>
                     <th>{{log.date}}</th>
                     <th>{{log.area}}</th>
@@ -85,7 +85,22 @@
         computed: {
             cropNames() {
                 return Array.from(this.idToCropMap.values())
+            },
+            harvestReportRows() {
+	            let tableRows = []
+	            for(let log of this.logResults) {
+		            let tableRow = {
+			            date: dayjs.unix(log.timestamp).format('MM/DD/YYYY'),
+                        area: log.area[0].name,
+                        yield: log.quantity[0].value,
+                        units: log.quantity[0].unit.name,
+                        crop: this.idToCropMap.get(log.data.crop_tid)
+		            }
+		        tableRows.push(tableRow)
+	            }
+                return tableRows
             }
+
         },
         methods: {
             genReport: function() {
@@ -110,12 +125,10 @@
                     console.log("Error Occurred")
                     console.log(err)
                 })
-                this.harvestLogs.push({date:"2018-05-01", area:"Orion-3", crop:"Kale", yield:"12", units:"Bunches"});
                 this.state = 'show';
             }
         },
         created() {
-            console.log("HarvestReport Vue instance created!");
             getIDToCropMap()
             .then((theMap) => {
                 this.idToCropMap = theMap;
