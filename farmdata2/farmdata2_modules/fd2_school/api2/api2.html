@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harvest Report</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="app" v-cloak>
+        <h1>Harvest Report</h1>
+        <p>This page is a <i>mockup</i> of a simplified harvest report.</p>
+
+        <hr> 
+
+        <h1>{{ reportTitle ? reportTitle : "Mock Harvest Report" }}</h1> 
+        <p>Details:</p>
+        
+        <form>
+            <div>
+                <label for="title">Title:</label>
+                <input type="text" id="title" v-model="reportTitle"> 
+            </div>
+            <br>
+
+            <div>
+                <label for="crop">Crop:</label>
+                <select id="crop" name="crop" v-model="selectedCrop">
+                    <option v-for="crop in cropNames" :key="crop" :value="crop">{{ crop }}</option>
+                </select>
+            </div>
+            <br>
+
+            <div>
+                <label for="field">Area:</label>
+                <select id="field" name="field" v-model="selectedArea">
+                    <option v-for="area in areas" :key="area" :value="area">{{ area }}</option>
+                </select>
+            </div>
+            <br>
+
+            <div>
+                <label for="start-date">Start Date:</label>
+                <input type="date" id="start-date" name="start-date" 
+                    v-model="startDate" 
+                    :max="endDate">
+            </div>
+            <br>
+
+            <div>
+                <label for="end-date">End Date:</label>
+                <input type="date" id="end-date" name="end-date" 
+                    v-model="endDate" 
+                    :min="startDate">
+            </div>
+            <br>
+
+            <button type="button" @click='generateReport'>Generate Report</button>
+        </form>
+        
+        <br>
+        
+        <ul>
+            <li><strong>Farm:</strong> {{ farmName }}</li>
+            <li><strong>User:</strong> {{ userName }}</li>
+            <li><strong>Language:</strong> {{ language }}</li>
+            
+            <br>
+            
+            <li><strong>Start:</strong> {{ startDate }}</li>
+            <li><strong>End:</strong> {{ endDate }}</li>
+            <li><strong>Crop:</strong> {{ selectedCrop }}</li>
+            <li><strong>Area:</strong> {{ selectedArea }}</li>
+        </ul>
+
+        <div v-if="harvestLogs.length > 0">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Row</th>
+                        <th>Date</th>
+                        <th>Area</th>
+                        <th>Crop</th>
+                        <th>Yield</th>
+                        <th>Units</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(log, index) in harvestLogs" :key="log.date">
+                        <td>{{ index + 1 }}</td> 
+                        <td>{{ log.date }}</td>
+                        <td>{{ log.area }}</td>
+                        <td>{{ log.crop }}</td>
+                        <td>{{ log.yield }}</td>
+                        <td>{{ log.units }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div v-else>
+            <p>No matching records</p>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@2"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                reportTitle: "My Sample Harvest Report",
+                areas: ["All", "Chuau-1", "SQ7"],   
+                selectedCrop: "", 
+                selectedArea: "All", 
+                startDate: "2020-05-05",
+                endDate: "2020-05-15",
+                farmName: "",    
+                userName: "",    
+                language: "",   
+                harvestLogs: [],
+                idToCropMap: new Map()  // Holds Crop ID -> Crop Name mapping
+            }, 
+            computed: {
+                cropNames() {
+                    return this.extractCropNames();
+                }
+            },
+            created() {
+                console.log("HarvestReport Vue instance created!");
+                this.fetchCropIDMap();  
+            },
+            methods: {
+                fetchCropIDMap() {
+                    getIDToCropMap()
+                        .then(theMap => {
+                            this.idToCropMap = theMap;
+                            if (this.cropNames.length > 0) {
+                                this.selectedCrop = this.cropNames[0]; // Default to first crop
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error fetching Crop ID Map:", error);
+                        });
+                },
+                extractCropNames() {
+                    return Array.from(this.idToCropMap.values()); // Converts the Map to an array of crop names
+                },
+                generateReport() {
+                    axios.get('/farm.json')
+                        .then(response => {
+                            this.farmName = response.data.name;
+                            this.userName = response.data.user.name;
+                            this.language = response.data.languages.en.name;
+                        })
+                        .catch(error => {
+                            console.log("Error Occurred:", error);
+                        });
+
+                    this.harvestLogs.push({
+                        date: this.startDate, 
+                        area: this.selectedArea, 
+                        crop: this.selectedCrop, 
+                        yield: 10, 
+                        units: "Bunches"
+                    });
+                }
+            }
+        });
+        Vue.config.devtools = true;
+
+    </script>
+</body>
+</html>
