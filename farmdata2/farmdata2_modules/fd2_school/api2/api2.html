@@ -73,7 +73,7 @@
             <li><strong>Area:</strong> {{ selectedArea }}</li>
         </ul>
 
-        <div v-if="harvestLogs.length > 0">
+        <div v-if="harvestReportRows.length > 0">
             <table border="1">
                 <thead>
                     <tr>
@@ -86,7 +86,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(log, index) in harvestLogs" :key="log.date">
+                    <tr v-for="(log, index) in harvestReportRows" :key="index">
                         <td>{{ index + 1 }}</td> 
                         <td>{{ log.date }}</td>
                         <td>{{ log.area }}</td>
@@ -95,6 +95,7 @@
                         <td>{{ log.units }}</td>
                     </tr>
                 </tbody>
+                
             </table>
         </div>
         <div v-else>
@@ -118,15 +119,35 @@
                 language: "",   
                 harvestLogs: [],
                 harvestLogsData: [],
-                idToCropMap: new Map()  // Holds Crop ID -> Crop Name mapping
+                idToCropMap: new Map(),  // Holds Crop ID -> Crop Name mapping
+                cropNames: []
             }, 
             computed: {
-                cropNames() {
-                    return this.extractCropNames();
+                harvestReportRows() {
+                    let tableRows = [];
+                    for (let log of this.harvestLogsData) {
+                        let tableRow = {
+                            date: dayjs.unix(log.timestamp).format("YYYY-MM-DD"), // Convert timestamp to readable date
+                            area: log.area && log.area.length > 0 ? log.area[0].name : "Unknown", // Extract area name
+                            crop: this.idToCropMap.get(log.data.crop_tid) || "Unknown", // Use crop_tid to get crop name from the Map
+                            yield: log.quantity.length,
+                            units: log.quantity[0].label,
+                        };
+
+                        // Find the quantity object with label "harvest"
+                        let harvestQuantity = log.quantity.find(q => q.label === "harvest");
+                        if (harvestQuantity) {
+                            tableRow.yield = harvestQuantity.value || 0;
+                            tableRow.units = harvestQuantity.units || "Unknown";
+                        }
+
+                        tableRows.push(tableRow);
+                    }
+                    return tableRows;
                 }
-            },
+            }
+            ,
             created() {
-                console.log("HarvestReport Vue instance created!");
                 this.fetchCropIDMap();  
             },
             methods: {
@@ -134,6 +155,7 @@
                     getIDToCropMap()
                         .then(theMap => {
                             this.idToCropMap = theMap;
+                            this.cropNames = Array.from(theMap.values()); // Extract crop names into an array
                             if (this.cropNames.length > 0) {
                                 this.selectedCrop = this.cropNames[0]; // Default to first crop
                             }
@@ -141,7 +163,8 @@
                         .catch(error => {
                             console.error("Error fetching Crop ID Map:", error);
                         });
-                },
+                }
+                ,
                 extractCropNames() {
                     return Array.from(this.idToCropMap.values()); // Converts the Map to an array of crop names
                 },
@@ -150,15 +173,9 @@
                     let startTimestamp = dayjs(this.startDate).unix();
                     let endTimestamp = dayjs(this.endDate).unix();
 
-                    // Log timestamps to the console
-                    console.log("Start Date Timestamp:", startTimestamp);
-                    console.log("End Date Timestamp:", endTimestamp);
-
                     // Build the API request string
                     let requestUrl = `/log.json?type=farm_harvest&timestamp[ge]=${startTimestamp}&timestamp[le]=${endTimestamp}`;
 
-                    // Log the request string to the console
-                    console.log("API Request URL:", requestUrl);
 
                     axios.get('/farm.json')
                         .then(response => {
