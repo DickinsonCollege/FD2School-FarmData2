@@ -1,14 +1,14 @@
 <div id="pageContent" v-cloak>
-    <h1>Harvest Report</h1>
+    <h1 data-cy="page-header">Harvest Report</h1>
     <p>This page is a <i>mockup</i> of a simplified harvest report.</p>
     <label for="Title">Title:</label>
     <input type="text" id="Title" value="My Sample Harvest Report" v-model="title">
     <br>
     <br>
     <label for="Start">Start:</label>
-    <input type="date" id="Start" name="startDate" min="2014-01-01" v-bind:max="endDate" v-model="startDate"/>
+    <input type="date" id="Start" data-cy="start-date" name="startDate" min="2014-01-01" v-bind:max="endDate" v-model="startDate"/>
     <label for="End">End:</label>
-    <input type="date" id="End" name="endDate" v-bind:min="startDate" max="2022-01-01" v-model="endDate"/>
+    <input type="date" id="End" data-cy="end-date" name="endDate" v-bind:min="startDate" max="2022-01-01" v-model="endDate"/>
     <br>
     <br>
     <label for="Crop">Crop:</label>
@@ -63,7 +63,7 @@
         data: {
             state: 'hide',
             title:'My Sample Harvest Report',
-            startDate:'2018-05-01',
+            startDate:'2020-05-05',
             endDate:'2020-05-15',
             selCrop:'Kale',
             idToCropMap: new Map(),
