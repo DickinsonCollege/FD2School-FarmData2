@@ -26,9 +26,9 @@
 
         <p>Details:</p>
         <ul>
-            <li><strong>Farm</strong>: Sample Farm</li>
-            <li><strong>User</strong>: manager1</li>
-            <li><strong>Language</strong>: English</li>
+            <li><strong>Farm</strong>: {{ farm }} </li>
+            <li><strong>User</strong>: {{ user }}</li>
+            <li><strong>Language</strong>: {{ language }}</li>
         </ul>
 
         <br>
@@ -86,6 +86,9 @@
                 endDate: "",
                 crop: "",
                 area: "",
+                farm: "",
+                user: "",
+                language:"",
                 crops: ["Kale", "Carrot", "Beet", "Turnip"],
                 areas: ["A", "B", "C", "D", "E"],
                 logs: []
