@@ -87,6 +87,7 @@
             idToCropMap: new Map([
 
             ]),
+            apiResults: [],
           },
           computed: {
             cropNames() {
@@ -106,6 +107,17 @@
                     console.log(response);
                 })
                 this.exLogs.push({date:'05/01/2028', area:'Orion-3', crop:'Kale', yield:'12', units:'bunches'},);
+                let startTimestamp = dayjs(this.startDate).unix();
+                let endTimestamp = dayjs(this.endDate).unix();
+                let timestampString = '/log.json?type=farm_harvest&timestamp[ge]=' + startTimestamp + '&timestamp[le]=' + endTimestamp;
+
+                getAllPages(timestampString, this.apiResults)
+                .then(() => {
+
+                })
+                .catch((err) => {
+                    console.log('Error with saving API results!');
+                })
             },
             },
             created() {
