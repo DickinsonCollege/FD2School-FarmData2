@@ -9,24 +9,24 @@
         <br> <br>
 
         <!-- Start Date Input -->
-        <label for="start-date">Start Date: </label>
+        <label for="start-date">Start: </label>
         <input type="date" id="start-date" v-model="reportStartDate" :max="reportEndDate">
 
         <!-- End Date Input -->
-        <label for="end-date">End Date: </label>
+        <label for="end-date"> End: </label>
         <input type="date" id="end-date" v-model="reportEndDate" :min="reportStartDate">
-        <br>
+        <br> <br>
 
         <!-- Crop Dropdown -->
         
-        <label for="crop">Select Crop: </label>
+        <label for="crop">Crop: </label>
         <select id="crop" v-model="reportCrop">
             <option value="">Select a crop</option>
             <option v-for="crop in cropNames" :key="crop" :value="crop">{{ crop }}</option>
-        </select>
+        </select> 
 
         <!-- Area Dropdown -->
-        <label for="area">Select Area: </label>
+        <label for="area"> Area: </label>
         <select id="area" v-model="reportArea">
             <option value="">Select an area</option>
             <option v-for="area in areas" :key="area" :value="area">{{ area }}</option>
@@ -37,7 +37,7 @@
 
 
         <!-- Input Fields for New Properties -->
-        <label for="farm">Farm: </label>
+        <!--<label for="farm">Farm: </label>
         <input v-model="reportFarm" placeholder="Enter farm name">
         <br>
 
@@ -48,6 +48,7 @@
         <label for="language">Language: </label>
         <input v-model="reportLanguage" placeholder="Enter language">
         <br><br>
+        -->
 
 
         <!-- "Generate Report" Button -->
@@ -142,12 +143,11 @@
                     axios.get('/farm.json')  // Send the API request
                     .then((response) => {
                         //console.log (response)
-                    // Block A: Handle the successful response
+                    // Block A: 
                     this.reportFarm = response.data.name;
                     this.reportUser = response.data.user.name;
                     this.reportLanguage = response.data.user.language;
 
-                
 
                     this.harvestLogs.push({
                         date: "2018-05-01",
