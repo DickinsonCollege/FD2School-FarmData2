@@ -21,11 +21,11 @@
         <label for="end">End date:</label>
         <input type="date" id="end" name="end-date" value="2020-05-15" :min="reportStartDate" max="2022-01-01" v-model="reportEndDate" data-cy="end-date"/><br />
 
-        <button class="btn btn-primary" @click='generateReport()' type="button">Generate Report</button>
+        <button class="btn btn-primary" @click='generateReport()' type="button" data-cy="generate-report-button">Generate Report</button>
 
         <hr />
 
-        <h1>{{ reportTitle ? reportTitle : "Mock Harvest Report" }}</h1>
+        <h1 data-cy="report-title">{{ reportTitle ? reportTitle : "Mock Harvest Report" }}</h1>
         <p>Details:</p>
         <ul>
                 <li><strong>Farm: </strong>{{ reportFarm }}</li>
