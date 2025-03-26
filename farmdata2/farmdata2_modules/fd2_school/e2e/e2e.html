@@ -6,7 +6,7 @@
         <input type="text" id="title" name="title" v-model="reportTitle"/><br />
 
         <label for="crop">Crop:</label>
-        <select id="crop" name="crop" v-model="reportCrop">
+        <select id="crop" name="crop" v-model="reportCrop" data-cy="crop-selection">
                 <option v-for="crop in cropNames">{{ crop }}</option>
         </select><br />
 
