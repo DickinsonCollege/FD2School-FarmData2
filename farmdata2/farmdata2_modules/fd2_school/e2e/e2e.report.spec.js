@@ -17,6 +17,13 @@ describe("Test the report generation", () => {
       cy.get("[data-cy=report-title]").should("be.visible")
     })
 
+    it("Click the farm info", () => {
+      cy.get("[data-cy=generate-report-button]").click()
+      cy.get("[data-cy=farm-name]").should("have.text","Farm: Sample Farm")
+      cy.get("[data-cy=user-name]").should("contain.text","manager1")
+      cy.get("[data-cy=user-lang]").should("have.text","English")
+
+    })
 
 
 })
