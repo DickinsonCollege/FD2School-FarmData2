@@ -74,29 +74,26 @@
                 reportEndDate: '2020-05-15',
                 reportCrop: 'Kale',
                 reportArea: 'All',
-                harvestEntries: [], // Initialize as an empty array
+                harvestEntries: [],
                 names: ["Joe", "Arun", "Ouwen", "Anh", "Sue"],
                 cropOptions: ['Broccoli', 'Kale', 'Peas'],
                 areaOptions: ['Chuau-1', 'All', 'SQ7'],
-                // Add new data properties
                 reportFarm: '',
                 reportUser: '',
                 reportLanguage: ''
             },
             methods: {
                 addHarvestEntry() {
-                    // Set the values of the report properties
-                    this.reportFarm = "Sample Farm";
-                    this.reportUser = "manager1";
-                    this.reportLanguage = "English";
-
-                    this.harvestEntries.push({
-                        date: "2018-05-01",
-                        area: "Orion-3",
-                        crop: "Kale",
-                        yield: 12,
-                        units: "Bunches"
-                    });
+                    axios.get('/farm.json')
+                        .then((response) => {
+                            this.reportFarm = response.data.name;
+                            this.reportUser = response.data.user.name;
+                            this.reportLanguage = response.data.languages.en.name;
+                        })
+                        .catch((error) => {
+                            console.log("Error Occurred");
+                            console.log(error);
+                        });
                 }
             }
         });
