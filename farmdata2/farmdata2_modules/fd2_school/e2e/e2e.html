@@ -7,10 +7,10 @@
         <input type="text" id="title" name="title" v-model="header" value="My Sample Harvest Report" /></br></br>
 
         <label for="start">Start date:</label>
-        <input type="date" id="start" name="start" min="2014-01-01" :max="endDate" v-model="startDate" />
+        <input data-cy='start-date' type="date" id="start" name="start" min="2014-01-01" :max="endDate" v-model="startDate" />
 
         <label for="end">End date:</label>
-        <input type="date" id="end" name="end" :min="startDate" max="2022-01-01" v-model="endDate"/></br></br>
+        <input data-cy='end-date' type="date" id="end" name="end" :min="startDate" max="2022-01-01" v-model="endDate"/></br></br>
 
         <label for="crop">Crop: </label>
         <select id="crop" name="crop" v-model="cropSelection">
