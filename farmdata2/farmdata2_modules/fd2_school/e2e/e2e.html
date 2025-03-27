@@ -13,7 +13,7 @@
 
         <hr> 
 
-        <h1>{{ reportTitle ? reportTitle : "Mock Harvest Report" }}</h1> 
+        <h1 data-cy="report-header" v-if="harvestReportRows.length > 0">{{ reportTitle ? reportTitle : "Mock Harvest Report" }}</h1> 
         <p>Details:</p>
         
         <form>
@@ -57,7 +57,7 @@
             </div>
             <br>
 
-            <button type="button" @click='generateReport'>Generate Report</button>
+            <button type="button" @click='generateReport' data-cy="generate-report-button">Generate Report</button>
         </form>
         
         <br>
