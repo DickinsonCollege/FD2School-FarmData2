@@ -21,9 +21,10 @@
     </select>
     <br>
     <br>
-    <input type="button" id="genReport" value="Generate Report" @click='genReport()'>
+    <input type="button" id="genReport" data-cy="generate-report-button" value="Generate Report" @click='genReport()'>
     <hr>
-    <h1>{{title === "" ? 'Mock Harvest Report' : title}}</h1>
+    <div v-if="state === 'show'">
+    <h1 data-cy="report-header">{{title === "" ? 'Mock Harvest Report' : title}}</h1>
     <p>Details:</p>
     <ul>
         <li><strong>Farm:</strong>{{farm}}</li>
@@ -35,7 +36,6 @@
         <li><strong>Crop:</strong>{{selCrop}}</li>
     </ul>
     <br>
-    <div v-if="state === 'show'">
         <table border=1>
             <tr>
                 <th>Row</th>
