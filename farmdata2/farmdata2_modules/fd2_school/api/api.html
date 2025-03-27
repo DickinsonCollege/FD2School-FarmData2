@@ -25,7 +25,7 @@
 
         <label for="crop">Crop:</label>
         <select id="crop" name="crop" v-model="selectedCrop">
-            <option v-for="crop in crops" :key="crop" :value="crop">{{ crop }}</option>
+            <option v-for="crop in cropNames" :key="crop" :value="crop">{{ crop }}</option>
         </select>
         
         <label for="field">Area:</label>
@@ -90,9 +90,14 @@
                 endDate: '2020-05-15',
                 selectedCrop: 'kale',
                 selectedField: 'all',
-                crops: ['Broccoli', 'Kale', 'Peas'],
                 areas: ['All', 'Chuau-1', 'SQ7'],
-                harvestLogs: []
+                harvestLogs: [],
+                idToCropMap: new Map()
+            },
+            computed:{
+                cropNames(){
+                    return this.idToCropMap.values();
+                }
             },
             methods: {
                 generateReport() {
@@ -117,10 +122,21 @@
                         yield: 50,
                         units: "Kg"
                     });
-                }
+                },
+            },
+            created() {
+                
+                getIDToCropMap()
+                    .then((theMap) => {
+                        this.idToCropMap = theMap
+                    })
+                    .catch((err) => {
+                    })
             }
         });
         Vue.config.devtools = true;
+
+        
     </script>
 </body>
 </html>
