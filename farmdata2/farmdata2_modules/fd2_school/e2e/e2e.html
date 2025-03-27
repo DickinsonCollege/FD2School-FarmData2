@@ -8,7 +8,7 @@
 </head>
 <body>
     <div id="app" v-cloak>
-        <h1>Harvest Report</h1>
+        <h1 data-cy="page-header">Harvest Report</h1>
         <p>This page is a <i>mockup</i> of a simplified harvest report.</p>
 
         <hr> 
@@ -43,7 +43,8 @@
                 <label for="start-date">Start Date:</label>
                 <input type="date" id="start-date" name="start-date" 
                     v-model="startDate" 
-                    :max="endDate">
+                    :max="endDate"
+                    data-cy="start-date">
             </div>
             <br>
 
@@ -51,7 +52,8 @@
                 <label for="end-date">End Date:</label>
                 <input type="date" id="end-date" name="end-date" 
                     v-model="endDate" 
-                    :min="startDate">
+                    :min="startDate"
+                    data-cy="end-date">
             </div>
             <br>
 
