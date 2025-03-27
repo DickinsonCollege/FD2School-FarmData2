@@ -60,13 +60,13 @@
             <th>Yield</th>
             <th>Units</th>
         </tr>
-        <tr v-for="(log, index) in exLogs">
+        <tr v-for="(row, index) in harvestReportRows">
             <td>{{index+1}}</td>
-            <td>{{log.date}}</td>
-            <td>{{log.area}}</td>
-            <td>{{log.crop}}</td>
-            <td>{{log.yield}}</td>
-            <td>{{log.units}}</td>
+            <td>{{row.date}}</td>
+            <td>{{row.area}}</td>
+            <td>{{row.crop}}</td>
+            <td>{{row.yield}}</td>
+            <td>{{row.units}}</td>
         </tr>
     </table>
     <script>
@@ -92,7 +92,21 @@
           computed: {
             cropNames() {
                 return Array.from(this.idToCropMap.values());
-            }
+            },
+            harvestReportRows() {
+                let tableRows = []
+                for(let log of this.apiResults) {
+                    let tableRow = {
+                        date: dayjs.unix(log.timestamp).format('MM/DD/YYYY'),
+                        area: log.area[0].name,
+                        yield: log.quantity[0].value,
+						units: log.quantity[0].unit.name,
+						crop: this.idToCropMap.get(log.data.crop_tid),
+                    }
+                    tableRows.push(tableRow)
+                }
+                return tableRows
+            },
           },
           methods: {
             newExLog: function() {
@@ -104,9 +118,7 @@
                 })
                 .catch ((error) => {
                     console.log("Error Occurred");
-                    console.log(response);
                 })
-                this.exLogs.push({date:'05/01/2028', area:'Orion-3', crop:'Kale', yield:'12', units:'bunches'},);
                 let startTimestamp = dayjs(this.startDate).unix();
                 let endTimestamp = dayjs(this.endDate).unix();
                 let timestampString = '/log.json?type=farm_harvest&timestamp[ge]=' + startTimestamp + '&timestamp[le]=' + endTimestamp;
@@ -128,7 +140,6 @@
                     })
                     .catch ((err) => {
                         console.log("Error Occurred");
-                        console.log(theMap);
                     })
             }
           })
