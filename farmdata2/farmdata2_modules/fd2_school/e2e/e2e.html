@@ -27,9 +27,9 @@
     <h1 data-cy="report-header">{{title === "" ? 'Mock Harvest Report' : title}}</h1>
     <p>Details:</p>
     <ul>
-        <li><strong>Farm:</strong>{{farm}}</li>
-        <li><strong>User:</strong>{{user}}</li>
-        <li><strong>Language:</strong>{{language}}</li>
+        <li data-cy="farm-name"><strong>Farm:</strong>{{farm}}</li>
+        <li data-cy="username"><strong>User:</strong>{{user}}</li>
+        <li><strong>Language:</strong><span data-cy="language">{{language}}</span></li>
         <br>
         <li><strong>Start:</strong>{{startDate}}</li>
         <li><strong>End:</strong>{{endDate}}</li>
