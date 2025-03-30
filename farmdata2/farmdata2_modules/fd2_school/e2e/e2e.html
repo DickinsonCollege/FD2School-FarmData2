@@ -18,7 +18,7 @@
       <input data-cy="end-date" type="date" id="end" name="end" v-model="endDate" :min="startDate" max="01/01/2022" />
       <br></br>
       <label for="crop"><strong>Crop:</strong></label>
-      <select id="crop" name="crop" v-model="selectedCrop">
+      <select data-cy="crop-dropdown" id="crop" name="crop" v-model="selectedCrop">
         <option v-for="crop in cropNames">{{ crop }}</option>
       </select>
       <label for="field"><strong>Area:</strong></label>
