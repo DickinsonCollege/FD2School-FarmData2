@@ -12,9 +12,12 @@
     <br>
     <br>
     <label for="Crop">Crop:</label>
-    <select id="Crop" data-cy="crop-values" name="Crop" v-model="selCrop">
-        <option v-for="crop in cropNames">{{ crop }}</option>
-    </select>
+    <dropdown-with-all id="Crop" data-cy="crop-values"
+        includes-all
+        :selected-val='selCrop'
+        :dropdown-list='cropNames'
+        @selection-changed="cropChange">
+    </dropdown-with-all>
     <label for="Field">Area:</label>
     <select id="Field" name="Field" v-model="selArea">
         <option v-for="area in areas">{{ area }}</option>
@@ -60,12 +63,15 @@
 <script>
     var contentList = new Vue({
         el: '#pageContent',
+        components: {
+            'dropdown-with-all': DropdownWithAllComponent,
+        },
         data: {
             state: 'hide',
             title:'My Sample Harvest Report',
             startDate:'2020-05-05',
             endDate:'2020-05-15',
-            selCrop:'Kale',
+            selCrop:'All',
             idToCropMap: new Map(),
             selArea:'All',
             farm:"",
@@ -128,7 +134,8 @@
                     console.log(err)
                 })
                 this.state = 'show';
-            }
+            },
+            cropChange(Crop)
         },
         created() {
             getIDToCropMap()
