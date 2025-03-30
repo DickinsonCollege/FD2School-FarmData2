@@ -135,7 +135,9 @@
                 })
                 this.state = 'show';
             },
-            cropChange(Crop)
+            cropChange(Crop) {
+                this.selCrop=Crop
+            }
         },
         created() {
             getIDToCropMap()
