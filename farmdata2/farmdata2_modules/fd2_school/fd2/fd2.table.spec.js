@@ -26,4 +26,32 @@ describe("Test the harvest report default values", () => {
             .children("th")
             .should("have.length", 6) // Check that there are 6 columns
     })
+
+    it("Test filtering by crop", () => {
+        // Select a crop from the dropdown
+        // Using the > operator to access the dropdown input and select a crop (e.g., "ARUGULA")
+        cy.get("[data-cy=crop-dropdown]").click() // Click to open the dropdown
+    
+        // Force the click if the element is being covered by another element
+        cy.contains("ARUGULA").click({ force: true }) // Force clicking if it's covered
+    
+        // Generate the report using the default date range
+        cy.get("[data-cy=generate-report-button]").click()
+    
+        // Check that the table is filtered and the correct number of rows are displayed
+        cy.get("[data-cy=table-body]")
+            .children("tr") // Get all rows in the table body
+            .should("have.length", 4) // Adjust the number based on how many "ARUGULA" rows you expect
+
+        cy.get("[data-cy=table-body]")
+        .children("tr") // Get all rows in the table body
+        .each(($row) => {
+            cy.wrap($row)
+                .children("td") // Get all columns in the current row
+                .eq(3) // Get the 4th column (index 3)
+                .should("contain.text", "ARUGULA") // Check if the text in the 4th column is "ARUGULA"
+        })
+    
+    })
+    
 })
