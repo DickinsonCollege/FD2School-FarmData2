@@ -21,5 +21,9 @@ describe("Test the harvest report default values", () => {
         cy.get("[data-cy=h3]").should("have.text", "Crop")
         cy.get("[data-cy=h4]").should("have.text", "Yield")
         cy.get("[data-cy=h5]").should("have.text", "Units")
+
+        cy.get("[data-cy=table-headers]")
+            .children("th")
+            .should("have.length", 6) // Check that there are 6 columns
     })
 })
