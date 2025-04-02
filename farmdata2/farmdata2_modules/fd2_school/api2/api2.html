@@ -113,21 +113,24 @@
                     return Array.from(this.idToCropMap.values());
                 },
                 harvestReportRows() {
-	                let tableRows = []
-	                for(let log of this.harvestLogs) {
-		                let tableRow = {
-			            date: dayjs.unix(log.timestamp).format("YYYY-MM-DD"),
-                        area: log.area[0].name,
-                        yield: log.quantity[0].value,
-                        units: log.quantity[0].unit.name,
-                        crop: this.idToCropMap.get(log.data.crop_tid)
-		            }
-		            tableRows.push(tableRow)
-	            }
-	            return tableRows
+                    let tableRows = [];
+                    for (let log of this.harvestLogs) {
+                        const cropName = this.idToCropMap.get(log.data.crop_tid);
+                        if (this.crop === "" || this.crop === cropName) {
+		                    let tableRow = {
+			                    date: dayjs.unix(log.timestamp).format("YYYY-MM-DD"),
+                                area: log.area[0].name,
+                                yield: log.quantity[0].value,
+                                units: log.quantity[0].unit.name,
+                                crop: cropName
+		                }
+		                tableRows.push(tableRow);
+                    }
+	                    
                 }
-
-            },
+                return tableRows;
+            }
+        },
             methods: {
                 generateReport: function () {
 
