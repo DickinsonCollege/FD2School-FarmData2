@@ -79,33 +79,22 @@
         </ul>
 
         <div v-if="harvestReportRows.length > 0">
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>Row</th>
-                        <th>Date</th>
-                        <th>Area</th>
-                        <th>Crop</th>
-                        <th>Yield</th>
-                        <th>Units</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(log, index) in harvestReportRows" :key="index">
-                        <td>{{ index + 1 }}</td> 
-                        <td>{{ log.date }}</td>
-                        <td>{{ log.area }}</td>
-                        <td>{{ log.crop }}</td>
-                        <td>{{ log.yield }}</td>
-                        <td>{{ log.units }}</td>
-                    </tr>
-                </tbody>
-                
-            </table>
-        </div>
+            <custom-table
+              :columns="columns"
+              :rows="harvestReportRows"
+              :can-edit="false"
+              :can-delete="false"
+              data-cy="harvest-report-table"
+            ></custom-table>
+          </div>
+          <div v-else>
+            <p>No matching records</p>
+          </div>
+          
         <div v-else>
             <p>No matching records</p>
         </div>
+
     </div>
 
     <script src="https://unpkg.com/vue@2"></script>
@@ -114,6 +103,7 @@
             el: '#app',
             components: {
                 'dropdown-with-all': DropdownWithAllComponent,
+                'custom-table': CustomTableComponent,
             },
             data: {
                 reportTitle: "My Sample Harvest Report",
@@ -128,26 +118,35 @@
                 harvestLogs: [],
                 harvestLogsData: [],
                 idToCropMap: new Map(),  // Holds Crop ID -> Crop Name mapping
-                cropNames: []
+                cropNames: [],
+                columns: [
+                    { "header": "Row", "visible": true, "inputType": { "type": "no input" } },
+                    { "header": "Date", "visible": true, "inputType": { "type": "no input" } },
+                    { "header": "Area", "visible": true, "inputType": { "type": "no input" } },
+                    { "header": "Crop", "visible": true, "inputType": { "type": "no input" } },
+                    { "header": "Yield", "visible": true, "inputType": { "type": "no input" } },
+                    { "header": "Units", "visible": true, "inputType": { "type": "no input" } },
+                ],
             }, 
+
             computed: {
                 harvestReportRows() {
                     let tableRows = [];
                     for (let log of this.harvestLogsData) {
                         let cropName = this.idToCropMap.get(log.data.crop_tid) || "Unknown";
-                        
-                        // Only add the row if the crop matches the selected crop (or if "All" is selected)
+
                         if (this.selectedCrop === "All" || cropName === this.selectedCrop) {
-                            let tableRow = {
-                                date: dayjs.unix(log.timestamp).format("YYYY-MM-DD"), // Convert timestamp to readable date
-                                area: log.area && log.area.length > 0 ? log.area[0].name : "Unknown", // Extract area name
-                                crop: cropName,
-                                yield: log.quantity.length,
-                                units: log.quantity[0].label,
-                            };
-
-
-                            tableRows.push(tableRow);
+                            tableRows.push({
+                            id: log.id, // Assuming each log has an id property
+                            data: [
+                                log.id, // Row
+                                dayjs.unix(log.timestamp).format("YYYY-MM-DD"), // Date
+                                log.area && log.area.length > 0 ? log.area[0].name : "Unknown", // Area
+                                cropName, // Crop
+                                log.quantity.length, // Yield
+                                log.quantity[0].label, // Units
+                            ]
+                            });
                         }
                     }
                     return tableRows;
