@@ -24,11 +24,14 @@
             <br>
 
             <div>
-                <label for="crop">Crop:</label>
-                <select id="crop" name="crop" v-model="selectedCrop" data-cy="crop-dropdown">
-                    <option v-for="crop in cropNames" :key="crop" :value="crop">{{ crop }}</option>
-                </select>
-            </div>
+                <dropdown-with-all data-cy="crop-dropdown"
+                    includes-all 
+                    :disabled="false"
+                    :dropdown-list="cropNames" 
+                    :selected-val="selectedCrop" 
+                    @selection-changed="handleCropSelectionChange"
+                >Crop:</dropdown-with-all>
+            </div>            
             <br>
 
             <div>
@@ -109,10 +112,13 @@
     <script>
         var app = new Vue({
             el: '#app',
+            components: {
+                'dropdown-with-all': DropdownWithAllComponent,
+            },
             data: {
                 reportTitle: "My Sample Harvest Report",
                 areas: ["All", "Chuau-1", "SQ7"],   
-                selectedCrop: "", 
+                selectedCrop: "All", 
                 selectedArea: "All", 
                 startDate: "2020-05-05",
                 endDate: "2020-05-15",
@@ -125,28 +131,28 @@
                 cropNames: []
             }, 
             computed: {
-    harvestReportRows() {
-        let tableRows = [];
-        for (let log of this.harvestLogsData) {
-            let cropName = this.idToCropMap.get(log.data.crop_tid) || "Unknown";
-            
-            // Only add the row if the crop matches the selected crop (or if "All" is selected)
-            if (this.selectedCrop === "All" || cropName === this.selectedCrop) {
-                let tableRow = {
-                    date: dayjs.unix(log.timestamp).format("YYYY-MM-DD"), // Convert timestamp to readable date
-                    area: log.area && log.area.length > 0 ? log.area[0].name : "Unknown", // Extract area name
-                    crop: cropName,
-                    yield: log.quantity.length,
-                    units: log.quantity[0].label,
-                };
+                harvestReportRows() {
+                    let tableRows = [];
+                    for (let log of this.harvestLogsData) {
+                        let cropName = this.idToCropMap.get(log.data.crop_tid) || "Unknown";
+                        
+                        // Only add the row if the crop matches the selected crop (or if "All" is selected)
+                        if (this.selectedCrop === "All" || cropName === this.selectedCrop) {
+                            let tableRow = {
+                                date: dayjs.unix(log.timestamp).format("YYYY-MM-DD"), // Convert timestamp to readable date
+                                area: log.area && log.area.length > 0 ? log.area[0].name : "Unknown", // Extract area name
+                                crop: cropName,
+                                yield: log.quantity.length,
+                                units: log.quantity[0].label,
+                            };
 
 
-                tableRows.push(tableRow);
+                            tableRows.push(tableRow);
+                        }
+                    }
+                    return tableRows;
+                }
             }
-        }
-        return tableRows;
-    }
-}
 
             ,
             created() {
@@ -198,7 +204,11 @@
                             .catch((err) => {
                                 console.error("Error fetching harvest logs:", err);
                             });
-                }
+                }, 
+                handleCropSelectionChange(newSelection) {
+                    // Update the selectedCrop to the new selection
+                    this.selectedCrop = newSelection;
+                },
             }
         });
         Vue.config.devtools = true;
