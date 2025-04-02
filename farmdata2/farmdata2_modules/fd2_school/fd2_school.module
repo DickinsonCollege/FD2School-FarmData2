@@ -117,7 +117,17 @@ function fd2_school_menu() {
     'page arguments' => array('e2e'),               // The html file with the default content for the tab
     'access arguments' => array('view fd2 school'),  // permissions required to view the tab
     'type' => MENU_LOCAL_TASK,                        // Put it on the menu
-    'weight' => 140,                                  // larger weights appear further right.
+    'weight' => 150,                                  // larger weights appear further right.
+  );
+
+      // Add items blocks for new sub-tabs here.
+  $items['farm/fd2-school/fd2'] = array(                 // Put the school in the farm menu
+    'title' => 'FD2',                         // Put FD2 School on the tab
+    'page callback' => 'fd2_school_view',            // The function that will provide the content
+    'page arguments' => array('fd2'),               // The html file with the default content for the tab
+    'access arguments' => array('view fd2 school'),  // permissions required to view the tab
+    'type' => MENU_LOCAL_TASK,                        // Put it on the menu
+    'weight' => 160,                                  // larger weights appear further right.
   );
   return $items;
 };
