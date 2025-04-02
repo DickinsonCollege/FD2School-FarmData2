@@ -5,10 +5,7 @@
         <label for="title">Title:</label>
         <input type="text" id="title" name="title" v-model="reportTitle"/><br />
 
-        <label for="crop">Crop:</label>
-        <select id="crop" name="crop" v-model="reportCrop" data-cy="crop-selection">
-                <option v-for="crop in cropNames">{{ crop }}</option>
-        </select><br />
+	<dropdown-with-all data-cy="crop-selection" includes-all :selected-val='reportCrop' :dropdown-list='cropNames' @selection-changed='cropChanged'> Crop: </dropdown-with-all><br />
 
         <label for="field">Field:</label>
         <select id="field" name="field">
@@ -67,7 +64,7 @@
 			reportLanguage: "",
                         reportStartDate: "2020-05-05",
 			reportEndDate: "2020-05-15",
-			reportCrop: "Kale",
+			reportCrop: "All",
 			areas: ["All", "Chuau-1", "SQ7",],
 			idToCropMap: new Map(),
                         idToAreaMap: new Map(),
@@ -104,6 +101,9 @@
 
 
 		methods: {
+			cropChanged(newCrop) {
+				this.reportCrop = newCrop
+			},
 			generateReport: function() {
 				axios.get('/farm.json')
 				.then((response) => {
@@ -153,6 +153,12 @@
 
 
 		},
+
+		components: {
+			'dropdown-with-all': DropdownWithAllComponent,
+		},
+
+
 
         });
 	Vue.config.devtools = true;
