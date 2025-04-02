@@ -1,10 +1,10 @@
-describe("Test the report generation", () => {
+describe("Test the table", () => {
     beforeEach(() => {
         cy.login("manager1", "farmdata2")
         cy.visit("/farm/fd2-school/fd2")
     })
 
-    it("Check the report title exists", () => {
+    it("Check the table headers", () => {
 	cy.get("[data-cy=generate-report-button]").click()
 	cy.get("[data-cy=h0]").should("have.text","Date")
         cy.get("[data-cy=h1]").should("have.text","Area")
@@ -14,6 +14,11 @@ describe("Test the report generation", () => {
 
     })
 
+    it("Check the table length", () => {
+        cy.get("[data-cy=generate-report-button]").click()
+        cy.get("[data-cy=table-headers]").children().should("have.length",7)
+
+    })
 
 
 
