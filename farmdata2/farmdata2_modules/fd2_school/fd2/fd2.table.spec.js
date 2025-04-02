@@ -14,9 +14,16 @@ describe("Test the table", () => {
 
     })
 
-    it("Check the table length", () => {
+    it("Check the number of columns", () => {
         cy.get("[data-cy=generate-report-button]").click()
         cy.get("[data-cy=table-headers]").children().should("have.length",7)
+
+    })
+
+    it("Check the table rows", () => {
+        cy.get("[data-cy=generate-report-button]").click()
+	cy.get("[data-cy=crop-selection] > [data-cy=dropdown-input]").select("BOKCHOY")
+        cy.get("[data-cy=table-body").children().should("have.length",3)
 
     })
 
