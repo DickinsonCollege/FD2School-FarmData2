@@ -105,6 +105,7 @@
                 crops: [],
                 areas: ["A", "B", "C", "D", "E"],
                 logs: [],
+                harvestLogs: [],
                 idToCropMap: new Map(),
             },
             computed:{
@@ -114,6 +115,26 @@
             },
             methods: {
                 generateReport: function () {
+
+                    let startTimestamp = dayjs(this.startDate).unix();
+                    let endTimestamp = dayjs(this.endDate).unix();
+
+                    console.log("Start Date Timestamp:", startTimestamp);
+                    console.log("End Date Timestamp:", endTimestamp);
+
+                    let requestUrl = `/log.json?type=farm_harvest&timestamp[ge]=${startTimestamp}&timestamp[le]=${endTimestamp}`;
+                    console.log("Harvest Log Request URL:", requestUrl);
+
+                    getAllPages(requestUrl, this.harvestLogs)
+                    .then(() => {
+                    console.log("Successfully loaded harvest logs into harvestLogs array.");
+                    console.log(this.harvestLogs);
+                        })
+                    .catch((err) => {
+                    console.log("An error occurred while requesting harvest logs:");
+                    console.error(err);
+                    });
+
                     axios.get('/farm.json')
                     .then((response) => { 
                     
