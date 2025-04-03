@@ -1,35 +1,11 @@
-!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Vue Harvest Report</title>
-    <script src="https://unpkg.com/vue@2"></script>
-    <style>
-        [v-cloak] {
-            display: none;
-        }
-    </style>
-</head>
-
-<body>
-
+<div id="VueObject" v-cloak>
     <h1 data-cy="page-header">Harvest Report</h1>
     <p>This page is a <i>mockup</i> of a simplified harvest report.</p>
     <hr>
 
-    <div id="VueObject" v-cloak>
+    <div >
         <label for="ReportTitle">Enter Report Title:</label>
         <input type="text" v-model="title" id="ReportTitle">
-
-        <h1>{{ title }}</h1>
-
-        <p>Details:</p>
-        <ul>
-            <li><strong>Farm</strong>: {{ farm }} </li>
-            <li><strong>User</strong>: {{ user }}</li>
-            <li><strong>Language</strong>: {{ language }}</li>
-        </ul>
 
         <br>
         <label for="startDate">Start Date:</label>
@@ -48,13 +24,19 @@
             <option v-for="area in areas" :value="area">{{ area }}</option>
         </select>
 
+        <input type="button" value="Generate Report" @click="generateReport" data-cy="generate-report-button"/>
+    </div>
+    <div v-if="reportVisible">
+        <h1 data-cy="report-header" > {{ title }}</h1>
+        <p>Details:</p>
         <ul>
+            <li><strong>Farm</strong>: {{ farm }} </li>
+            <li><strong>User</strong>: {{ user }}</li>
+            <li><strong>Language</strong>: {{ language }}</li>
             <li><strong>Start</strong>: {{ startDate }}</li>
             <li><strong>End</strong>: {{ endDate }}</li>
             <li><strong>Crop</strong>: {{ crop }}</li>
         </ul>
-
-        <input type="button" value="Generate Report" @click="generateReport" />
 
         <p v-if="harvestReportRows.length === 0">No matching records found.</p>
 
@@ -76,7 +58,7 @@
             </tr>
         </table>
     </div>
-
+</div>
     <script>
         var app = new Vue({
             el: '#VueObject',
@@ -107,6 +89,7 @@
                 logs: [],
                 harvestLogs: [],
                 idToCropMap: new Map(),
+                reportVisible: false,
             },
             computed:{
                 cropNames() {
@@ -159,13 +142,12 @@
 
                     })
                 
+                    if(this.reportVisible == false) {
+                        this.reportVisible = true;
+                    }
                 }
             }
         });
 
         Vue.config.devtools = true;
     </script>
-
-</body>
-
-</html>
