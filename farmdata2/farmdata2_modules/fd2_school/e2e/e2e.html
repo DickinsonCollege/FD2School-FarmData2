@@ -22,7 +22,7 @@
             <option v-for="area in areas">{{ area }}</option>
         </select></br></br>
 
-        <button type="button" v-on:click="newExLog">Generate Report</button><hr />
+        <button data-cy="generate-report-button" type="button" v-on:click="newExLog">Generate Report</button><hr />
 
 
 
@@ -32,9 +32,9 @@
 
         <p>Details:</p>
         <ul>
-            <li><strong>Farm: </strong>{{ farm }}</li>
-            <li><strong>User:  </strong>{{ user }}</li>
-            <li><strong>Language: </strong>{{ language }}</li>
+            <li data-cy="farm-name"><strong>Farm: </strong>{{ farm }}</li>
+            <li data-cy="user-name"><strong>User:  </strong>{{ user }}</li>
+            <li><strong>Language: </strong><span data-cy="language">{{ language }}</span></li>
         </ul> <br/>
         <ul>
             <div v-cloak id="vue-startDate">
