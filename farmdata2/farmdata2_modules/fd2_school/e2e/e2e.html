@@ -13,7 +13,7 @@
         <input data-cy='end-date' type="date" id="end" name="end" :min="startDate" max="2022-01-01" v-model="endDate"/></br></br>
 
         <label for="crop">Crop: </label>
-        <select id="crop" name="crop" v-model="cropSelection">
+        <select data-cy="crop-selector" id="crop" name="crop" v-model="cropSelection">
             <option v-for="crop in cropNames">{{ crop }}</option>
         </select>
         
@@ -122,7 +122,6 @@
                 let startTimestamp = dayjs(this.startDate).unix();
                 let endTimestamp = dayjs(this.endDate).unix();
                 let timestampString = '/log.json?type=farm_harvest&timestamp[ge]=' + startTimestamp + '&timestamp[le]=' + endTimestamp;
-
                 getAllPages(timestampString, this.apiResults)
                 .then(() => {
 
