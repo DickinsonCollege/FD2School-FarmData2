@@ -39,7 +39,7 @@
         <input type="date" id="endDate" v-model="endDate" :min="startDate" data-cy="end-date">
 
         <label for="crop">Select Crop:</label>
-        <select id="crop" v-model="crop">
+        <select id="crop" v-model="crop" data-cy="crop-select">
             <option v-for="crop in cropNames" :value="crop">{{ crop }}</option>
         </select>
 
@@ -115,14 +115,14 @@
                 harvestReportRows() {
                     let tableRows = [];
                     for (let log of this.harvestLogs) {
-                        const cropName = this.idToCropMap.get(log.data.crop_tid);
-                        if (this.crop === "" || this.crop === cropName) {
+                        const cropNames = this.idToCropMap.get(log.data.crop_tid);
+                        if (this.crop === "" || this.crop === cropNames) {
 		                    let tableRow = {
 			                    date: dayjs.unix(log.timestamp).format("YYYY-MM-DD"),
                                 area: log.area[0].name,
                                 yield: log.quantity[0].value,
                                 units: log.quantity[0].unit.name,
-                                crop: cropName
+                                crop: cropNames
 		                }
 		                tableRows.push(tableRow);
                     }
