@@ -1,7 +1,7 @@
 describe("Test the harvest report with interaction", () => {
     beforeEach(() => {
         cy.login("manager1", "farmdata2")
-        cy.visit("/farm/fd2-school/e2e")
+        cy.visit("/farm/fd2-school/fd2")
     })
       
     it("Clicks Generate Report Button", () => {
