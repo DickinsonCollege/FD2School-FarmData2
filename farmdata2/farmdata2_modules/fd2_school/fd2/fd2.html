@@ -39,24 +39,11 @@
         <li><strong>Crop:</strong>{{selCrop}}</li>
     </ul>
     <br>
-        <table border=1>
-            <tr>
-                <th>Row</th>
-                <th>Date</th>
-                <th>Area</th>
-                <th>Crop</th>
-                <th>Yield</th>
-                <th>Units</th>
-            </tr>
-            <tr v-for="log, index in harvestReportRows">
-                    <th>{{index + 1}}</th>
-                    <th>{{log.date}}</th>
-                    <th>{{log.area}}</th>
-                    <th>{{log.crop}}</th>
-                    <th>{{log.yield}}</th>
-                    <th>{{log.units}}</th>
-            </tr>
-        </table>
+        <custom-table data-cy="customTable"
+            :columns="columns"
+            :rows="genHarvestReportRows" 
+            >
+        </custom-table>
     </div> 
     <p v-else>No harvest logs to display.</p>   
 </div>
@@ -65,6 +52,7 @@
         el: '#pageContent',
         components: {
             'dropdown-with-all': DropdownWithAllComponent,
+            'custom-table': CustomTableComponent,
         },
         data: {
             state: 'hide',
@@ -83,39 +71,47 @@
                 "SQ7"
             ],
             logResults: [
-
             ],
             harvestLogs: [
+            ],
+            columns: [
+            {"header": 'ID', "visible": true, "inputType": {'type': 'no input'}},
+            {"header": 'Date', "visible": true, "inputType": {'type': 'no input'}},
+            {"header": 'Area', "visible": true, "inputType": {'type': 'no input'}},
+            {"header": 'Crop', "visible": true, "inputType": {'type': 'no input'}},
+            {"header": 'Yield', "visible": true, "inputType": {'type': 'no input'}},
+            {"header": 'Units', "visible": true, "inputType": {'type': 'no input'}},
             ]
         },
         computed: {
             cropNames() {
                 return Array.from(this.idToCropMap.values())
             },
-            harvestReportRows() {
-	            let tableRows = []
-	            for(let log of this.logResults) {
-		            
+            genHarvestReportRows() {
+                let tableRows = []
+                for (let log of this.logResults) {
                     if (this.selCrop == 'All') {
-                        let tableRow = {
-			                date: dayjs.unix(log.timestamp).format('MM/DD/YYYY'),
-                            area: log.area[0].name,
-                            yield: log.quantity[0].value,
-                            units: log.quantity[0].unit.name,
-                            crop: this.idToCropMap.get(log.data.crop_tid)
-                        }
+                        let tableRow = {id: log.id,
+                            data: [log.id,
+                                dayjs.unix(log.timestamp).format('MM/DD/YYYY'),
+                                log.area[0].name,
+                                this.idToCropMap.get(log.data.crop_tid),
+                                log.quantity[0].value,
+                                log.quantity[0].unit.name
+                        ]}
                         tableRows.push(tableRow)
                     } else if (this.idToCropMap.get(log.data.crop_tid) == this.selCrop) {
-                        let tableRow = {
-			                date: dayjs.unix(log.timestamp).format('MM/DD/YYYY'),
-                            area: log.area[0].name,
-                            yield: log.quantity[0].value,
-                            units: log.quantity[0].unit.name,
-                            crop: this.idToCropMap.get(log.data.crop_tid)
-                        }
+                        let tableRow = {id: log.id,
+                            data: [log.id,
+                                dayjs.unix(log.timestamp).format('MM/DD/YYYY'),
+                                log.area[0].name,
+                                this.idToCropMap.get(log.data.crop_tid),
+                                log.quantity[0].value,
+                                log.quantity[0].unit.name
+                        ]}
                         tableRows.push(tableRow)
                     }
-	            }
+                }
                 return tableRows
             }
 
