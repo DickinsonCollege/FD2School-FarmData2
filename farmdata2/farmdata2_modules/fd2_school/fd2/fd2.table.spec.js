@@ -17,6 +17,10 @@ describe("Test the generated table", () => {
     })
 
     it("Testing correctness of values", () => {
-        
+        cy.get("[data-cy=dropdown-input]").select("ARUGULA")
+        cy.get("[data-cy=generate-report-button]").click()
+        cy.get("[data-cy=table-body]").children()
+            .should("have.length",4)
+
     })
 })
