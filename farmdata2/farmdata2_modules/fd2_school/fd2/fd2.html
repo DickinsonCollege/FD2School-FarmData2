@@ -110,7 +110,7 @@
                     let tableRows = [];
                     for (let log of this.harvestLogs) {
                         const cropNames = this.idToCropMap.get(log.data.crop_tid);
-                        if (this.crop === "" || this.crop === cropNames) {
+                        if (this.crop === "All" || this.crop === cropNames) {
 		                    let tableRow = {
 			                    date: dayjs.unix(log.timestamp).format("YYYY-MM-DD"),
                                 area: log.area[0].name,
