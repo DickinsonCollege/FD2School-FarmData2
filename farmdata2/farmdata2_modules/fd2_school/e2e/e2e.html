@@ -8,7 +8,7 @@
         <label for="report-title">Report Title:</label>
         <input type="text" id="report-title" v-model="reportTitle">
         
-        <h1>Harvest Report</h1>
+        <h1 data-cy="page-header">Harvest Report</h1>
         <p>This is a <em>mockup</em> of the report.</p>
         <hr>
         <h1>{{ reportTitle }}</h1>
@@ -34,10 +34,10 @@
         </select>
 
         <label for="start-date">Start Date:</label>
-        <input type="date" id="start-date" v-model="startDate" :max="endDate">
+        <input type="date" id="start-date" v-model="startDate" :max="endDate" data-cy="start-date">
 
         <label for="end-date">End Date:</label>
-        <input type="date" id="end-date" v-model="endDate" :min="startDate">
+        <input type="date" id="end-date" v-model="endDate" :min="startDate" data-cy="end-date">
 
 
         <ul>     
