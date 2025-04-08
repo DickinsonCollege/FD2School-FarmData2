@@ -48,7 +48,7 @@
 
         <button @click="generateReport">Generate Report</button>
         
-        <div v-if="harvestLogs.length > 0">
+        <div v-if="harvestReportRows.length > 0">
             <table border="1">
                 <thead>
                     <tr>
@@ -61,12 +61,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(log, index) in harvestLogs" :key="index">
+                    <tr v-for="(log, index) in harvestReportRows" :key="index">
                         <td>{{ index + 1 }}</td> 
                         <td>{{ log.date }}</td>
                         <td>{{ log.crop }}</td>
                         <td>{{ log.area }}</td>
-                        <td>{{ log.yield }}</td>
+                        <td>{{ log.quantity }}</td>
                         <td>{{ log.units }}</td>
                     </tr>
                 </tbody>
@@ -92,15 +92,45 @@
                 selectedField: 'all',
                 areas: ['All', 'Chuau-1', 'SQ7'],
                 harvestLogs: [],
-                idToCropMap: new Map()
+                idToCropMap: new Map(),
+                apiHarvestLogs: []
             },
             computed:{
                 cropNames(){
                     return this.idToCropMap.values();
+                },
+                harvestReportRows() {
+                    
+                    
+                    let tableRows = [];
+                    for (let log of this.apiHarvestLogs) {
+                        let tableRow = {
+                            date: log.timestamp,
+                            area: log.area[0].name,
+                            crop: this.idToCropMap.get(log.data.crop_tid),
+                            quantity: log.quantity[0].value,
+                            units: log.quantity[0].unit.name
+                        };
+                        tableRows.push(tableRow);
+                    }
+                    return tableRows;
                 }
             },
             methods: {
                 generateReport() {
+                    const startTimestamp = dayjs(this.startDate).unix();
+                    const endTimestamp = dayjs(this.endDate).unix();
+
+                    const requestUrl = `/log.json?type=farm_harvest&timestamp[ge]=${startTimestamp}&timestamp[le]=${endTimestamp}`;
+
+                    getAllPages(requestUrl)
+                    .then((response) => {
+                        console.log("Got Logs!");
+                        console.log(response);
+
+                        this.apiHarvestLogs = response 
+                    })
+                    
                     axios.get('/farm.json')
                     .then((response) => {
                         console.log("Got Response");
@@ -114,14 +144,6 @@
                         console.log("Error Occurred");
                         console.log(error);
                     });
-
-                    this.harvestLogs.push({
-                        date: "2018-05-01",
-                        area: "Orion-3",
-                        crop: "Carrots",
-                        yield: 50,
-                        units: "Kg"
-                    });
                 },
             },
             created() {
@@ -132,6 +154,8 @@
                     })
                     .catch((err) => {
                     })
+
+              
             }
         });
         Vue.config.devtools = true;
