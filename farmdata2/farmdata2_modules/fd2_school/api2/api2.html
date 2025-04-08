@@ -88,7 +88,7 @@
                 reportTitle: 'My Sample Harvest Report',
                 startDate: '2020-05-05',
                 endDate: '2020-05-15',
-                selectedCrop: 'kale',
+                selectedCrop: null,
                 selectedField: 'all',
                 areas: ['All', 'Chuau-1', 'SQ7'],
                 harvestLogs: [],
@@ -97,21 +97,23 @@
             },
             computed:{
                 cropNames(){
-                    return this.idToCropMap.values();
+                    return Array.from(this.idToCropMap.values());
                 },
                 harvestReportRows() {
                     
-                    
                     let tableRows = [];
                     for (let log of this.apiHarvestLogs) {
-                        let tableRow = {
-                            date: log.timestamp,
-                            area: log.area[0].name,
-                            crop: this.idToCropMap.get(log.data.crop_tid),
-                            quantity: log.quantity[0].value,
-                            units: log.quantity[0].unit.name
-                        };
-                        tableRows.push(tableRow);
+                        const cropName = this.idToCropMap.get(log.data.crop_tid);
+                        if (cropName === this.selectedCrop) {
+                            let tableRow = {
+                                date: log.timestamp,
+                                area: log.area[0].name,
+                                crop: this.idToCropMap.get(log.data.crop_tid),
+                                quantity: log.quantity[0].value,
+                                units: log.quantity[0].unit.name
+                            };
+                            tableRows.push(tableRow);
+                        }
                     }
                     return tableRows;
                 }
