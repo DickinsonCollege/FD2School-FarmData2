@@ -17,6 +17,13 @@ describe("Harvest Report Table Headers", () => {
       .children()
       .should('have.length', 5); 
     });
-
+      
+    it("filters the table by selected crop", () => {
+        cy.get('[data-cy=crop-select] > [data-cy=dropdown-input]').select('BEAN');
+        cy.get('[data-cy=generate-report-button]').click();
     
-  });
+        cy.get('[data-cy=harvest-report-table]').should('exist');
+        
+    });   
+
+});
