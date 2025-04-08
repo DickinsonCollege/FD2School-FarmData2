@@ -5,7 +5,7 @@
 </head>
 <body>
     <div id="app" v-cloak>
-        <label for="report-title">Report Title:</label>
+        <h1 v-if="harvestReportRows.length > 0" data-cy="report-header">{{ reportTitle }}</h1>
         <input type="text" id="report-title" v-model="reportTitle">
         
         <h1 data-cy="page-header">Harvest Report</h1>
@@ -46,7 +46,7 @@
             <li><strong>Other plants</strong> was seeded</li> 
         </ul> 
 
-        <button @click="generateReport">Generate Report</button>
+        <button @click="generateReport" data-cy="generate-report-button">Generate Report</button>
         
         <div v-if="harvestReportRows.length > 0">
             <table border="1">
