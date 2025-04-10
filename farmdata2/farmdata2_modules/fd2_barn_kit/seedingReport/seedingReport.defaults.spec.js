@@ -12,12 +12,17 @@ describe('Test the Seeding Report Default View', () => {
 
   it('displays correct defaults', () => {
 
+
   // Check default start and end dates
   const expectedStart = dayjs().startOf('year').format('YYYY-MM-DD').toString()
   const expectedEnd = dayjs().format('YYYY-MM-DD').toString()
 
-  cy.get('[data-cy=start-date]').should('have.value', expectedStart)
-  cy.get('[data-cy=end-date]').should('have.value', expectedEnd)
+  cy.get('[data-cy="date-range-selection"]').within(() => {
+    cy.get('input[type="date"]').eq(0).should('have.value', expectedStart)  //Test Start Date
+    cy.get('input[type="date"]').eq(1).should('have.value', expectedEnd)   //Test End Date
+
+  });
+  
   
 
   // Report should NOT be visible by default
