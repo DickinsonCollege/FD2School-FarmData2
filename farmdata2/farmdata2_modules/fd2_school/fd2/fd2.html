@@ -24,9 +24,14 @@
       
 
         <label for="crop">Crop:</label>
-        <select id="crop" name="crop" v-model="selectedCrop" data-cy="crop-dropdown">
-            <option v-for="crop in cropNames" :key="crop" :value="crop">{{ crop }}</option>
-        </select>
+        <dropdown-with-all
+            data-cy="crop-dropdown"
+            :dropdown-list="cropNames"
+            includes-all
+            :selected-val="selectedCrop"
+            @selection-changed="cropChange"
+            :disabled="false"
+        ></dropdown-with-all>
         
         <label for="field">Area:</label>
         <select id="field" name="field" v-model="selectedField">
@@ -81,6 +86,9 @@
       
         var app = new Vue({
             el: '#app',
+            components: {
+                'dropdown-with-all': DropdownWithAllComponent
+            },
             data: {
                 farm: "",
                 user: "",
@@ -88,7 +96,7 @@
                 reportTitle: 'My Sample Harvest Report',
                 startDate: '2020-05-05',
                 endDate: '2020-05-15',
-                selectedCrop: null,
+                selectedCrop: 'All',  // Changed from null to 'All'
                 selectedField: 'all',
                 areas: ['All', 'Chuau-1', 'SQ7'],
                 harvestLogs: [],
@@ -104,7 +112,7 @@
                     let tableRows = [];
                     for (let log of this.apiHarvestLogs) {
                         const cropName = this.idToCropMap.get(log.data.crop_tid);
-                        if (cropName === this.selectedCrop) {
+                        if (cropName == this.selectedCrop || this.selectedCrop == "All") {
                             let tableRow = {
                                 date: log.timestamp,
                                 area: log.area[0].name,
@@ -119,6 +127,9 @@
                 }
             },
             methods: {
+                cropChange(newCrop) {
+                    this.selectedCrop = newCrop
+                },
                 generateReport() {
                     const startTimestamp = dayjs(this.startDate).unix();
                     const endTimestamp = dayjs(this.endDate).unix();
