@@ -1,0 +1,168 @@
+<html>
+<head>
+    <title>Vue Harvest Report</title>
+    
+</head>
+<body>
+    <div id="app" v-cloak>
+        <h1 v-if="harvestReportRows.length > 0" data-cy="report-header">{{ reportTitle }}</h1>
+        <input type="text" id="report-title" v-model="reportTitle">
+        
+        <h1 data-cy="page-header">Harvest Report</h1>
+        <p>This is a <em>mockup</em> of the report.</p>
+        <hr>
+        <h1>{{ reportTitle }}</h1>
+        <p>Start Date: {{ startDate }}</p>  
+        <p>End Date: {{ endDate }}</p>
+        <p>Selected Crop: {{ selectedCrop }}</p>
+        <br>
+        <p>Details</p>
+        <p><strong>Farm:</strong> {{ farm }}</p>
+        <p><strong>User:</strong> {{ user }}</p>
+        <p><strong>Language:</strong> {{ language }}</p>
+
+      
+
+        <label for="crop">Crop:</label>
+        <select id="crop" name="crop" v-model="selectedCrop" data-cy="crop-dropdown">
+            <option v-for="crop in cropNames" :key="crop" :value="crop">{{ crop }}</option>
+        </select>
+        
+        <label for="field">Area:</label>
+        <select id="field" name="field" v-model="selectedField">
+            <option v-for="area in areas" :key="area" :value="area">{{ area }}</option>
+        </select>
+
+        <label for="start-date">Start Date:</label>
+        <input type="date" id="start-date" v-model="startDate" :max="endDate" data-cy="start-date">
+
+        <label for="end-date">End Date:</label>
+        <input type="date" id="end-date" v-model="endDate" :min="startDate" data-cy="end-date">
+
+
+        <ul>     
+            <li><strong>Corn</strong> was seeded</li>     
+            <li><strong>Broccoli</strong> was seeded</li>     
+            <li><strong>Other plants</strong> was seeded</li> 
+        </ul> 
+
+        <button @click="generateReport" data-cy="generate-report-button">Generate Report</button>
+        
+        <div v-if="harvestReportRows.length > 0">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Row</th>
+                        <th>Date</th>
+                        <th>Crop</th>
+                        <th>Field</th>
+                        <th>Quantity</th>
+                        <th>Units</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(log, index) in harvestReportRows" :key="index">
+                        <td>{{ index + 1 }}</td> 
+                        <td>{{ log.date }}</td>
+                        <td>{{ log.crop }}</td>
+                        <td>{{ log.area }}</td>
+                        <td>{{ log.quantity }}</td>
+                        <td>{{ log.units }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p v-else>No matching records found.</p>
+        
+
+    </div>
+
+    <script>
+      
+        var app = new Vue({
+            el: '#app',
+            data: {
+                farm: "",
+                user: "",
+                language: "",
+                reportTitle: 'My Sample Harvest Report',
+                startDate: '2020-05-05',
+                endDate: '2020-05-15',
+                selectedCrop: null,
+                selectedField: 'all',
+                areas: ['All', 'Chuau-1', 'SQ7'],
+                harvestLogs: [],
+                idToCropMap: new Map(),
+                apiHarvestLogs: []
+            },
+            computed:{
+                cropNames(){
+                    return Array.from(this.idToCropMap.values());
+                },
+                harvestReportRows() {
+                    
+                    let tableRows = [];
+                    for (let log of this.apiHarvestLogs) {
+                        const cropName = this.idToCropMap.get(log.data.crop_tid);
+                        if (cropName === this.selectedCrop) {
+                            let tableRow = {
+                                date: log.timestamp,
+                                area: log.area[0].name,
+                                crop: this.idToCropMap.get(log.data.crop_tid),
+                                quantity: log.quantity[0].value,
+                                units: log.quantity[0].unit.name
+                            };
+                            tableRows.push(tableRow);
+                        }
+                    }
+                    return tableRows;
+                }
+            },
+            methods: {
+                generateReport() {
+                    const startTimestamp = dayjs(this.startDate).unix();
+                    const endTimestamp = dayjs(this.endDate).unix();
+
+                    const requestUrl = `/log.json?type=farm_harvest&timestamp[ge]=${startTimestamp}&timestamp[le]=${endTimestamp}`;
+
+                    getAllPages(requestUrl)
+                    .then((response) => {
+                        console.log("Got Logs!");
+                        console.log(response);
+
+                        this.apiHarvestLogs = response 
+                    })
+                    
+                    axios.get('/farm.json')
+                    .then((response) => {
+                        console.log("Got Response");
+                        console.log(response);
+                        
+                        this.farm = response.data.name;
+                        this.user = response.data.user.name;
+                        this.language = response.data.languages.en.name;
+                    })
+                    .catch((error) => {
+                        console.log("Error Occurred");
+                        console.log(error);
+                    });
+                },
+            },
+            created() {
+                
+                getIDToCropMap()
+                    .then((theMap) => {
+                        this.idToCropMap = theMap
+                    })
+                    .catch((err) => {
+                    })
+
+              
+            }
+        });
+        Vue.config.devtools = true;
+
+        
+    </script>
+</body>
+</html>
