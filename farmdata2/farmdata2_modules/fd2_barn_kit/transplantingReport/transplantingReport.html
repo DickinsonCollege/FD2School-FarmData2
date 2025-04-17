@@ -1,9 +1,9 @@
 <body>
     <div id="transplantingReport" v-cloak>
-        <h1 class="text-center">Transplanting Report</h1>
+        <h1 class="text-center" data-cy="transplant-report-header">Transplanting Report</h1>
         <error-banner data-cy="alert-err-handler" :visible="errBannerVisibility"></error-banner>
         <fieldset :disabled="rowBeingEdited" class="panel panel-default center-block" style="width: 50%;">
-            <legend class="panel-heading" style="background-color: #d62a17; color: white;">Set Dates</legend>
+            <legend class="panel-heading" data-cy="set-date-legend" style="background-color: #d62a17; color: white;">Set Dates</legend>
             <div style="display: flex;width: 100%; padding: 7px">
                 <date-range-selection data-cy="date-range-selection" class="center-block" @start-date-changed='startDateChange' @end-date-changed='endDateChange' 
                 @click='hide'
@@ -32,7 +32,7 @@
 
             <div data-cy="loader" class="loader center-block" v-if="stillLoading"></div>
 
-            <div v-if="!stillLoading && transplantingLogs.length != 0">
+            <div data-cy="report-remainder" v-if="!stillLoading && transplantingLogs.length != 0">
                 <br>
                 <div style="display: flex; width: 100%;">
                     <fieldset data-cy="transplanting-summary" class="center-block panel panel-default" style="width: 50%;">
