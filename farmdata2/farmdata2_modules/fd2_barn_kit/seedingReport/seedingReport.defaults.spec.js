@@ -26,8 +26,6 @@ describe('Test the Seeding Report Default View', () => {
 
   });
 
-
-
   // Report should NOT be visible by default
   cy.get('[data-cy="filters-panel"]').should('not.exist');
   cy.get('[data-cy="report-table"]').should('not.exist');
