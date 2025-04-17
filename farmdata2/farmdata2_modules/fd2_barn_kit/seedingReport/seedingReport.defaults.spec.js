@@ -11,8 +11,8 @@ describe('Test the Seeding Report Default View', () => {
   });
 
   it('displays correct defaults', () => {
-    cy.contains('h1', "Seeding report");
-    cy.contains('label', "Set Dates");
+    cy.contains('h1', "Seeding Report");
+    cy.contains('legend', "Set Dates");
     cy.get('button').contains("Generate Report").should('be.enabled');
 
 
