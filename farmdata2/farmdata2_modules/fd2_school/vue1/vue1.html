@@ -61,19 +61,12 @@
             <th>Yield</th>
             <th>Units</th>
         </tr>
-        <tr>
-            <td>05/02/2011</td>
-            <td>Chuau-1</td>
-            <td>Kale</td>
-            <td>10</td>
-            <td>Bunches</td>
-        </tr>
-        <tr>
-            <td>05/05/2011</td>
-            <td>SQ7</td>
-            <td>Kale</td>
-            <td>7</td>
-            <td>Bunches</td>
+        <tr v-for="report in reports">
+            <td>{{report.date}}</td>
+            <td>{{report.area}}</td>
+            <td>{{report.crop}}</td>
+            <td>{{report.yield}}</td>
+            <td>{{report.units}}</td>
         </tr>
     </table>
 </div>
@@ -96,7 +89,10 @@
                 "Chuau-1",
                 "SQ7",
             ],
-            
+            reports: [
+                {date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches"},
+                {date: "2018-05-05", area: "SQ7", crop: "Kale", yield: 7, units: "Bunches"},
+            ],
         }
         
     })
