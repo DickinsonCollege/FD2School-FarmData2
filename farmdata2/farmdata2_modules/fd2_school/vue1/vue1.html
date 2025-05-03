@@ -8,27 +8,25 @@
     value="My Sample Harvest Report" v-model="reportTitle"/>
     <br><br>
     <label for="start"> Start: </label>
-    <input
+    <input v-model="startDate"
         type="date"
         id="start"
         name="start"
-        value="2020-05-05"
         min="2014-01-01"
         max="2022-01-01" />
 
     <label for="end"> End: </label>
-    <input
+    <input v-model="endDate"
         type="date"
         id="end"
         name="end"
-        value="2020-05-15"
         min="2020-05-05"
         max="2022-01-01" />
 
     <br><br>
 
     <label for="crop"> Crop: </label>
-    <select id="crop" name="crop">
+    <select id="crop" name="crop" v-model="crop">
         <option>Broccoli</option>
         <option selected>Kale</option>
         <option>Peas</option>
@@ -53,9 +51,9 @@
             <li><b>User:</b>manager1</li>
             <li><b>Language:</b>English</li>
             <br>
-            <li><b>Start:</b>05/01/2018</li>
-            <li><b>End:</b>05/15/2018</li>
-            <li><b>Crop:</b>Kale</li>
+            <li><b>Start:</b>{{startDate}}</li>
+            <li><b>End:</b>{{endDate}}</li>
+            <li><b>Crop:</b>{{crop}}</li>
         </ul>
     </p>
 
@@ -88,7 +86,11 @@
     var vue = new Vue({
         el: "#harvest-report",
         data: {
-            reportTitle: "My Sample Harvest Report"
+            reportTitle: "My Sample Harvest Report",
+            startDate: "2020-05-05",
+            endDate: "2020-05-15",
+            crop: "Kale"
         }
+        
     })
 </script>
