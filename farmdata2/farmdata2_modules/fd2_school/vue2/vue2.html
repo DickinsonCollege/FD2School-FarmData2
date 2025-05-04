@@ -37,7 +37,7 @@
 
     <br><br>
     <input type="button" value="Generate Report" 
-        @click='reports.push({date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches"})'/>
+        @click="saveReport"/>
 
     <hr>
 
@@ -91,8 +91,13 @@
                 "SQ7",
             ],
             reports: [
-                
+
             ],
+        },
+        methods: {
+            saveReport: function() {
+                this.reports.push({date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches"})
+            }
         }
         
     })
