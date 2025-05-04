@@ -104,10 +104,18 @@
         },
         methods: {
             saveReport: function() {
+                axios.get('/farm.json')  // this line sends the request.
+                .then((response) => {
+                    this.farm = response.data.name
+                    this.user = response.data.user.name
+                    this.language = response.data.user.language
+                })
+                .catch((error) => {
+                    console.log("Error Occurred")
+                    console.log(error)
+                })
+
                 this.reports.push({date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches"})
-                this.farm = "Sample Farm"
-                this.user = "manager1"
-                this.language = "English"
             },
             deleteReport: function(index) {
                 this.reports.splice(index, 1)
