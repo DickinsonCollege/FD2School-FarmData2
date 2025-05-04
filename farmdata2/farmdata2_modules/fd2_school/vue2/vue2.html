@@ -36,7 +36,8 @@
     </select>
 
     <br><br>
-    <input type="button" value="Generate Report" />
+    <input type="button" value="Generate Report" 
+        @click='reports.push({date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches"})'/>
 
     <hr>
 
@@ -90,8 +91,7 @@
                 "SQ7",
             ],
             reports: [
-                {date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches"},
-                {date: "2018-05-05", area: "SQ7", crop: "Kale", yield: 7, units: "Bunches"},
+                
             ],
         }
         
