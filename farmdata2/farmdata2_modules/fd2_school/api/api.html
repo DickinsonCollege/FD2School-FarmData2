@@ -43,9 +43,9 @@
     <h1> {{reportTitle=="" ? "Mock Harvest Report" : reportTitle}} </h1>
     <p>Details:
         <ul>
-            <li><b>Farm:</b>Sample Farm</li>
-            <li><b>User:</b>manager1</li>
-            <li><b>Language:</b>English</li>
+            <li><b>Farm:</b>{{farm}}</li>
+            <li><b>User:</b>{{user}}</li>
+            <li><b>Language:</b>{{language}}</li>
             <br>
             <li><b>Start:</b>{{startDate}}</li>
             <li><b>End:</b>{{endDate}}</li>
@@ -81,6 +81,9 @@
     var vue = new Vue({
         el: "#harvest-report",
         data: {
+            farm: "",
+            user: "",
+            language: "",
             reportTitle: "My Sample Harvest Report",
             startDate: "2020-05-05",
             endDate: "2020-05-15",
