@@ -8,7 +8,7 @@
     value="My Sample Harvest Report" v-model="reportTitle"/>
     <br><br>
     <label for="start"> Start: </label>
-    <input v-model="startDate"
+    <input v-model="startDate" data-cy="start-date"
         type="date"
         id="start"
         name="start"
@@ -16,7 +16,7 @@
         :max="endDate"/>
 
     <label for="end"> End: </label>
-    <input v-model="endDate"
+    <input v-model="endDate" data-cy="end-date"
         type="date"
         id="end"
         name="end"
