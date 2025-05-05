@@ -54,7 +54,7 @@
     </p>
 
     <table border="1">
-        <tr v-if="reports == ''"> <th>There are no matching records!</th></tr>
+        <tr v-if="harvestReportRows == ''"> <th>There are no matching records!</th></tr>
         <tr v-else>
             <th>Row</th>
             <th>Date</th>
@@ -65,7 +65,7 @@
             <th>Delete</th>
         </tr>
         
-        <tr v-for="(report, index) in reports">
+        <tr v-for="(report, index) in harvestReportRows">
             <td>{{index + 1}}</td>
             <td>{{report.date }}</td>
             <td>{{report.area}}</td>
@@ -109,8 +109,7 @@
             crop: "Kale",
             idToCropMap: new Map(),
             idToAreaMap: new Map(),
-            allPages: [],
-            reports: [],
+            harvestLogs: [],
         },
         computed: {
             cropNames() {
@@ -119,6 +118,21 @@
             areaNames() {
                 return Array.from(this.idToAreaMap.values())
             },
+            harvestReportRows() {
+                let tableRows = []
+                for(let log of this.harvestLogs) {
+                    let tableRow = {
+                        date: dayjs.unix(log.timestamp).format("YYYY-MM-DD"),
+                        area: log.area[0].name,
+                        yield: log.quantity[0].value,
+                        units: log.quantity[0].unit.name,
+                        crop: this.idToCropMap.get(log.data.crop_tid),
+                    }
+                    tableRows.push(tableRow)
+                }
+                return tableRows
+            },
+
         },
         methods: {
             saveReport: function() {
@@ -135,22 +149,18 @@
 
                 let startTimestamp = dayjs(this.startDate).unix()
                 let endTimestamp = dayjs(this.endDate).unix()
-                console.log(startTimestamp + " " + endTimestamp)
-
                 let request = "/log.json?type=farm_harvest&timestamp[ge]=" + startTimestamp + "&timestamp[le]=" + endTimestamp
-                console.log(request)
-
-                getAllPages(request, this.allPages)
+                
+                this.harvestLogs = []
+                getAllPages(request, this.harvestLogs)
                 .then(() => {
                 })
                 .catch((err) => {
                     console.log(err)
                 })
-
-                this.reports.push({date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches"})
             },
             deleteReport: function(index) {
-                this.reports.splice(index, 1)
+                this.harvestLogs.splice(index, 1)
             }
         }
         
