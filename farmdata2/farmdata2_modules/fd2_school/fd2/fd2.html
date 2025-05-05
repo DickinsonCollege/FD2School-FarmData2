@@ -107,7 +107,6 @@
         
         components: {
             'dropdown-with-all': DropdownWithAllComponent,
-            'date-selection': DateSelectionComponent,
         },
 
         data: {
@@ -141,7 +140,7 @@
                         units: log.quantity[0].unit.name,
                         crop: this.idToCropMap.get(log.data.crop_tid),
                     }
-                    if (tableRow.crop == this.crop)
+                    if (tableRow.crop == this.crop || this.crop == "All")
                         tableRows.push(tableRow)
                 }
                 return tableRows
