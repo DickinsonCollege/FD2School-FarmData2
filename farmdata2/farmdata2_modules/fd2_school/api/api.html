@@ -1,0 +1,145 @@
+<div v-cloak id="harvest-report">
+    <h1>Harvest Report</h1>
+    <p>This page is a <i>mockup</i> of a simplified harvest report.</p>
+
+    <label for=”title”>Title:</label>
+
+    <input type="text" id="title" name="title"
+    value="My Sample Harvest Report" v-model="reportTitle"/>
+    <br><br>
+    <label for="start"> Start: </label>
+    <input v-model="startDate"
+        type="date"
+        id="start"
+        name="start"
+        min="2014-01-01"
+        :max="endDate"/>
+
+    <label for="end"> End: </label>
+    <input v-model="endDate"
+        type="date"
+        id="end"
+        name="end"
+        :min="startDate"
+        max="2022-01-01" />
+
+    <br><br>
+
+    <label for="crop"> Crop: </label>
+    <select id="crop" name="crop" v-model="crop">
+        <option v-for="cropOption in cropNames"> {{cropOption}}</option>
+    </select>
+
+    <label for="field"> Area: </label>
+    <select id="field" name="field">
+        <option v-for="area in areaNames"> {{area}} </option>
+    </select>
+
+    <br><br>
+    <input type="button" value="Generate Report" @click="saveReport"/>
+
+    <hr>
+
+    <h1> {{reportTitle=="" ? "Mock Harvest Report" : reportTitle}} </h1>
+    <p>Details:
+        <ul>
+            <li><b>Farm:</b>{{farm}}</li>
+            <li><b>User:</b>{{user}}</li>
+            <li><b>Language:</b>{{language}}</li>
+            <br>
+            <li><b>Start:</b>{{startDate}}</li>
+            <li><b>End:</b>{{endDate}}</li>
+            <li><b>Crop:</b>{{crop}}</li>
+        </ul>
+    </p>
+
+    <table border="1">
+        <tr v-if="reports == ''"> <th>There are no matching records!</th></tr>
+        <tr v-else>
+            <th>Row</th>
+            <th>Date</th>
+            <th>Area</th>
+            <th>Crop</th>
+            <th>Yield</th>
+            <th>Units</th>
+            <th>Delete</th>
+        </tr>
+        
+        <tr v-for="(report, index) in reports">
+            <td>{{index + 1}}</td>
+            <td>{{report.date }}</td>
+            <td>{{report.area}}</td>
+            <td>{{report.crop}}</td>
+            <td>{{report.yield}}</td>
+            <td>{{report.units}}</td>
+            <td> <input type="button" value="Delete" @click="deleteReport(index)"/> </td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    var vue = new Vue({
+        el: "#harvest-report",
+        created() {
+	        
+            getIDToCropMap()
+            .then((theMap) => {
+                this.idToCropMap = theMap
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+            getIDToAreaMap()
+            .then((theMap) => {
+                this.idToAreaMap = theMap
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        },
+
+        data: {
+            farm: "",
+            user: "",
+            language: "",
+            reportTitle: "My Sample Harvest Report",
+            startDate: "2020-05-05",
+            endDate: "2020-05-15",
+            crop: "Kale",
+            idToCropMap: new Map(),
+            idToAreaMap: new Map(),
+            reports: [
+
+            ],
+        },
+        computed: {
+            cropNames() {
+                return Array.from(this.idToCropMap.values())
+            },
+            areaNames() {
+                return Array.from(this.idToAreaMap.values())
+            },
+        },
+        methods: {
+            saveReport: function() {
+                axios.get('/farm.json')  // this line sends the request.
+                .then((response) => {
+                    this.farm = response.data.name
+                    this.user = response.data.user.name
+                    this.language = response.data.user.language
+                })
+                .catch((error) => {
+                    console.log("Error Occurred")
+                    console.log(error)
+                })
+                this.reports.push({date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches"})
+            },
+            deleteReport: function(index) {
+                this.reports.splice(index, 1)
+            }
+        }
+        
+    })
+
+    Vue.config.devtools = true;
+</script>
