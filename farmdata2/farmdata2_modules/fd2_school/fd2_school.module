@@ -61,6 +61,56 @@ function fd2_school_menu() {
   );
 
   // Add items blocks for new sub-tabs here.
+  
+  // Add a sub-tab named HTML with content in ./html/html.html.
+        $items['farm/fd2-school/html'] = array(
+            'title' => 'HTML',
+            'type' => MENU_LOCAL_TASK,
+            'page callback' => 'fd2_school_view',
+            'page arguments' => array('html'),
+            'access arguments' => array('view fd2 school'),
+            'weight' => 110,
+        );
+
+  // Add a sub-tab named Vue1 with content in ./vue1/vue1.html.
+        $items['farm/fd2-school/vue1'] = array(
+            'title' => 'Vue1',
+            'type' => MENU_LOCAL_TASK,
+            'page callback' => 'fd2_school_view',
+            'page arguments' => array('vue1'),
+            'access arguments' => array('view fd2 school'),
+            'weight' => 110,
+        );
+
+  // Add a sub-tab named Vue2 with content in ./vue2/vue2.html.
+        $items['farm/fd2-school/vue2'] = array(
+            'title' => 'Vue2',
+            'type' => MENU_LOCAL_TASK,
+            'page callback' => 'fd2_school_view',
+            'page arguments' => array('vue2'),
+            'access arguments' => array('view fd2 school'),
+            'weight' => 110,
+        );
+  
+  // Add a sub-tab named API with content in ./api/api.html.
+        $items['farm/fd2-school/api'] = array(
+            'title' => 'API',
+            'type' => MENU_LOCAL_TASK,
+            'page callback' => 'fd2_school_view',
+            'page arguments' => array('api'),
+            'access arguments' => array('view fd2 school'),
+            'weight' => 111,
+        );
+
+  // Add a sub-tab named API2 with content in ./api2/api2.html.
+        $items['farm/fd2-school/api2'] = array(
+            'title' => 'API2',
+            'type' => MENU_LOCAL_TASK,
+            'page callback' => 'fd2_school_view',
+            'page arguments' => array('api2'),
+            'access arguments' => array('view fd2 school'),
+            'weight' => 111,
+        );
 
   return $items;
 };
