@@ -25,14 +25,12 @@
 
     <br><br>
 
-    <label for="crop"> Crop: </label>
-    
-    
     <dropdown-with-all data-cy="crop-select"
         includes-all
         :selected-val="crop"
         :dropdown-list="cropNames"
         @selection-changed="cropChange">
+        Crop:
     </dropdown-with-all>
     
     <label for="field"> Area: </label>
