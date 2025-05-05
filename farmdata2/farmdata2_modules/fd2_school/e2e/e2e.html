@@ -137,7 +137,6 @@
         },
         methods: {
             saveReport: function() {
-                console.log(this.cropNames)
                 axios.get('/farm.json')  // this line sends the request.
                 .then((response) => {
                     this.farm = response.data.name
