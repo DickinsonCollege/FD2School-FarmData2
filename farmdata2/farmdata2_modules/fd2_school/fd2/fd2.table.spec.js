@@ -4,7 +4,7 @@ describe("Test the harvest report CustomTableComponent", () => {
         cy.visit("/farm/fd2-school/fd2")
     })
       
-    it("Check the CustomTableComponent", () => {
+    it("Check the table headers", () => {
         cy.get("[data-cy=generate-report-button]").click()
         cy.get("[data-cy=h0]").should("have.text","Row")
         cy.get("[data-cy=h1]").should("have.text","Date")
@@ -16,4 +16,9 @@ describe("Test the harvest report CustomTableComponent", () => {
         cy.get("[data-cy=table-headers").children().should("have.length", 7)
     })
 
+    it("Check the crop filtering in the table", () => {
+        cy.get("[data-cy=generate-report-button]").click()
+        cy.get("[data-cy=crop-select] > [data-cy=dropdown-input]").select("ASPARAGUS")
+        cy.get("[data-cy=table-body]").children().should("have.length", 5)
+    })
 })
