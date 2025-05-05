@@ -26,10 +26,15 @@
     <br><br>
 
     <label for="crop"> Crop: </label>
-    <select id="crop" name="crop" v-model="crop" data-cy="crop-select">
-        <option v-for="cropOption in cropNames"> {{cropOption}}</option>
-    </select>
-
+    
+    
+    <dropdown-with-all data-cy="crop-select"
+        includes-all
+        :selected-val="crop"
+        :dropdown-list="cropNames"
+        @selection-changed="cropChange">
+    </dropdown-with-all>
+    
     <label for="field"> Area: </label>
     <select id="field" name="field">
         <option v-for="area in areaNames"> {{area}} </option>
@@ -99,6 +104,11 @@
                 console.log(err)
             })
         },
+        
+        components: {
+            'dropdown-with-all': DropdownWithAllComponent,
+            'date-selection': DateSelectionComponent,
+        },
 
         data: {
             farm: "",
@@ -109,7 +119,7 @@
             endDate: "2020-05-15",
             startTimestamp: 0,
             endTimestamp: 0,
-            crop: "KALE",
+            crop: "All",
             idToCropMap: new Map(),
             idToAreaMap: new Map(),
             harvestLogs: [],
@@ -165,7 +175,10 @@
             },
             deleteReport: function(index) {
                 this.harvestLogs.splice(index, 1)
-            }
+            },
+            cropChange(newCrop) {
+                this.crop = newCrop
+            },
         }
         
     })
